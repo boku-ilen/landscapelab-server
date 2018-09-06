@@ -5,7 +5,17 @@ from osgeo import gdal
 
 
 def getHDM(request):
-    datasetName = "DHM/" + request.path.rpartition('/')[2]
+    pathParts = request.path.split("/")
+    datasetName = os.path.join("DHM" , pathParts[2])
+    datasetSplits = 1
+    datasetPart = 0
+    if len(pathParts) == 5:
+        datasetSplits = int(pathParts[3])
+        datasetPart = int(pathParts[4])
+        print("teil ", datasetPart, " von ",datasetSplits * datasetSplits)
+    xpos = datasetPart % datasetSplits
+    ypos = int(datasetPart / datasetSplits)
+    print("part position = ",xpos,", ",ypos)
 
     gdal.UseExceptions()
 
@@ -32,6 +42,18 @@ def getHDM(request):
     print("Size = ", datasetArray.size)
     print("Array: \n", datasetArray)
 
+    #select correct part
+    print("\n[ Part Statistics ]")
+    xstart = int((datasetArray.shape[0]/datasetSplits)*xpos)
+    xend = int((datasetArray.shape[0]/datasetSplits)*(xpos + 1))
+    ystart = int((datasetArray.shape[1]/datasetSplits)*ypos)
+    yend = int((datasetArray.shape[1]/datasetSplits)*(ypos + 1))
+    print("datasetArray[",xstart," : ",xend,", ",ystart," : ",yend,"]")
+    datasetArray = datasetArray[xstart : xend, ystart : yend]
+    print("Shape = ", datasetArray.shape)
+    print("Size = ", datasetArray.size)
+    print("Array: \n", datasetArray)
+
     # set Projection
     proj = gdal.osr.SpatialReference()
     proj.SetWellKnownGeogCS("EPSG:4326")
@@ -42,8 +64,8 @@ def getHDM(request):
     print("Projection = ", dataset.GetProjection())
 
     # Dimensions
-    rows = dataset.RasterYSize
-    cols = dataset.RasterXSize
+    rows = int(datasetArray.shape[0])
+    cols = int(datasetArray.shape[1])
     print("DimensionX = ", cols)
     print("DimensionY = ", rows)
 
