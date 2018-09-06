@@ -1,97 +1,100 @@
-from osgeo import gdal
-import numpy as np
 import os.path
 
+import numpy as np
+from osgeo import gdal
+
+
 def getHDM(request):
-	datasetName = "DHM/" + request.path.rpartition('/')[2]
+    datasetName = "DHM/" + request.path.rpartition('/')[2]
 
-	gdal.UseExceptions()
+    gdal.UseExceptions()
 
-	# Open the data source and read in the extent
-	try:
-		BASE = os.path.dirname(os.path.abspath(__file__))
-		dataset = gdal.Open(os.path.join(BASE, datasetName))
-	except RuntimeError as e:
-		print ('Unable to open ' + datasetName)
-		print (e)
-		return {"Error" : "failed to open file"}
-	try:
-		srcband = dataset.GetRasterBand(1)
-	except RuntimeError as e:
-		# for example, try GetRasterBand(10)
-		print ('Band not found')
-		print (e)
-		return {"Error" : "Band not found"} 
+    # Open the data source and read in the extent
+    try:
+        BASE = os.path.dirname(os.path.abspath(__file__))
+        dataset = gdal.Open(os.path.join(BASE, datasetName))
+    except RuntimeError as e:
+        print('Unable to open ' + datasetName)
+        print(e)
+        return {"Error": "failed to open file"}
+    try:
+        srcband = dataset.GetRasterBand(1)
+    except RuntimeError as e:
+        # for example, try GetRasterBand(10)
+        print('Band not found')
+        print(e)
+        return {"Error": "Band not found"}
 
-	# create array 2d
-	print ("\n[ Array Statistics ]")
-	datasetArray = np.array(dataset.GetRasterBand(1).ReadAsArray())    
-	print ("Shape = ", datasetArray.shape)
-	print ("Size = ", datasetArray.size)
-	print ("Array: \n", datasetArray)
+    # create array 2d
+    print("\n[ Array Statistics ]")
+    datasetArray = np.array(dataset.GetRasterBand(1).ReadAsArray())
+    print("Shape = ", datasetArray.shape)
+    print("Size = ", datasetArray.size)
+    print("Array: \n", datasetArray)
 
-	# set Projection
-	proj = gdal.osr.SpatialReference()
-	proj.SetWellKnownGeogCS( "EPSG:4326" )
-	dataset.SetProjection(proj.ExportToWkt())      
-		
-	print ("\n[ Statistics ] ")    
-	# Projection
-	print ("Projection = ", dataset.GetProjection())
+    # set Projection
+    proj = gdal.osr.SpatialReference()
+    proj.SetWellKnownGeogCS("EPSG:4326")
+    dataset.SetProjection(proj.ExportToWkt())
 
-	# Dimensions
-	rows = dataset.RasterYSize
-	cols = dataset.RasterXSize
-	print ("DimensionX = ", cols)
-	print ("DimensionY = ", rows)
+    print("\n[ Statistics ] ")
+    # Projection
+    print("Projection = ", dataset.GetProjection())
 
-	# Number of bands
-	print ("Number of bands = ", dataset.RasterCount)
+    # Dimensions
+    rows = dataset.RasterYSize
+    cols = dataset.RasterXSize
+    print("DimensionX = ", cols)
+    print("DimensionY = ", rows)
 
-	# Metadata for the raster dataset
-	print ("Metadata = ", dataset.GetMetadata())
+    # Number of bands
+    print("Number of bands = ", dataset.RasterCount)
 
-	print ("\n[ Band '0' Statistics ]")
-	# Read the raster band as separate variable
-	band = dataset.GetRasterBand(1)
+    # Metadata for the raster dataset
+    print("Metadata = ", dataset.GetMetadata())
 
-	# Check type of the variable 'band'
-	type(band)
+    print("\n[ Band '0' Statistics ]")
+    # Read the raster band as separate variable
+    band = dataset.GetRasterBand(1)
 
-	# Data type of the values
-	gdal.GetDataTypeName(band.DataType)
+    # Check type of the variable 'band'
+    type(band)
 
-	# Compute statistics if needed
-	if band.GetMinimum() is None or band.GetMaximum()is None:
-		band.ComputeStatistics(0)
-		print ("Statistics computed.")
+    # Data type of the values
+    gdal.GetDataTypeName(band.DataType)
 
-	# Fetch metadata for the band
-	band.GetMetadata()
+    # Compute statistics if needed
+    if band.GetMinimum() is None or band.GetMaximum() is None:
+        band.ComputeStatistics(0)
+        print("Statistics computed.")
 
-	# Print only selected metadata:
-	print ("NO DATA VALUE = ", band.GetNoDataValue()) # none
-	print ("BandMin = ", band.GetMinimum())
-	print ("BandMax = ", band.GetMaximum())
+    # Fetch metadata for the band
+    band.GetMetadata()
 
-	print ("\n[ Geotransformation ]")
-	geotransform = dataset.GetGeoTransform()
-	if geotransform:
-		originTopLeftX = geotransform[0]
-		originTopLeftY = geotransform[3]
-		pixelWidth = geotransform[1]
-		pixelHeight = geotransform[5]
-		print ("OriginRange = ({}, {})".format(originTopLeftX, originTopLeftY))
-		print ("Pixel Size = ({}, {})".format(pixelWidth, pixelHeight))
+    # Print only selected metadata:
+    print("NO DATA VALUE = ", band.GetNoDataValue())  # none
+    print("BandMin = ", band.GetMinimum())
+    print("BandMax = ", band.GetMaximum())
 
-	from_col = originTopLeftX/pixelWidth
-	from_row = -originTopLeftY/pixelHeight
-	to_col = (originTopLeftX+cols)/pixelWidth
-	to_row = -(originTopLeftY+rows)/pixelHeight
-	print ("rows (Y): {} - {} ({}) \ncols (X): {} - {} ({})".format(from_row, to_row, (to_row-from_row), from_col, to_col, (to_col-from_col)))
+    print("\n[ Geotransformation ]")
+    geotransform = dataset.GetGeoTransform()
+    if geotransform:
+        originTopLeftX = geotransform[0]
+        originTopLeftY = geotransform[3]
+        pixelWidth = geotransform[1]
+        pixelHeight = geotransform[5]
+        print("OriginRange = ({}, {})".format(originTopLeftX, originTopLeftY))
+        print("Pixel Size = ({}, {})".format(pixelWidth, pixelHeight))
 
-	# create array 1d
-	array1d = np.reshape(datasetArray, (-1, cols*rows))
-	print (array1d)
-	
-	return {"Data":array1d.tolist()}
+    from_col = originTopLeftX / pixelWidth
+    from_row = -originTopLeftY / pixelHeight
+    to_col = (originTopLeftX + cols) / pixelWidth
+    to_row = -(originTopLeftY + rows) / pixelHeight
+    print("rows (Y): {} - {} ({}) \ncols (X): {} - {} ({})".format(from_row, to_row, (to_row - from_row), from_col,
+                                                                   to_col, (to_col - from_col)))
+
+    # create array 1d
+    array1d = np.reshape(datasetArray, (-1, cols * rows))
+    print(array1d)
+
+    return {"Data": array1d.tolist()}

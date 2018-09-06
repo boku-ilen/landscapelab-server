@@ -1,2 +1,5 @@
 settings_secret.py
 retourmiddleware/dhm/DHM/*
+.idea
+__pycache__/
+*.pyc
