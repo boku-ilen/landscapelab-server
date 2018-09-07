@@ -3,3 +3,5 @@ retourmiddleware/dhm/DHM/*
 .idea
 __pycache__/
 *.pyc
+retourmiddleware/assetpos/inputFiles
+retourmiddleware/assetpos/generatedFiles
