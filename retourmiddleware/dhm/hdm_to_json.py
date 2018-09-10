@@ -109,13 +109,6 @@ def getHDM(request):
         print("OriginRange = ({}, {})".format(originTopLeftX, originTopLeftY))
         print("Pixel Size = ({}, {})".format(pixelWidth, pixelHeight))
 
-    from_col = originTopLeftX / pixelWidth
-    from_row = -originTopLeftY / pixelHeight
-    to_col = (originTopLeftX + cols) / pixelWidth
-    to_row = -(originTopLeftY + rows) / pixelHeight
-    print("rows (Y): {} - {} ({}) \ncols (X): {} - {} ({})".format(from_row, to_row, (to_row - from_row), from_col,
-                                                                   to_col, (to_col - from_col)))
-
     # create array 1d
     array1d = np.reshape(datasetArray, (-1, cols * rows))
     print(array1d)
