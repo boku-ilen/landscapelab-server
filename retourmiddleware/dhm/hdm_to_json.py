@@ -2,6 +2,7 @@ import os.path
 
 import numpy as np
 from osgeo import gdal
+import math
 
 
 def getHDM(request):
@@ -45,9 +46,9 @@ def getHDM(request):
     #select correct part
     print("\n[ Part Statistics ]")
     xstart = int((datasetArray.shape[0]/datasetSplits)*xpos)
-    xend = int((datasetArray.shape[0]/datasetSplits)*(xpos + 1))
+    xend = int((datasetArray.shape[0]/datasetSplits)*(xpos + 1)) + 1
     ystart = int((datasetArray.shape[1]/datasetSplits)*ypos)
-    yend = int((datasetArray.shape[1]/datasetSplits)*(ypos + 1))
+    yend = int((datasetArray.shape[1]/datasetSplits)*(ypos + 1)) + 1
     print("datasetArray[",xstart," : ",xend,", ",ystart," : ",yend,"]")
     datasetArray = datasetArray[xstart : xend, ystart : yend]
     print("Shape = ", datasetArray.shape)
