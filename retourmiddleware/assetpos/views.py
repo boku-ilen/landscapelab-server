@@ -3,19 +3,20 @@ import os.path
 from .shp_reader import *
 import json
 
-#from osgeo import gdal
+# from osgeo import gdal
 from osgeo import ogr
+
 
 # Create your views here.
 def index(request):
     pathParts = request.path.split("/")
     fileName = pathParts[2]
     BASE = os.path.dirname(os.path.abspath(__file__))
-    genfilePath = os.path.join(BASE, "generatedFiles",fileName + ".json")
-    filePath = os.path.join(BASE, "inputFiles",fileName+".shp")
+    genfilePath = os.path.join(BASE, "generatedFiles", fileName + ".json")
+    filePath = os.path.join(BASE, "inputFiles", fileName + ".shp")
 
     if os.path.isfile(genfilePath):
-        print("opening ",genfilePath)
+        print("opening ", genfilePath)
 
         with open(genfilePath) as f:
             data = json.load(f)
@@ -30,12 +31,12 @@ def index(request):
         dataset = driver.Open(filePath, 0)
 
         if dataset is None:
-            return JsonResponse({"Error": "could not open "+filePath})
+            return JsonResponse({"Error": "could not open " + filePath})
         else:
             print("opened %s" % filePath)
-            data = calcAssetPos(dataset,request.path)
+            data = calcAssetPos(dataset, request.path)
             with open(genfilePath, 'w') as outfile:
-                json.dump(data,outfile)
+                json.dump(data, outfile)
 
             return JsonResponse(data)
     else:

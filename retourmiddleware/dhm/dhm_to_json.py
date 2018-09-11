@@ -7,16 +7,16 @@ import math
 
 def getHDM(request):
     pathParts = request.path.split("/")
-    datasetName = os.path.join("DHM" , pathParts[2])
+    datasetName = os.path.join("DHM", pathParts[2])
     datasetSplits = 1
     datasetPart = 0
     if len(pathParts) == 5:
         datasetSplits = int(pathParts[3])
         datasetPart = int(pathParts[4])
-        print("teil ", datasetPart, " von ",datasetSplits * datasetSplits)
+        print("teil ", datasetPart, " von ", datasetSplits * datasetSplits)
     xpos = datasetPart % datasetSplits
     ypos = int(datasetPart / datasetSplits)
-    print("part position = ",xpos,", ",ypos)
+    print("part position = ", xpos, ", ", ypos)
 
     gdal.UseExceptions()
 
@@ -43,14 +43,14 @@ def getHDM(request):
     print("Size = ", datasetArray.size)
     print("Array: \n", datasetArray)
 
-    #select correct part
+    # select correct part
     print("\n[ Part Statistics ]")
-    xstart = int((datasetArray.shape[0]/datasetSplits)*xpos)
-    xend = int((datasetArray.shape[0]/datasetSplits)*(xpos + 1)) + 1
-    ystart = int((datasetArray.shape[1]/datasetSplits)*ypos)
-    yend = int((datasetArray.shape[1]/datasetSplits)*(ypos + 1)) + 1
-    print("datasetArray[",xstart," : ",xend,", ",ystart," : ",yend,"]")
-    datasetArray = datasetArray[xstart : xend, ystart : yend]
+    xstart = int((datasetArray.shape[0] / datasetSplits) * xpos)
+    xend = int((datasetArray.shape[0] / datasetSplits) * (xpos + 1)) + 1
+    ystart = int((datasetArray.shape[1] / datasetSplits) * ypos)
+    yend = int((datasetArray.shape[1] / datasetSplits) * (ypos + 1)) + 1
+    print("datasetArray[", xstart, " : ", xend, ", ", ystart, " : ", yend, "]")
+    datasetArray = datasetArray[xstart: xend, ystart: yend]
     print("Shape = ", datasetArray.shape)
     print("Size = ", datasetArray.size)
     print("Array: \n", datasetArray)
@@ -113,4 +113,8 @@ def getHDM(request):
     array1d = np.reshape(datasetArray, (-1, cols * rows))
     print(array1d)
 
-    return {"Data": array1d.tolist()}
+    return {"Data": array1d.tolist(),
+            "Metadata": {
+                "PixelSize": [pixelWidth, pixelHeight],
+                "OriginRange": [originTopLeftX, originTopLeftY]
+            }}
