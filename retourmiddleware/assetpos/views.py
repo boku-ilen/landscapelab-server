@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 import os.path
-from .shp_reader import *
+# from .shp_reader import *
+from .shp_to_json import get_trees
 import json
 
 # from osgeo import gdal
@@ -9,35 +10,39 @@ from osgeo import ogr
 
 # Create your views here.
 def index(request):
-    pathParts = request.path.split("/")
-    fileName = pathParts[2]
+    path_parts = request.path.split("/")
+    file_name = path_parts[2]
     BASE = os.path.dirname(os.path.abspath(__file__))
-    genfilePath = os.path.join(BASE, "generatedFiles", fileName + ".json")
-    filePath = os.path.join(BASE, "inputFiles", fileName + ".shp")
+    gen_file_path = os.path.join(BASE, "generatedFiles", file_name + ".json")
+    file_path = os.path.join(BASE, "inputFiles", file_name + ".shp")
 
-    if os.path.isfile(genfilePath):
-        print("opening ", genfilePath)
+    if os.path.isfile(gen_file_path) and False:  # deactivated while debugging
+        print("opening ", gen_file_path)
 
-        with open(genfilePath) as f:
+        with open(gen_file_path) as f:
             data = json.load(f)
         return JsonResponse(data)
-    elif os.path.isfile(filePath):
-        print("opening %s" % filePath)
+    elif os.path.isfile(file_path):
+        print("opening %s" % file_path)
 
         driver = ogr.GetDriverByName('ESRI Shapefile')
         if driver is None:
             return JsonResponse({"Error": "driver not available ESRI Shapefile"})
 
-        dataset = driver.Open(filePath, 0)
+        data_set = driver.Open(file_path, 0)
 
-        if dataset is None:
-            return JsonResponse({"Error": "could not open " + filePath})
+        if data_set is None:
+            return JsonResponse({"Error": "could not open " + file_path})
         else:
-            print("opened %s" % filePath)
-            data = calcAssetPos(dataset, request.path)
-            with open(genfilePath, 'w') as outfile:
+            print("opened %s" % file_path)
+            data = get_trees(data_set, request.path)
+
+            print("saving data to file")
+            with open(gen_file_path, 'w') as outfile:
                 json.dump(data, outfile)
 
+            print("returning json")
+            # return JsonResponse(data, json_dumps_params={'indent': 2})
             return JsonResponse(data)
     else:
-        return JsonResponse({"Error": "file %s.shp does not exist" % fileName})
+        return JsonResponse({"Error": "file %s.shp does not exist" % file_name})
