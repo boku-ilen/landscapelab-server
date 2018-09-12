@@ -1,9 +1,16 @@
 import random
 import numpy as np
+from matplotlib.tri import Triangulation
+from .util import *
 
 
 # returns a dictionary with tree data (model and coordinates)
 def get_trees(data, request):
+    tree_multiplier = float(request.GET.get('tree_multiplier') if 'tree_multiplier' in request.GET else 0.5)
+    place_border = str_to_bool(request.GET.get('place_border')) if 'place_border' in request.GET else True
+    place_area = str_to_bool(request.GET.get('place_area')) if 'place_area' in request.GET else True
+    area_percentage = float(request.GET.get('area_percentage') if 'area_percentage' in request.GET else 0.5)
+
     models = get_models()
 
     layer = data.GetLayer()
@@ -14,7 +21,10 @@ def get_trees(data, request):
         points = []
         points = put_trees(
             feature.GetGeometryRef(),
-            feature.GetFieldAsInteger(feature.GetFieldIndex("trees")),
+            int(feature.GetFieldAsInteger(feature.GetFieldIndex("trees")) * tree_multiplier),
+            place_border,
+            place_area,
+            area_percentage,
             points
         )
 
@@ -45,10 +55,13 @@ def get_models():
 
 
 # recursively goes through geometry (since they can be nested) and returns the points where trees should be placed
-def put_trees(geom, tree_count, points=[]):
+def put_trees(geom, tree_count, place_border, place_area, area_percentage, points=[]):
     if geom.GetPointCount() > 0:
-        points = set_border_trees(tree_count / 2, geom, points)
-        # points = set_area_trees(tree_count / 2, geom, points) not implemented yet
+        if place_border:
+            points = set_border_trees(tree_count * (1 - area_percentage), geom, points)
+        if place_area:
+            # points = set_area_trees(tree_count / 2, geom, points) not implemented yet
+            points = set_area_trees(tree_count * area_percentage, geom, points)
         return points
 
     if geom.GetGeometryCount() > 0:
@@ -56,12 +69,15 @@ def put_trees(geom, tree_count, points=[]):
             points = put_trees(
                 geom.GetGeometryRef(i),
                 tree_count / geom.GetGeometryCount(),
+                place_border,
+                place_area,
+                area_percentage,
                 points
             )
     return points
 
 
-# sets points alongside the boarder of a given polygon
+# sets points alongside the border of a given polygon
 def set_border_trees(tree_count, geom, points):
     perimeter = get_polygon_perimeter(geom)
 
@@ -82,17 +98,21 @@ def set_border_trees(tree_count, geom, points):
     return points
 
 
-# sets trees inside a polygon
-# depends on get_polygon_bounding_box and in_polygon which are not implemented yet
-# could also be optimized a lot since it more or less relies on brute-force
 def set_area_trees(tree_count, geom, points):
-    bbox = get_polygon_bounding_box(geom)
+    triangles = triangulate_polygon(geom)
+    triangle_probability = calculate_triangle_area(triangles)
+    geometry_area = sum(triangle_probability)
+    for n in range(len(triangle_probability)):
+        triangle_probability[n] /= geometry_area
 
     while tree_count > 0:
-        pt = np.array([random.random(bbox[0], bbox[2]), random.random(bbox[1], bbox[3])])
-        if in_polygon(pt, geom):
-            points.append(pt)
-            tree_count -= 1
+        r = random.random()
+        selected_triangle = -1
+        while r > 0 and selected_triangle < len(triangles)-1:
+            selected_triangle += 1
+            r -= triangle_probability[selected_triangle]
+        points.append(random_point_on_triangle(triangles[selected_triangle]))
+        tree_count -= 1
 
     return points
 
@@ -109,17 +129,49 @@ def get_polygon_perimeter(geom):
     return dist
 
 
-# returns the bounding box of a given polygon
-# not implemented yet
-# [x-min, y-min, x-max, y-max]
-def get_polygon_bounding_box(geom):
-    return [-10, -10, 10, 10]
+def triangulate_polygon(geom):
+    vertices = []
+    for i in range(geom.GetPointCount()):
+        vertices.append(cut_vector(geom.GetPoint(i)))
+
+    xp = []
+    yp = []
+    for v in vertices:
+        xp.append(v[0])
+        yp.append(v[1])
+    tris = Triangulation(xp, yp).triangles
+    triangles = []
+    for t in tris:
+        triangles.append([vertices[t[0]], vertices[t[1]], vertices[t[2]]])
+    return triangles
 
 
-# returns true if a given point is inside a given polygon
-# not implemented yet
-def in_polygon(pt, geom):
-    return True
+# calculates the area of each triangle in a given triangle array and returns the results in an array
+def calculate_triangle_area(triangles):
+    area = []
+    for t in triangles:
+        a = length(t[0] - t[1])
+        b = length(t[1] - t[2])
+        c = length(t[2] - t[0])
+        s = (a + b + c) / 2
+        area.append((s * (s - a) * (s - b) * (s - c)) ** 0.5)
+    return area
+
+
+# calculates a random point within a given triangle and returns it
+# according to http://mathworld.wolfram.com/TrianglePointPicking.html this method should space the points evenly
+# not sure if that is correct or if my implementation of the solution still spaces them correctly
+def random_point_on_triangle(t):
+    v1 = t[1] - t[0]
+    v2 = t[2] - t[0]
+
+    while True:
+        r1 = random.random()
+        r2 = random.random()
+        if r1 + r2 < 1.0:
+            p = v1 * r1 + v2 * r2
+            p += t[0]
+            return p
 
 
 # cuts off the third coordinate and turns into numpy array
@@ -130,3 +182,35 @@ def cut_vector(v):
 # returns the length of a given vector
 def length(v):
     return np.linalg.norm(v)
+
+
+# other solution to set area trees
+# was not completed and would probably be way less sufficient than the current solution
+#
+#
+# # sets trees inside a polygon
+# # depends on get_polygon_bounding_box and in_polygon which are not implemented yet
+# # could also be optimized a lot since it more or less relies on brute-force
+# def set_area_trees(tree_count, geom, points):
+#     bbox = get_polygon_bounding_box(geom)
+#
+#     while tree_count > 0:
+#         pt = np.array([random.random(bbox[0], bbox[2]), random.random(bbox[1], bbox[3])])
+#         if in_polygon(pt, geom):
+#             points.append(pt)
+#             tree_count -= 1
+#
+#     return points
+#
+#
+# # returns the bounding box of a given polygon
+# # not implemented yet
+# # [x-min, y-min, x-max, y-max]
+# def get_polygon_bounding_box(geom):
+#     return [-10, -10, 10, 10]
+#
+#
+# # returns true if a given point is inside a given polygon
+# # not implemented yet
+# def in_polygon(pt, geom):
+#     return True

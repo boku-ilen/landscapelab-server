@@ -7,9 +7,12 @@ import math
 
 def getHDM(request):
     pathParts = request.path.split("/")
-    datasetName = os.path.join("DHM", pathParts[2])
-    datasetSplits = 1
-    datasetPart = 0
+    if 'filename' not in request.GET:
+        return {'Error': 'no filename specified'}
+    datasetName = os.path.join('DHM', request.GET.get('filename'))
+    datasetSplits = int(request.GET.get('splits') if 'splits' in request.GET else 1)
+    datasetPart = int(request.GET.get('part') if 'part' in request.GET else 0)
+
     if len(pathParts) == 5:
         datasetSplits = int(pathParts[3])
         datasetPart = int(pathParts[4])
