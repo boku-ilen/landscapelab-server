@@ -1,15 +1,16 @@
 import random
-import numpy as np
+
 from matplotlib.tri import Triangulation
+
 from .util import *
 
 
 # returns a dictionary with tree data (model and coordinates)
-def get_trees(data, request):
-    tree_multiplier = float(request.GET.get('tree_multiplier') if 'tree_multiplier' in request.GET else 0.5)
-    place_border = str_to_bool(request.GET.get('place_border')) if 'place_border' in request.GET else True
-    place_area = str_to_bool(request.GET.get('place_area')) if 'place_area' in request.GET else True
-    area_percentage = float(request.GET.get('area_percentage') if 'area_percentage' in request.GET else 0.5)
+def get_trees(data, modifiers):
+    tree_multiplier = modifiers['tree_multiplier']
+    place_border = modifiers['place_border']
+    place_area = modifiers['place_area']
+    area_percentage = modifiers['area_percentage']
 
     models = get_models()
 
@@ -172,16 +173,6 @@ def random_point_on_triangle(t):
             p = v1 * r1 + v2 * r2
             p += t[0]
             return p
-
-
-# cuts off the third coordinate and turns into numpy array
-def cut_vector(v):
-    return np.array([v[0], v[1]])
-
-
-# returns the length of a given vector
-def length(v):
-    return np.linalg.norm(v)
 
 
 # other solution to set area trees
