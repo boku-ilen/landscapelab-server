@@ -119,5 +119,6 @@ def getHDM(request):
     return {"Data": array1d.tolist(),
             "Metadata": {
                 "PixelSize": [pixelWidth, pixelHeight],
-                "OriginRange": [originTopLeftX, originTopLeftY]
+                "OriginRange": [originTopLeftX, originTopLeftY],
+                "ArrayDimensions": [cols - 1, rows - 1]
             }}
