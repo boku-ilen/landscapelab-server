@@ -5,20 +5,16 @@ from osgeo import gdal
 import math
 
 
-def getHDM(request):
-    pathParts = request.path.split("/")
+def getDHM(request):
     if 'filename' not in request.GET:
         return {'Error': 'no filename specified'}
     datasetName = os.path.join('DHM', request.GET.get('filename'))
-    datasetSplits = int(request.GET.get('splits') if 'splits' in request.GET else 1)
-    datasetPart = int(request.GET.get('part') if 'part' in request.GET else 0)
+    splits = int(request.GET.get('splits') if 'splits' in request.GET else 1)
+    part = int(request.GET.get('part') if 'part' in request.GET else 0)
+    skip = int(request.GET.get('skip') if 'skip' in request.GET else 0)
 
-    if len(pathParts) == 5:
-        datasetSplits = int(pathParts[3])
-        datasetPart = int(pathParts[4])
-        print("teil ", datasetPart, " von ", datasetSplits * datasetSplits)
-    xpos = datasetPart % datasetSplits
-    ypos = int(datasetPart / datasetSplits)
+    xpos = part % splits
+    ypos = int(part / splits)
     print("part position = ", xpos, ", ", ypos)
 
     gdal.UseExceptions()
@@ -46,12 +42,29 @@ def getHDM(request):
     print("Size = ", datasetArray.size)
     print("Array: \n", datasetArray)
 
+    # skip rows
+    if skip != 0:
+        keepX = range(0, datasetArray.shape[0], skip+1)
+        keepY = range(0, datasetArray.shape[1], skip+1)
+        deleteX = []
+        deleteY = []
+        for e in range(0, datasetArray.shape[0]):
+            if e not in keepX:
+                deleteX.append(e)
+        for e in range(0, datasetArray.shape[1]):
+            if e not in keepY:
+                deleteY.append(e)
+        print("deleteX = %s" % str(deleteX))
+        datasetArray = np.delete(datasetArray, list(deleteX), axis=0)
+        datasetArray = np.delete(datasetArray, list(deleteY), axis=1)
+
     # select correct part
     print("\n[ Part Statistics ]")
-    xstart = int((datasetArray.shape[0] / datasetSplits) * xpos)
-    xend = int((datasetArray.shape[0] / datasetSplits) * (xpos + 1)) + 1
-    ystart = int((datasetArray.shape[1] / datasetSplits) * ypos)
-    yend = int((datasetArray.shape[1] / datasetSplits) * (ypos + 1)) + 1
+    xstart = int((datasetArray.shape[0] / splits) * xpos)
+    xend = int((datasetArray.shape[0] / splits) * (xpos + 1)) + 1
+    ystart = int((datasetArray.shape[1] / splits) * ypos)
+    yend = int((datasetArray.shape[1] / splits) * (ypos + 1)) + 1
+
     print("datasetArray[", xstart, " : ", xend, ", ", ystart, " : ", yend, "]")
     datasetArray = datasetArray[xstart: xend, ystart: yend]
     print("Shape = ", datasetArray.shape)
@@ -116,9 +129,10 @@ def getHDM(request):
     array1d = np.reshape(datasetArray, (-1, cols * rows))
     print(array1d)
 
+    factor = skip + 1
     return {"Data": array1d.tolist(),
             "Metadata": {
-                "PixelSize": [pixelWidth, pixelHeight],
+                "PixelSize": [pixelWidth * factor, pixelHeight * factor],
                 "OriginRange": [originTopLeftX, originTopLeftY],
                 "ArrayDimensions": [cols - 1, rows - 1]
             }}
