@@ -1,8 +1,10 @@
 import os.path
-
+import logging
 import numpy as np
 from osgeo import gdal
 import math
+
+logger = logging.getLogger('MainLogger')
 
 
 def getDHM(request):
@@ -15,7 +17,7 @@ def getDHM(request):
 
     xpos = part % splits
     ypos = int(part / splits)
-    print("part position = ", xpos, ", ", ypos)
+    logger.info("part position = %d, %d" % (xpos, ypos))
 
     gdal.UseExceptions()
 
@@ -24,23 +26,23 @@ def getDHM(request):
         BASE = os.path.dirname(os.path.abspath(__file__))
         dataset = gdal.Open(os.path.join(BASE, datasetName))
     except RuntimeError as e:
-        print('Unable to open ' + datasetName)
-        print(e)
+        logger.error('Unable to open %s' % datasetName)
+        logger.error(e)
         return {"Error": "failed to open file"}
     try:
         srcband = dataset.GetRasterBand(1)
     except RuntimeError as e:
         # for example, try GetRasterBand(10)
-        print('Band not found')
-        print(e)
+        logger.error('Band not found')
+        logger.error(e)
         return {"Error": "Band not found"}
 
     # create array 2d
-    print("\n[ Array Statistics ]")
+    logger.info("[ Array Statistics ]")
     datasetArray = np.array(dataset.GetRasterBand(1).ReadAsArray())
-    print("Shape = ", datasetArray.shape)
-    print("Size = ", datasetArray.size)
-    print("Array: \n", datasetArray)
+    logger.info("Shape = %s", str(datasetArray.shape))
+    logger.info("Size = %s" % str(datasetArray.size))
+    logger.info("Array: %s", str(datasetArray))
 
     # skip rows
     if skip != 0:
@@ -54,45 +56,45 @@ def getDHM(request):
         for e in range(0, datasetArray.shape[1]):
             if e not in keepY:
                 deleteY.append(e)
-        print("deleteX = %s" % str(deleteX))
+        logger.info("deleteX = %s" % str(deleteX))
         datasetArray = np.delete(datasetArray, list(deleteX), axis=0)
         datasetArray = np.delete(datasetArray, list(deleteY), axis=1)
 
     # select correct part
-    print("\n[ Part Statistics ]")
+    logger.info("[ Part Statistics ]")
     xstart = int((datasetArray.shape[0] / splits) * xpos)
     xend = int((datasetArray.shape[0] / splits) * (xpos + 1)) + 1
     ystart = int((datasetArray.shape[1] / splits) * ypos)
     yend = int((datasetArray.shape[1] / splits) * (ypos + 1)) + 1
 
-    print("datasetArray[", xstart, " : ", xend, ", ", ystart, " : ", yend, "]")
+    logger.info("datasetArray[%d : %d, %d : %d]" % (xstart, xend, ystart, yend))
     datasetArray = datasetArray[xstart: xend, ystart: yend]
-    print("Shape = ", datasetArray.shape)
-    print("Size = ", datasetArray.size)
-    print("Array: \n", datasetArray)
+    logger.info("Shape = %s" % str(datasetArray.shape))
+    logger.info("Size = %d" % datasetArray.size)
+    logger.info("Array: %s" % str(datasetArray))
 
     # set Projection
     proj = gdal.osr.SpatialReference()
     proj.SetWellKnownGeogCS("EPSG:4326")
     dataset.SetProjection(proj.ExportToWkt())
 
-    print("\n[ Statistics ] ")
+    logger.info("[ Statistics ] ")
     # Projection
-    print("Projection = ", dataset.GetProjection())
+    logger.info("Projection = %s" % str(dataset.GetProjection()))
 
     # Dimensions
     rows = int(datasetArray.shape[0])
     cols = int(datasetArray.shape[1])
-    print("DimensionX = ", cols)
-    print("DimensionY = ", rows)
+    logger.info("DimensionX = %d" % cols)
+    logger.info("DimensionY = %d" % rows)
 
     # Number of bands
-    print("Number of bands = ", dataset.RasterCount)
+    logger.info("Number of bands = %d" % dataset.RasterCount)
 
     # Metadata for the raster dataset
-    print("Metadata = ", dataset.GetMetadata())
+    logger.info("Metadata = %s" % str(dataset.GetMetadata()))
 
-    print("\n[ Band '0' Statistics ]")
+    logger.info("[ Band '0' Statistics ]")
     # Read the raster band as separate variable
     band = dataset.GetRasterBand(1)
 
@@ -105,29 +107,29 @@ def getDHM(request):
     # Compute statistics if needed
     if band.GetMinimum() is None or band.GetMaximum() is None:
         band.ComputeStatistics(0)
-        print("Statistics computed.")
+        logger.info("Statistics computed.")
 
     # Fetch metadata for the band
     band.GetMetadata()
 
     # Print only selected metadata:
-    print("NO DATA VALUE = ", band.GetNoDataValue())  # none
-    print("BandMin = ", band.GetMinimum())
-    print("BandMax = ", band.GetMaximum())
+    logger.info("NO DATA VALUE = %s" % str(band.GetNoDataValue()))  # none
+    logger.info("BandMin = %d" % band.GetMinimum())
+    logger.info("BandMax = %d" % band.GetMaximum())
 
-    print("\n[ Geotransformation ]")
+    logger.info("[ Geotransformation ]")
     geotransform = dataset.GetGeoTransform()
     if geotransform:
         originTopLeftX = geotransform[0]
         originTopLeftY = geotransform[3]
         pixelWidth = geotransform[1]
         pixelHeight = geotransform[5]
-        print("OriginRange = ({}, {})".format(originTopLeftX, originTopLeftY))
-        print("Pixel Size = ({}, {})".format(pixelWidth, pixelHeight))
+        logger.info("OriginRange = ({}, {})".format(originTopLeftX, originTopLeftY))
+        logger.info("Pixel Size = ({}, {})".format(pixelWidth, pixelHeight))
 
     # create array 1d
     array1d = np.reshape(datasetArray, (-1, cols * rows))
-    print(array1d)
+    logger.info(array1d)
 
     factor = skip + 1
     return {"Data": array1d.tolist(),

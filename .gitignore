@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 retourmiddleware/assetpos/inputFiles
 retourmiddleware/assetpos/generatedFiles
+/logs

@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
+import logging
+import logging.config
+from datetime import datetime
 from .settings_secret import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -112,3 +115,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# setting logging settings
+
+log_path = "..\logs"
+if not os.path.exists(log_path):
+    os.makedirs(log_path)
+
+fh = logging.FileHandler(os.path.join(
+    log_path,
+    '{:%Y-%m-%d}.log'.format(datetime.now())
+))
+formatter = logging.Formatter('[%(asctime)s] [%(levelname)8s] [%(lineno)04d]: %(message)s')
+fh.setFormatter(formatter)
+
+logging.config.fileConfig('retourmiddleware/logging.conf')
+logger = logging.getLogger('MainLogger')
+logger.addHandler(fh)

@@ -1,9 +1,11 @@
 import random
+import logging
 
 from matplotlib.tri import Triangulation
 
 from .util import *
 
+logger = logging.getLogger('MainLogger')
 
 # returns a dictionary with tree data (model and coordinates)
 def get_trees(data, modifiers):
@@ -36,7 +38,7 @@ def get_trees(data, modifiers):
                 'coord': p  # [int(p[0]), int(p[1])]
             })
 
-    print("finished with %d trees" % len(tree_info))
+    logger.info("finished with %d trees" % len(tree_info))
     return {'Data': tree_info}
 
 

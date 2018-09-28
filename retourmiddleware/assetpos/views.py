@@ -1,5 +1,6 @@
 import json
 import os.path
+import logging
 
 from django.http import JsonResponse
 # from osgeo import gdal
@@ -8,6 +9,8 @@ from osgeo import ogr
 from .util import *
 # from .shp_reader import *
 from .shp_to_json import get_trees
+
+logger = logging.getLogger('MainLogger')
 
 
 # Create your views here.
@@ -40,13 +43,13 @@ def index(request):
     file_path = os.path.join(BASE, "inputFiles", filename + ".shp")
 
     if os.path.isfile(gen_file_path) and not recalculate:
-        print("opening ", gen_file_path)
+        logger.info("opening %s" % gen_file_path)
 
         with open(gen_file_path) as f:
             data = json.load(f)
         return JsonResponse(data)
     elif os.path.isfile(file_path):
-        print("opening %s" % file_path)
+        logger.info("opening %s" % file_path)
 
         driver = ogr.GetDriverByName('ESRI Shapefile')
         if driver is None:
@@ -57,14 +60,14 @@ def index(request):
         if data_set is None:
             return JsonResponse({"Error": "could not open " + file_path})
         else:
-            print("opened %s" % file_path)
+            logger.info("opened %s" % file_path)
             data = get_trees(data_set, modifiers)
 
-            print("saving data to file")
+            logger.info("saving data to file")
             with open(gen_file_path, 'w') as outfile:
                 json.dump(data, outfile)
 
-            print("returning json")
+            logger.info("returning json")
             # return JsonResponse(data, json_dumps_params={'indent': 2})
             return JsonResponse(data)
     else:
