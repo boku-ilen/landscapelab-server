@@ -1,11 +1,11 @@
 import random
 import logging
-
 from matplotlib.tri import Triangulation
-
 from .util import *
 
+
 logger = logging.getLogger('MainLogger')
+
 
 # returns a dictionary with tree data (model and coordinates)
 def get_trees(data, modifiers):

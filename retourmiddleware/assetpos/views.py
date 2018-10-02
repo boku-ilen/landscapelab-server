@@ -1,14 +1,11 @@
 import json
 import os.path
 import logging
-
 from django.http import JsonResponse
-# from osgeo import gdal
 from osgeo import ogr
-
 from .util import *
-# from .shp_reader import *
 from .shp_to_json import get_trees
+from django.contrib.staticfiles import finders
 
 logger = logging.getLogger('MainLogger')
 
@@ -24,6 +21,7 @@ def index(request):
     place_area = str_to_bool(request.GET.get('place_area')) if 'place_area' in request.GET else True
     area_percentage = float(request.GET.get('area_percentage') if 'area_percentage' in request.GET else 0.5)
     recalculate = str_to_bool(request.GET.get('recalc')) if 'recalc' in request.GET else False
+
     # save generator relevant parameters in dictionary
     modifiers = dict(
         tree_multiplier=tree_multiplier,
@@ -40,7 +38,8 @@ def index(request):
         place_area,
         str(area_percentage).replace('.', '_')
     ))
-    file_path = os.path.join(BASE, "inputFiles", filename + ".shp")
+    file_path = finders.find(os.path.join("trees", filename + ".shp"))
+    logger.debug("File path is %s" % file_path)
 
     if os.path.isfile(gen_file_path) and not recalculate:
         logger.info("opening %s" % gen_file_path)
@@ -48,7 +47,7 @@ def index(request):
         with open(gen_file_path) as f:
             data = json.load(f)
         return JsonResponse(data)
-    elif os.path.isfile(file_path):
+    elif file_path is not None:
         logger.info("opening %s" % file_path)
 
         driver = ogr.GetDriverByName('ESRI Shapefile')

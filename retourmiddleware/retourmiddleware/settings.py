@@ -116,6 +116,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "resources")
+]
 # setting logging settings
 
 log_path = "..\logs"

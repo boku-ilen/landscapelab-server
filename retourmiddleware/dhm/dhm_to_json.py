@@ -2,15 +2,15 @@ import os.path
 import logging
 import numpy as np
 from osgeo import gdal
-import math
+from django.contrib.staticfiles import finders
+# import math
 
 logger = logging.getLogger('MainLogger')
-
 
 def getDHM(request):
     if 'filename' not in request.GET:
         return {'Error': 'no filename specified'}
-    datasetName = os.path.join('DHM', request.GET.get('filename'))
+    datasetName = finders.find(os.path.join('dhm', request.GET.get('filename')))
     splits = int(request.GET.get('splits') if 'splits' in request.GET else 1)
     part = int(request.GET.get('part') if 'part' in request.GET else 0)
     skip = int(request.GET.get('skip') if 'skip' in request.GET else 0)

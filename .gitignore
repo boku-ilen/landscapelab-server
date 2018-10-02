@@ -1,8 +1,6 @@
 settings_secret.py
-retourmiddleware/dhm/DHM/*
+retourmiddleware/resources/*
 .idea
 __pycache__/
 *.pyc
-retourmiddleware/assetpos/inputFiles
-retourmiddleware/assetpos/generatedFiles
 /logs
