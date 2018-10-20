@@ -29,6 +29,10 @@ def getDHM(request):
         logger.error('Unable to open %s' % datasetName)
         logger.error(e)
         return {"Error": "failed to open file"}
+    except TypeError as e:
+        logger.error('Unable to open %s' % datasetName)
+        logger.error(e)
+        return {"Error": "failed to open file"}
     try:
         srcband = dataset.GetRasterBand(1)
     except RuntimeError as e:
