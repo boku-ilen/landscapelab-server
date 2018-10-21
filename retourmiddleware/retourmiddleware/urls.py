@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dhm/', include('dhm.urls')),
     path('areas/', include('areas.urls')),
-    path('assetpos', include('assetpos.urls'))
+    path('assetpos/', include('assetpos.urls')),
+    path('buildings/', include("buildings.urls"))
 ]

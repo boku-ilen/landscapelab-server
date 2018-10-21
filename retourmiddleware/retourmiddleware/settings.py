@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'dhm',
     'assetpos',
     'areas',
+    'buildings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
