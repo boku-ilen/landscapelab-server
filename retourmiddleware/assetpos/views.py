@@ -41,33 +41,42 @@ def index(request):
     file_path = finders.find(os.path.join("trees", filename + ".shp"))
     logger.debug("File path is %s" % file_path)
 
+    # return result
     if os.path.isfile(gen_file_path) and not recalculate:
-        logger.info("opening %s" % gen_file_path)
-
-        with open(gen_file_path) as f:
-            data = json.load(f)
-        return JsonResponse(data)
+        return load_from_gen_file(gen_file_path)
     elif file_path is not None:
-        logger.info("opening %s" % file_path)
-
-        driver = ogr.GetDriverByName('ESRI Shapefile')
-        if driver is None:
-            return JsonResponse({"Error": "driver not available ESRI Shapefile"})
-
-        data_set = driver.Open(file_path, 0)
-
-        if data_set is None:
-            return JsonResponse({"Error": "could not open " + file_path})
-        else:
-            logger.info("opened %s" % file_path)
-            data = get_trees(data_set, modifiers)
-
-            logger.info("saving data to file")
-            with open(gen_file_path, 'w') as outfile:
-                json.dump(data, outfile)
-
-            logger.info("returning json")
-            # return JsonResponse(data, json_dumps_params={'indent': 2})
-            return JsonResponse(data)
+        return load_from_shape_file(file_path, modifiers, gen_file_path)
     else:
         return JsonResponse({"Error": "file %s.shp does not exist" % filename})
+
+
+def load_from_gen_file(gen_file_path):
+    logger.info("opening %s" % gen_file_path)
+
+    with open(gen_file_path) as f:
+        data = json.load(f)
+    return JsonResponse(data)
+
+
+def load_from_shape_file(file_path, modifiers, gen_file_path):
+    logger.info("opening %s" % file_path)
+
+    driver = ogr.GetDriverByName('ESRI Shapefile')
+    if driver is None:
+        return JsonResponse({"Error": "driver not available ESRI Shapefile"})
+
+    data_set = driver.Open(file_path, 0)
+
+    if data_set is None:
+        return JsonResponse({"Error": "could not open " + file_path})
+    else:
+        logger.info("opened %s" % file_path)
+        data = get_trees(data_set, modifiers)
+
+        logger.info("saving data to file")
+        with open(gen_file_path, 'w') as outfile:
+            json.dump(data, outfile)
+
+        logger.info("returning json")
+        # return JsonResponse(data, json_dumps_params={'indent': 2})
+        return JsonResponse(data)
