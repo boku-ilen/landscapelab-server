@@ -18,9 +18,9 @@ def sunposition(request, year, month, day, hour, minute, lat, long, elevation):
 
     # perform the calculation via pysolar
     # FIXME: what to do with the timezone? (make it configurable in the settings or selectable in the client?)
-    date = datetime.datetime(day, month, year, hour, minute, 0, 0, tzinfo=datetime.timezone.utc)
-    azimuth = get_azimuth(lat, long, date, elevation)
-    altitude = get_altitude(lat, long, date, elevation)
+    date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), 0, 0, tzinfo=datetime.timezone.utc)
+    azimuth = get_azimuth(float(lat), float(long), date, float(elevation))
+    altitude = get_altitude(float(lat), float(long), date, float(elevation))
 
     # construct the answer
     result = {
