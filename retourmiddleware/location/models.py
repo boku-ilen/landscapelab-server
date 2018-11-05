@@ -1,19 +1,8 @@
 from django.contrib.gis.db import models
 
-# Without this, I get:
-# 'RuntimeError: Model class location.models.Session doesn't declare an explicit app_label and isn't
-# in an application in INSTALLED_APPS.'
-
-class BaseModel(models.Model):
-
-    class Meta:
-        abstract = True  # specify this model as an Abstract Model
-        app_label = 'retourmiddleware'
-
-
 # represents a single planning session which is to be monitored
 # TODO: the current model is just a proposal
-class Session(BaseModel):
+class Session(models.Model):
 
     # automatically fill the timestamp when the recording of a session starts
     starttime = models.DateTimeField(auto_now_add=True)
@@ -30,7 +19,7 @@ class Session(BaseModel):
 
 
 # a single notification about the location and viewport of the user
-class Impression(BaseModel):
+class Impression(models.Model):
 
     # the associated session
     session = models.ForeignKey(Session, on_delete=models.PROTECT)

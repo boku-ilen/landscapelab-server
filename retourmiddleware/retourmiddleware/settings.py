@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'assetpos',
     'areas',
     'buildings',
+    'location',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
