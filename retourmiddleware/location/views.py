@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from pysolar.solar import get_altitude, get_azimuth
 from django.http import JsonResponse, HttpResponse
 
-from retourmiddleware.location.models import Impression
+from location.models import Impression
 
 logger = logging.getLogger("MainLogger")
 
