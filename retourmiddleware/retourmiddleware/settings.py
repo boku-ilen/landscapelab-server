@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'areas',
     'buildings',
     'location',
+    'maps',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
