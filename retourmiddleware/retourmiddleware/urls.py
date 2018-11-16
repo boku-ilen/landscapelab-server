@@ -9,4 +9,5 @@ urlpatterns = [
     path('assetpos/', include('assetpos.urls')),
     path('buildings/', include("buildings.urls")),
     path('location/', include("location.urls")),
+    path('maps/', include("maps.urls")),
 ]
