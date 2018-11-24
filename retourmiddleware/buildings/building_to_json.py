@@ -21,11 +21,12 @@ def get_buildings(modifiers):
                     'type': 'Point',
                     'coordinates': f['geometry']['coordinates'][0][0]
                 }'''
-                out.append({
-                    'id': f['id'],
-                    'coordinates': f['geometry']['coordinates'],
-                    'floors': 1
-                })
+                if len(f['geometry']['coordinates']) > 0:
+                    out.append({
+                        'id': f['id'],
+                        'coordinates': f['geometry']['coordinates'],
+                        'floors': 1
+                    })
                 '''if len(f['geometry']['coordinates']) > 1:
                     logger.error(len(f['geometry']['coordinates']))
                 '''
