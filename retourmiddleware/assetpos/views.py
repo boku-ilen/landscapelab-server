@@ -73,6 +73,7 @@ def load_from_shape_file(file_path, modifiers, gen_file_path):
         logger.info("opened %s" % file_path)
         data = get_trees(data_set, modifiers)
 
+        gen_folder_check(gen_file_path)
         logger.info("saving data to file")
         with open(gen_file_path, 'w') as outfile:
             json.dump(data, outfile)
@@ -80,3 +81,9 @@ def load_from_shape_file(file_path, modifiers, gen_file_path):
         logger.info("returning json")
         # return JsonResponse(data, json_dumps_params={'indent': 2})
         return JsonResponse(data)
+
+
+def gen_folder_check(gen_file_path):
+    if not os.path.exists(os.path.dirname(gen_file_path)):
+        logger.info("creating folder generatedFiles")
+        os.makedirs(os.path.dirname(gen_file_path))
