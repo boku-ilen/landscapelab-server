@@ -123,9 +123,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "resources")
 ]
-# setting logging settings
 
-log_path = "..\logs"
+# setting logging settings
+log_path = "../logs"
 if not os.path.exists(log_path):
     os.makedirs(log_path)
 
@@ -136,6 +136,6 @@ fh = logging.FileHandler(os.path.join(
 formatter = logging.Formatter('[%(asctime)s] [%(levelname)8s] [%(lineno)04d]: %(message)s')
 fh.setFormatter(formatter)
 
-logging.config.fileConfig('retourmiddleware/logging.conf')
+logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('MainLogger')
 logger.addHandler(fh)
