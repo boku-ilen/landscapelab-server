@@ -2,7 +2,7 @@
 keys=root,MainLogger
 
 [handlers]
-keys=consoleHandler
+keys=consoleHandler,fileHandler
 
 [formatters]
 keys=consoleFormatter
@@ -13,9 +13,15 @@ handlers=consoleHandler
 
 [logger_MainLogger]
 level=DEBUG
-handlers=consoleHandler
+handlers=consoleHandler,fileHandler
 qualname=MainLogger
 propagate=0
+
+[handler_fileHandler]
+class=FileHandler
+level=DEBUG
+formatter=consoleFormatter
+args=('../logs/retour-server.log', 'w')
 
 [handler_consoleHandler]
 class=StreamHandler
