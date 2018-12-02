@@ -1,6 +1,7 @@
 settings_secret.py
 resources/*
 logging.conf
+local-settings.py
 assetpos/generatedFiles/*
 .idea
 __pycache__/

@@ -13,14 +13,13 @@ import os
 import logging
 import logging.config
 from datetime import datetime
-from .settings_secret import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
+SECRET_KEY = "development"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -106,13 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -125,17 +120,9 @@ STATICFILES_DIRS = [
 ]
 
 # setting logging settings
-log_path = "../logs"
-if not os.path.exists(log_path):
-    os.makedirs(log_path)
-
-fh = logging.FileHandler(os.path.join(
-    log_path,
-    '{:%Y-%m-%d}.log'.format(datetime.now())
-))
-formatter = logging.Formatter('[%(asctime)s] [%(levelname)8s] [%(lineno)04d]: %(message)s')
-fh.setFormatter(formatter)
+# log_path = "../logs"
+# if not os.path.exists(log_path):
+#     os.makedirs(log_path)
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('MainLogger')
-logger.addHandler(fh)
