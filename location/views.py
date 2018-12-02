@@ -5,8 +5,7 @@ from django.contrib.gis.geos import Point
 from pysolar.solar import get_altitude, get_azimuth
 from django.http import JsonResponse, HttpResponse
 
-import models
-from location.models import Impression
+from location.models import Impression, Project
 
 logger = logging.getLogger("MainLogger")
 
@@ -51,5 +50,5 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
 
 # results an unfiltered list of all configured project on this server
 def project_list(request):
-    result = models.Project.objects.all()
+    result = Project.objects.all()
     return JsonResponse(result)  # FIXME: does this correctly convert to json?
