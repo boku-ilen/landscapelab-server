@@ -1,5 +1,7 @@
 settings_secret.py
 resources/*
+logging.conf
+assetpos/generatedFiles/*
 .idea
 __pycache__/
 *.pyc
