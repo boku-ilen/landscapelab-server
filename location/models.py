@@ -1,6 +1,16 @@
 from django.contrib.gis.db import models
 
 
+# represents a disclosed area with an individual setup of available geodata
+class Project(models.Model):
+
+    # the name of the project area
+    name = models.TextField()
+
+    # the bounding polygon (TODO: is a seperate bounding box necessairy?)
+    bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
+
+
 # represents a single planning session which is to be monitored
 # TODO: the current model is just a proposal
 class Session(models.Model):
@@ -14,9 +24,8 @@ class Session(models.Model):
     # the workshop identifier of the recording
     workshop = models.TextField(null=True, default=None, blank=True)
 
-    # the area/location
-    # TODO: maybe change it to a reference to a instance of a model for each area
-    area = models.TextField(null=True, default=None, blank=True)
+    # the associated area/location
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
 
 
 # a single notification about the location and viewport of the user
