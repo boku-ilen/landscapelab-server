@@ -8,11 +8,10 @@ import json
 logger = logging.getLogger('MainLogger')
 
 
-def request_to_png_response(request):
-    if 'filename' not in request.GET:
-        return {"Error": "no filename specified"}
+# delivers given raster as json
+def request_to_png_response(filename):
 
-    img_name = finders.find(os.path.join('maps', request.GET.get('filename')))
+    img_name = finders.find(os.path.join('maps', filename))
 
     # Open the data source and read in the extent
     try:

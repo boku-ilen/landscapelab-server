@@ -1,3 +1,4 @@
+pysolar
 django
 pysolar ~> 0.8
 django ~> 2.0.8

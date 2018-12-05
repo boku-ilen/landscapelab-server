@@ -1,11 +1,15 @@
+import json
 import logging
 import datetime
+import os
+from json import JSONDecodeError
 
 from django.contrib.gis.geos import Point
+from django.contrib.staticfiles import finders
 from pysolar.solar import get_altitude, get_azimuth
 from django.http import JsonResponse, HttpResponse
 
-from location.models import Impression, Project
+from location.models import Impression, Scenario
 
 logger = logging.getLogger("MainLogger")
 
@@ -50,5 +54,32 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
 
 # results an unfiltered list of all configured project on this server
 def project_list(request):
-    result = Project.objects.all()
+    result = Scenario.objects.all()
     return JsonResponse(result)  # FIXME: does this correctly convert to json?
+
+
+# currently we just deliver the preconfigured json.
+# TODO: in the future get the dynamic list of available services for the database
+def services_list(request):
+    if 'filename' not in request.GET:
+        path = finders.find("areas")
+        area_files = os.listdir(path)
+        area_list = []
+        for area in area_files:
+            if os.path.splitext(area)[1] == '.json':
+                area_list.append(os.path.splitext(area)[0])
+        return JsonResponse({"Areas": area_list})
+    filename = request.GET.get('filename')
+
+    path = finders.find(os.path.join("areas", filename + ".json"))
+    logger.debug("delivering area with filename {}".format(path))
+
+    if path is None:
+        return JsonResponse({"Error": "file does not exist"})
+
+    try:
+        with open(path) as f:
+            data = json.load(f)
+        return JsonResponse(data)
+    except JSONDecodeError:
+        return JsonResponse({"Error": "invalid JSON data"})

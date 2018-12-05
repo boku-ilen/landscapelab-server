@@ -39,10 +39,9 @@ INSTALLED_APPS = [
     'retourmiddleware',
     'dhm',
     'assetpos',
-    'areas',
     'buildings',
     'location',
-    'maps',
+    'raster',
 ]
 
 MIDDLEWARE = [
