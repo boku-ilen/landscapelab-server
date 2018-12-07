@@ -1,4 +1,3 @@
-#
 import logging
 import os
 from pathlib import Path
@@ -20,6 +19,7 @@ ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
 logger = logging.getLogger(__name__)
 
 
+# method to fetch a complete pyramid within a given bounding box
 def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER):
 
     # initialize wmts connection
@@ -85,3 +85,15 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
     except HTTPError:
         logger.warning("could not fetch tile for {} {}/{}-{}".format(layer, zoom, col, row))
+
+
+# get the filename based on tiles with the given coordinates
+def filename_from_coords(x_meter: float, y_meter: float, lod: int):
+
+    p = webmercator.Point(meter_x=x_meter, meter_y=y_meter, zoom_level=lod)
+    # FIXME: this actually references the wrong file (source and not final image)
+    filename = ORTHOS_FILE.format(lod, p.tile_y, p.tile_x)
+
+    # TODO: check if the file already exists and if not generate it (?)
+
+    return filename
