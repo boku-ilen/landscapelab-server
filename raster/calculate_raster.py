@@ -15,6 +15,7 @@ DEFAULT_LAYER = "bmaporthofoto30cm"
 
 # the format and location of the ortho pictures
 ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
+ORTHO_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 
 logger = logging.getLogger(__name__)
 
@@ -76,24 +77,26 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
             os.makedirs(Path(file).parent)
         except FileExistsError:
             pass  # skip if all paths are already there
-    logger.debug("getting tile {} {}/{}-{}".format(layer, zoom, col, row))
-    try:
-        tile = tile_server.gettile(layer=layer, tilematrix=str(zoom), row=row, column=col)
-        out = open(file, 'wb')
-        out.write(tile.read())
-        out.close()
+        logger.debug("getting tile {} {}/{}-{}".format(layer, zoom, col, row))
+        try:
+            tile = tile_server.gettile(layer=layer, tilematrix=str(zoom), row=row, column=col)
+            out = open(file, 'wb')
+            out.write(tile.read())
+            out.close()
 
-    except HTTPError:
-        logger.warning("could not fetch tile for {} {}/{}-{}".format(layer, zoom, col, row))
+        except HTTPError:
+            logger.warning("could not fetch tile for {} {}/{}-{}".format(layer, zoom, col, row))
+    else:
+        logger.debug("skipped tile {} {}/{}-{}".format(layer, zoom, col, row))
 
 
 # get the filename based on tiles with the given coordinates
-def filename_from_coords(x_meter: float, y_meter: float, lod: int):
+def filename_from_coords(layer: str, x_meter: float, y_meter: float, lod: int):
 
     p = webmercator.Point(meter_x=x_meter, meter_y=y_meter, zoom_level=lod)
-    # FIXME: this actually references the wrong file (source and not final image)
-    filename = ORTHOS_FILE.format(lod, p.tile_y, p.tile_x)
+    filename = ORTHO_DHM_FILE.format(layer, lod, p.tile_y, p.tile_x)
 
     # TODO: check if the file already exists and if not generate it (?)
+    # TODO: do we want to block here?
 
     return filename
