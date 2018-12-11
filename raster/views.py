@@ -20,4 +20,4 @@ def get_dhm(request):
 # returns the pointer to the filename which contains the combined ortho and dhm info
 def get_ortho_dhm(request, layer, meter_x, meter_y, zoom):
     filename = filename_from_coords(layer, meter_x, meter_y, zoom)
-    return JsonResponse({'filename': filename})
+    return JsonResponse({'f': filename})

@@ -12,9 +12,11 @@ import owslib.wmts as wmts
 # current default is the austrian basemap  TODO: make it configurable
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
+DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
 
 # the format and location of the ortho pictures
-ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
+ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpeg"
+DEFAULT_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/dhm_lamb_10m.tif"
 ORTHO_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 
 logger = logging.getLogger(__name__)
@@ -61,8 +63,13 @@ def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER
                                                                                     p_to.tile_x, p_to.tile_y))
             for y in range(p_to.tile_y, p_from.tile_y+1):
                 for x in range(p_from.tile_x, p_to.tile_x+1):
-                    fetch_wmts_tile(tile_server, layer, x, y, zoom)
-
+                    retry = True
+                    while retry:
+                        try:
+                            fetch_wmts_tile(tile_server, layer, x, y, zoom)
+                            retry = False
+                        except Exception as e:
+                            logger.warning("Got exception {} - need to repeat".format(e))
     else:
         pass  # TODO: error
 
@@ -95,8 +102,5 @@ def filename_from_coords(layer: str, x_meter: float, y_meter: float, lod: int):
 
     p = webmercator.Point(meter_x=x_meter, meter_y=y_meter, zoom_level=lod)
     filename = ORTHO_DHM_FILE.format(layer, lod, p.tile_y, p.tile_x)
-
-    # TODO: check if the file already exists and if not generate it (?)
-    # TODO: do we want to block here?
 
     return filename
