@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from raster.calculate_raster import filename_from_coords
+from raster.process_orthos import filename_from_coords
 from raster.dhm_to_json import getDHM
 from .png_to_response import *
 

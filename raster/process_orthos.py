@@ -16,8 +16,6 @@ DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
 
 # the format and location of the ortho pictures
 ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpeg"
-DEFAULT_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/dhm_lamb_10m.tif"
-ORTHO_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +53,7 @@ def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER
                 max_y = y
 
         # get all tiles in the available extent and zoomlevel
-        for zoom in range(7, 21):  # FIXME: fixed values -> configurable
+        for zoom in range(15, 21):  # FIXME: fixed values -> configurable
             p_from = webmercator.Point(meter_x=min_x, meter_y=min_y, zoom_level=zoom)
             p_to = webmercator.Point(meter_x=max_x, meter_y=max_y, zoom_level=zoom)
 
@@ -98,9 +96,10 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
 
 # get the filename based on tiles with the given coordinates
+# TODO: maybe generalize to also be usable for the dhm png?
 def filename_from_coords(layer: str, x_meter: float, y_meter: float, lod: int):
 
     p = webmercator.Point(meter_x=x_meter, meter_y=y_meter, zoom_level=lod)
-    filename = ORTHO_DHM_FILE.format(layer, lod, p.tile_y, p.tile_x)
+    filename = ORTHOS_FILE.format(layer, lod, p.tile_y, p.tile_x)
 
     return filename
