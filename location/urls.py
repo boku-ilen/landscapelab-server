@@ -18,6 +18,10 @@ urlpatterns = [
 
     # register an impression
     url(r'^impression/(?P<x>[-+]?\d*\.\d+)/(?P<y>[-+]?\d*\.\d+)/(?P<elevation>\d*\.\d+)/'
-        r'(?P<target_x>[-+]?\d*\.\d+)/(?P<target_y>[-+]?\d*\.\d+)/(?P<target_elevation>\d*\.\d+)',
+        r'(?P<target_x>[-+]?\d*\.\d+)/(?P<target_y>[-+]?\d*\.\d+)/(?P<target_elevation>\d*\.\d+)/'
+        r'(?P<session_id>[0-9]+)',
         views.register_impression, name="register_impression"),
+
+    # create a session
+    url(r'^session/(?P<area>[A-z0-9]+)', views.create_session, name="create_session")
 ]
