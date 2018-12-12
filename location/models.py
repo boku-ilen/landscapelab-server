@@ -42,10 +42,10 @@ class Impression(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)
 
     # the location of the camera (3d)
-    location = models.PointField()
+    location = models.PointField(dim=3)
 
     # the direction of the camera (3d)
-    viewport = models.PointField()
+    viewport = models.PointField(dim=3)
 
     # the timestamp the impression is recorded
     timestamp = models.DateTimeField(auto_now_add=True)
