@@ -61,13 +61,18 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
     return HttpResponse(status=204)
 
 
-# results an unfiltered list of all configured project on this server
-def project_list(request):
-    result = Scenario.objects.all()
-    return JsonResponse(result)  # FIXME: does this correctly convert to json?
+# results an unfiltered list of all configured scenarios on this server
+def scenario_list(request):
+    result = {}
+    lst = Scenario.objects.all()
+    for entry in lst:
+        result[entry.pk] = {'name': entry.name,
+                            'start_pos': entry.start_location,
+                            'bounding_polygon': entry.bounding_polygon}
+    return JsonResponse(result)
 
 
-# currently we just deliver the preconfigured json.
+# currently we just deliver the preconfigure
 # TODO: in the future get the dynamic list of available services for the database
 def services_list(request):
     if 'filename' not in request.GET:

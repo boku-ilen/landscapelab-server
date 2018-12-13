@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
 
-    # get a list of all available projects (locations) and some necessairy parameters
-    url(r'^project/list.json', views.project_list, name="project_list"),
+    # get a list of all available scenario and some necessary parameters
+    url(r'^scenario/list.json', views.scenario_list, name="scenario_list"),
 
     # get a list of all available services for a given scenario
     # TODO: change the API to include the scenario id in the request
