@@ -117,10 +117,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "resources")
 ]
 
-# setting logging settings
-# log_path = "../logs"
-# if not os.path.exists(log_path):
-#     os.makedirs(log_path)
-
-logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('MainLogger')
+# setup logging properly
+LOGFILE = "logging.conf"
+if not os.path.isfile(LOGFILE):
+    print("WARNING: logging.conf does not exist - logging could not be initialized")
+else:
+    logging.config.fileConfig(LOGFILE)
