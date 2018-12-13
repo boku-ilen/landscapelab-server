@@ -4,12 +4,12 @@ import datetime
 import os
 from json import JSONDecodeError
 
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import Point, MultiPolygon
 from django.contrib.staticfiles import finders
 from pysolar.solar import get_altitude, get_azimuth
 from django.http import JsonResponse, HttpResponse
 
-from location.models import Impression, Scenario
+from location.models import Impression, Scenario, Session
 
 logger = logging.getLogger("MainLogger")
 
@@ -35,17 +35,24 @@ def sunposition(request, year, month, day, hour, minute, lat, long, elevation):
 
 
 # registers an impression into the database
-def register_impression(request, x, y, elevation, target_x, target_y, target_elevation):
+def register_impression(request, x, y, elevation, target_x, target_y, target_elevation, session_id):
 
     # TODO: maybe add some sanity checks
 
     # create a new impression object with the given parameters and stores it in the database
-    impression = Impression()
     # FIXME: how to figure out the associated session object? (store it in the HTTP session?)
-    # impression.session =
+
+    try:
+        session = Session.objects.get(pk=session_id)
+    except Session.DoesNotExist:
+        logger.error("Unknown session Id")
+        return HttpResponse(status=404)
+
+    impression = Impression()
+    impression.session = session
     # FIXME: how to handle srid/projection (?)
-    impression.location = Point(x, y, elevation)
-    impression.viewport = Point(target_x, target_y, target_elevation)
+    impression.location = Point(float(x), float(y), float(elevation))
+    impression.viewport = Point(float(target_x), float(target_y), float(target_elevation))
     impression.save()
 
     # return an empty content http response
@@ -83,3 +90,24 @@ def services_list(request):
         return JsonResponse(data)
     except JSONDecodeError:
         return JsonResponse({"Error": "invalid JSON data"})
+
+
+#
+def create_session(request, area):
+    # logger.debug("area is %s" % str(area))
+
+    s = Session()
+    try:
+        logger.info("Loading scenario %s" % area)
+        scenario = Scenario.objects.get(name=area)
+    except Scenario.DoesNotExist:
+        # TODO return error instead
+        logger.debug("Scenario %s unknown creating new scenario" % area)
+        scenario = Scenario(name=area)
+        scenario.start_location = Point(0, 0)
+        scenario.bounding_polygon = MultiPolygon()
+        scenario.save()
+    s.scenario = scenario
+    s.save()
+
+    return JsonResponse({'Data': s.pk})
