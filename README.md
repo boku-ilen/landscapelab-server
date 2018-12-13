@@ -1,18 +1,15 @@
 # Setup
 
-* Install Anaconda and dependencies
-  * `conda install gdal`
-  * `conda install numpy`
-  * `conda install django`
-  * `conda install matplotlib`
-* Setup IDE with Anaconda environment
-  * In PyCharm:
-    * Go to Settings -> Project -> Python Interpreter -> Add Anaconda enviroment
-    * Create a Python build configuration:
-      * Script path: `...\manage.py`
-      * Parameters: `runserver`
-      * Python interpreter: Anaconda Python environment (the one that was previously added)
-* Folder `resources` goes into `retour-middleware\retourmiddleware` (same folder as `areas`, `assetpos`, ...)
-* File `settings_secret.py` goes into `retour-middleware\retourmiddleware\retourmiddleware` (same folder as `settings.py`, ...)
+* install python 3 (we recommend anaconda)
+* install project dependencies
+  * `pip install -r requirements.txt`
+* install postgresql with postgis extension and configure it properly
+* copy external (geo-)data folder `resources` into the project's root directory
+* copy `logging.conf-dist` to `logging.conf` and (configure it to your needs)
+* copy `retourmiddleware/settings/local-settings.py-dist` to `local-settings.py` in the same directory and configure your database connection there
+* create the database schema and apply defaults
+  * `python manage.py migrate` TODO
+  * `python manage.py loaddata defaults.json` TODO
 
-To test the setup: Run retour-middleware, open `http://127.0.0.1:8000/assetpos/?filename=forest_areas&tree_multiplier=0.00001` in the browser - you should see tree data.
+# Run the server
+`python manage.py runserver`
