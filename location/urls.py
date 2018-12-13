@@ -22,6 +22,7 @@ urlpatterns = [
         r'(?P<session_id>[0-9]+)',
         views.register_impression, name="register_impression"),
 
-    # create a session
-    url(r'^session/(?P<area>[A-z0-9]+)', views.create_session, name="create_session")
+    # starts a new session and returns the session key
+    url(r'^start_session/(?P<scenario_id>[0-9]+)', views.start_session, name="start_session")
+
 ]

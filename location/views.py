@@ -44,8 +44,9 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
 
     try:
         session = Session.objects.get(pk=session_id)
+    # the associated session could not be found - we drop the impression
     except Session.DoesNotExist:
-        logger.error("Unknown session Id")
+        logger.error("unknown session ID {}".format(session_id))
         return HttpResponse(status=404)
 
     impression = Impression()
@@ -54,6 +55,7 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
     impression.location = Point(float(x), float(y), float(elevation))
     impression.viewport = Point(float(target_x), float(target_y), float(target_elevation))
     impression.save()
+    logger.debug("stored impression {}".format(impression))
 
     # return an empty content http response
     return HttpResponse(status=204)
@@ -92,22 +94,18 @@ def services_list(request):
         return JsonResponse({"Error": "invalid JSON data"})
 
 
-#
-def create_session(request, area):
-    # logger.debug("area is %s" % str(area))
-
-    s = Session()
+# we start a new tracking session for a given scenario
+def start_session(request, scenario_id):
+    session = Session()
     try:
-        logger.info("Loading scenario %s" % area)
-        scenario = Scenario.objects.get(name=area)
+        scenario = Scenario.objects.get(pk=scenario_id)
+    # the associated scenario could not be found - we return an error
     except Scenario.DoesNotExist:
-        # TODO return error instead
-        logger.debug("Scenario %s unknown creating new scenario" % area)
-        scenario = Scenario(name=area)
-        scenario.start_location = Point(0, 0)
-        scenario.bounding_polygon = MultiPolygon()
-        scenario.save()
-    s.scenario = scenario
-    s.save()
+        logger.warning("could not find associated scenario with id {}".format(scenario_id))
+        return HttpResponse(status=404)
 
-    return JsonResponse({'Data': s.pk})
+    session.scenario = scenario
+    session.save()
+    logger.info("created session {} for scenario {}".format(session, scenario))
+
+    return JsonResponse({'session': session.pk})
