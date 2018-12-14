@@ -108,6 +108,6 @@ STATICFILES_DIRS = [
 # setup logging properly
 LOGFILE = "logging.conf"
 if not os.path.isfile(LOGFILE):
-    print("WARNING: logging.conf does not exist - logging could not be initialized")
+    print("WARNING: {} does not exist - logging could not be initialized".format(LOGFILE))
 else:
     logging.config.fileConfig(LOGFILE)
