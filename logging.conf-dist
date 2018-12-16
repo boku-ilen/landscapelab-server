@@ -21,7 +21,7 @@ propagate=0
 class=FileHandler
 level=DEBUG
 formatter=consoleFormatter
-args=('logs/retour-server.log', 'w')
+args=('logs/landscapelab-server.log', 'w')
 
 [handler_consoleHandler]
 class=StreamHandler

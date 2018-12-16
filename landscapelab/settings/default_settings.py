@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'retourmiddleware',
+    'landscapelab',
     'assetpos',
     'buildings',
     'location',
@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'retourmiddleware.urls'
+ROOT_URLCONF = 'landscapelab.urls'
 
 TEMPLATES = [
     {
