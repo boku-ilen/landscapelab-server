@@ -65,7 +65,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'retourmiddleware.wsgi.application'
+WSGI_APPLICATION = 'landscapelab.wsgi.application'
 
 # Database
 # FIXME: does an sqlite default connection make sense now as we require postgis?
