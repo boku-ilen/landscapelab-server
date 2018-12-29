@@ -2,7 +2,8 @@ import json
 import os.path
 import logging
 from django.http import JsonResponse
-from osgeo import ogr
+# from osgeo import ogr
+from models import AssetType, Tile, AssetPositions
 from .util import *
 from .shp_to_json import get_trees
 from django.contrib.staticfiles import finders
@@ -61,7 +62,7 @@ def load_from_gen_file(gen_file_path):
 def load_from_shape_file(file_path, modifiers, gen_file_path):
     logger.info("opening %s" % file_path)
 
-    driver = ogr.GetDriverByName('ESRI Shapefile')
+    driver = None  # ogr.GetDriverByName('ESRI Shapefile')
     if driver is None:
         return JsonResponse({"Error": "driver not available ESRI Shapefile"})
 
@@ -87,3 +88,21 @@ def gen_folder_check(gen_file_path):
     if not os.path.exists(os.path.dirname(gen_file_path)):
         logger.info("creating folder generatedFiles")
         os.makedirs(os.path.dirname(gen_file_path))
+
+
+# returns all assets of a given type within the extent of the given tile
+# TODO: add checks
+def get_assetposition(request, zoom, tile_x, tile_y, assettype_id):
+
+    # fetch all associated assets
+    asset_type = AssetType.objects.get(id=assettype_id)
+    tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
+    assets = AssetPositions.objects.get(tile=tile, asset_type=asset_type)
+
+    # create the return dict
+    ret = []
+    for asset_position in assets:
+        x,y = asset_position.location
+        ret.append({'x': x, 'y': y, 'asset': asset_position.asset})
+
+    return JsonResponse(ret)
