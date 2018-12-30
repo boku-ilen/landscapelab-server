@@ -3,7 +3,7 @@ import os.path
 import logging
 from django.http import JsonResponse
 # from osgeo import ogr
-from models import AssetType, Tile, AssetPositions
+from assetpos.models import AssetType, Tile, AssetPositions
 from .util import *
 from .shp_to_json import get_trees
 from django.contrib.staticfiles import finders
