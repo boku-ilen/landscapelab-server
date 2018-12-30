@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from location.models import Scenario
 import django.contrib.gis.geos as geos
 
-from raster.calculate_raster import fetch_wmts_tiles
+from raster.process_orthos import fetch_wmts_tiles
 
 
 class Command(BaseCommand):
@@ -14,6 +14,7 @@ class Command(BaseCommand):
         parser.add_argument('srid', type=int, nargs='?')
         group.add_argument('scenario', type=int, nargs='?')
         parser.add_argument('url', type=str, nargs='?')
+        parser.add_argument('layer', type=str, nargs='?')
 
     def handle(self, *args, **options):
 
@@ -31,6 +32,12 @@ class Command(BaseCommand):
 
         # now we hand off to the internal implementation
         if options['url']:
-            fetch_wmts_tiles(bounding_box, url=options['url'])
+            if options['layer']:
+                fetch_wmts_tiles(bounding_box, url=options['url'])
+            else:
+                fetch_wmts_tiles(bounding_box, url=options['url'])
         else:
-            fetch_wmts_tiles(bounding_box)
+            if options['layer']:
+                fetch_wmts_tiles(bounding_box, layer=options['layer'])
+            else:
+                fetch_wmts_tiles(bounding_box)
