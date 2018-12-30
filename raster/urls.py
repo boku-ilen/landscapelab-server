@@ -12,7 +12,7 @@ urlpatterns = [
 
     # get the filename of a pyramid tile based on meter data
     # TODO: do we want to deliver it in json or just as plain txt
-    url(r'/(?P<layer>\s)/(?P<meter_x>(\d+(?:\.\d+)))/(?P<meter_y>(\d+(?:\.\d+)))/(?P<zoom>(\d+)).json$',
+    url(r'^(?P<layer>\s)/(?P<meter_x>(\d+(?:\.\d+)))/(?P<meter_y>(\d+(?:\.\d+)))/(?P<zoom>(\d+)).json$',
         views.filename_from_coords, name="filename_from_coords")
 
 ]
