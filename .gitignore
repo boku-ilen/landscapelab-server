@@ -1,9 +1,9 @@
 settings_secret.py
 resources/*
 logging.conf
-local-settings.py
+landscapelab/settings/local_settings.py
 assetpos/generatedFiles/*
 .idea
-__pycache__/
+__pycache__
 *.pyc
-/logs
+logs
