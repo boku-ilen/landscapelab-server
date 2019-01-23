@@ -8,7 +8,7 @@ from .util import *
 from .shp_to_json import get_trees
 from django.contrib.staticfiles import finders
 
-logger = logging.getLogger('MainLogger')
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
