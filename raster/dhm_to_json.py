@@ -7,6 +7,7 @@ from django.contrib.staticfiles import finders
 
 logger = logging.getLogger('MainLogger')
 
+
 def getDHM(request):
     if 'filename' not in request.GET:
         return {'Error': 'no filename specified'}

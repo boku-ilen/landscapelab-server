@@ -10,3 +10,4 @@ class Command(BaseCommand):
         parser.add_argument('layer', type=str)
 
     def handle(self, *args, **options):
+        pass  # FIXME: ...
