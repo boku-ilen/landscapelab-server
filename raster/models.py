@@ -1,6 +1,11 @@
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import ArrayField
 
 from location.models import Scenario
+
+
+# the resolution of a tile in x and y
+TILE_SIZE = 256
 
 
 # this represents a tile in a LOD quadtree pyramid
@@ -22,8 +27,11 @@ class Tile(models.Model):
     # the y-coordinate in the quadtree pyramid
     y = models.BigIntegerField()
 
-    # TODO: decide if we want to store the raster data itself into the database or just
-    # TODO: a pointer to the filename which can then be received with a direct read from a file ?
+    # this is the heightmap of the give tile (None if not yet calculated)
+    # stored as an 2 dimensional array of float values in meters (max. resolution 1cm)
+    # TODO: how do we apply the different height modifications from other modules (roads, rivers, ..)
+    # TODO: we can handle them by priority or store the entire calculation or geometries
+    heightmap = ArrayField(ArrayField(models.FloatField(), size=TILE_SIZE), size=TILE_SIZE)
 
 
 # all vectorized height information available (it is cut down based on a bounding box to the project extent)
@@ -39,3 +47,7 @@ class DigitalHeightModel(models.Model):
 
     # height in meters
     height = models.FloatField()
+
+    # TODO: should we store the resolution too in a field so we can import multiple
+    # TODO: resolutions for the same area and decide what to take later? but what
+    # TODO: about different height information (inconsistencies between dhm sources?)
