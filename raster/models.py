@@ -9,17 +9,17 @@ class Tile(models.Model):
     # the associated project area (scenario)
     scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)
 
-    # we add the actual quadtree structure
+    # we add the actual QuadTree structure
     # we might want to use https://django-mptt.readthedocs.io
     parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT)
 
     # the level of detail identifier
     lod = models.IntegerField()
 
-    # the x-coordinate in the quadtree pyramid
+    # the x-coordinate in the QuadTree pyramid
     x = models.BigIntegerField()
 
-    # the y-coordinate in the quadtree pyramid
+    # the y-coordinate in the QuadTree pyramid
     y = models.BigIntegerField()
 
     # TODO: decide if we want to store the raster data itself into the database or just

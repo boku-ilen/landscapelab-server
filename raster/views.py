@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 
 from raster.process_orthos import filename_from_coords
-from raster.dhm_to_json import getDHM
 from .png_to_response import *
 
 
@@ -11,13 +10,9 @@ def static_raster(request, filename):
     return JsonResponse(request_to_png_response(filename))
 
 
-# delivers the old dhm format
-def get_dhm(request):
-    data = getDHM(request)
-    return JsonResponse(data)
-
-
 # returns the pointer to the filename which contains the combined ortho and dhm info
 def get_ortho_dhm(request, layer, meter_x, meter_y, zoom):
+    # TODO: maybe we want to answer more related infos in a complete json?
+    # TODO: and also point to the two different tile files (ortho and dhm/splat)?
     filename = filename_from_coords(layer, meter_x, meter_y, zoom)
     return JsonResponse({'f': filename})
