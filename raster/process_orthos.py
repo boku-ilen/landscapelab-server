@@ -13,6 +13,8 @@ import owslib.wmts as wmts
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
 DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
+DEFAULT_ZOOM_FROM = 18
+DEFAULT_ZOOM_TO = 22
 
 # the format and location of the ortho pictures
 ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpeg"
@@ -21,9 +23,11 @@ logger = logging.getLogger(__name__)
 
 
 # method to fetch a complete pyramid within a given bounding box
-def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER):
+def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER,
+                     zoom_from=DEFAULT_ZOOM_FROM, zoom_to=DEFAULT_ZOOM_TO):
 
     # initialize wmts connection
+    logger.info("fetch layer {} from {} (z: {} to {})".format(layer, url, zoom_from, zoom_to))
     tile_server = wmts.WebMapTileService(url)
 
     # calculate possible extent
@@ -53,7 +57,7 @@ def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER
                 max_y = y
 
         # get all tiles in the available extent and zoomlevel
-        for zoom in range(15, 21):  # FIXME: fixed values -> configurable
+        for zoom in range(zoom_from, zoom_to):  # FIXME: fixed values -> configurable
             p_from = webmercator.Point(meter_x=min_x, meter_y=min_y, zoom_level=zoom)
             p_to = webmercator.Point(meter_x=max_x, meter_y=max_y, zoom_level=zoom)
 

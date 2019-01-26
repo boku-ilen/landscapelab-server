@@ -10,11 +10,13 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         group = parser.add_mutually_exclusive_group()
-        group.add_argument('extent', type=str, nargs='?')
-        parser.add_argument('srid', type=int, nargs='?')
-        group.add_argument('scenario', type=int, nargs='?')
-        parser.add_argument('url', type=str, nargs='?')
-        parser.add_argument('layer', type=str, nargs='?')
+        group.add_argument('--extent', type=str, nargs=1)
+        parser.add_argument('--srid', type=int, nargs=1)
+        group.add_argument('--scenario', type=int, nargs=1)
+        parser.add_argument('--url', type=str, nargs=1)
+        parser.add_argument('--layer', type=str, nargs=1)
+        parser.add_argument('--zoom-from', type=int, nargs='?')
+        parser.add_argument('--zoom-to', type=int, nargs='?')
 
     def handle(self, *args, **options):
 
@@ -31,13 +33,18 @@ class Command(BaseCommand):
             bounding_box = geos.fromstr(options['extent'], srid)
 
         # now we hand off to the internal implementation
-        if options['url']:
+        kwargs = dict()
+        if 'url' in options:
+            if options['url']:
+                kwargs['url'] = options['url']
+        if 'layer' in options:
             if options['layer']:
-                fetch_wmts_tiles(bounding_box, url=options['url'])
-            else:
-                fetch_wmts_tiles(bounding_box, url=options['url'])
-        else:
-            if options['layer']:
-                fetch_wmts_tiles(bounding_box, layer=options['layer'])
-            else:
-                fetch_wmts_tiles(bounding_box)
+                kwargs['layer'] = options['layer'][0]  # FIXME: why I have to do this?
+        if 'zoom-from' in options:
+            if options['zoom-from']:
+                kwargs['zoom_from'] = options['zoom-from']
+        if 'zoom-to' in options:
+            if options['zoom-to']:
+                kwargs['zoom_to'] = options['zoom-to']
+
+        fetch_wmts_tiles(bounding_box, **kwargs)

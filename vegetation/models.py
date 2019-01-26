@@ -21,34 +21,33 @@ class Species(models.Model):
 class SpeciesRepresentation(models.Model):
 
     # the species which is represented
-    species = models.ForeignKey(Species)
+    species = models.ForeignKey(Species, on_delete=models.PROTECT)
 
     # the associated 3d-asset
-    asset = models.ForeignKey()
+    asset = models.ForeignKey(None, on_delete=models.PROTECT)  # FIXME!
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
-    # this value gives the average height in this occurance in centimeters
+    # this value gives the average height in this occurrence in centimeters
     avg_height = models.IntegerField()
     # the sigma value (scattering for normal distribution)
     sigma_height = models.FloatField()
 
     # the billboard representation
-    billboard = models.TextField() #TODO: how to store?
+    billboard = models.TextField()  # TODO: how to store?
 
     # TODO: the species definition xml http://vterrain.org/Implementation/Formats/species.html
     # TODO: also defines shadow values to alter the plant's cast shadow
     # TODO: do we want to implement this?
 
 
-#TODO: might be abstract as we have to differenciate between assets and shaders
+# TODO: might be abstract as we have to differentiate between assets and shaders
 class SpeciesOccurance(models.Model):
-
+    pass
 
 
 # currently just a separator of different layers with approximately the same
 # height of the associated plants
-#
 class VegetationLayer(models.Model):
     LAYER_TYPE = (
         (1, "B1"),
