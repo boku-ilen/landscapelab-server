@@ -100,10 +100,11 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
 
 # get the filename based on tiles with the given coordinates
-# TODO: maybe generalize to also be usable for the dhm png?
-def filename_from_coords(layer: str, x_meter: float, y_meter: float, lod: int):
-
-    p = webmercator.Point(meter_x=x_meter, meter_y=y_meter, zoom_level=lod)
-    filename = ORTHOS_FILE.format(layer, lod, p.tile_y, p.tile_x)
-
+# and start fetching the ortho if it is still missing
+def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
+    filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_y, tile_x)
+    if not os.path.isfile(filename):
+        # TODO: maybe postpone the fetching (non-blocking) if not in debug?
+        tile_server = wmts.WebMapTileService(DEFAULT_URL)
+        fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
     return filename

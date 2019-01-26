@@ -1,3 +1,5 @@
+import os
+
 import fiona
 import png
 import webmercator
@@ -13,7 +15,8 @@ from landscapelab import utils
 import logging
 
 DEFAULT_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/dhm_lamb_10m.tif"
-DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
+DHM_SPLAT_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
+DHM_SPLAT_IDENTIFIER = "dhm_splat"
 DEFAULT_DHM_SRID = 3857  # WebMercator Aux Sphere
 TILE_SIZE_PIXEL = 256
 
@@ -25,8 +28,9 @@ logger = logging.getLogger(__name__)
 def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
 
     # delete all old data within the bounding box
-    logger.debug("delete all data from database within geometry {}".format(bounding_box))
-    DigitalHeightModel.objects.filter(point__within=bounding_box).delete()
+    if bounding_box:
+        logger.debug("delete all data from database within geometry {}".format(bounding_box))
+        DigitalHeightModel.objects.filter(point__within=bounding_box).delete()
 
     # getting the type of dhm and check if we import a vector (*.shp) or raster file (anything else)
     if dhm_filename.lower().endswith(".shp"):
@@ -94,5 +98,15 @@ def process_dhm_to_tile(x: int, y: int, zoom: int):
                 pass
 
     # write the file including the alpha mask
-    output_file = DHM_FILE.format("dhm", zoom, y, x)
+    output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
     png.from_array(np_image, 'RGBA').save(output_file)
+
+
+# get the filename for the dhm and splatmap combined file from coordinates
+# checks if the file exists or starts the calculation of given file
+def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
+    filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
+    if not os.path.isfile(filename):
+        # TODO: maybe postpone the fetching (non-blocking) if not in debug?
+        process_dhm_to_tile(tile_x, tile_y, zoom)
+    return filename
