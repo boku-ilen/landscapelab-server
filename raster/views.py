@@ -3,7 +3,6 @@ from django.http import JsonResponse
 
 import calculate_dhm
 import process_orthos
-from raster.process_orthos import filename_from_coords
 from .png_to_response import *
 
 
@@ -15,7 +14,7 @@ def static_raster(request, filename):
 
 # returns the pointer to the filename which contains the combined ortho and dhm info
 # TODO: maybe we want to provide the same API with given tile coordinates?
-def get_ortho_dhm(request, layer, meter_x, meter_y, zoom):
+def get_ortho_dhm(request, meter_x, meter_y, zoom):
 
     # fetch the related filenames
     p = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
