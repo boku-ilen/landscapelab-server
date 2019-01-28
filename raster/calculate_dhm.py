@@ -10,7 +10,7 @@ import rasterio  # TODO: decide if we want to read raster or polygon data
 from django.contrib.gis.utils import LayerMapping
 from django.db.models import Avg
 
-from raster.models import DigitalHeightModel
+from raster.models import DigitalHeightModel, Tile
 from landscapelab import utils
 import logging
 
@@ -61,16 +61,24 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
                         dhm_point.save()
 
 
-# processes the imported height model and calculates a single tile
-def process_dhm_to_tile(x: int, y: int, zoom: int):
+# TODO: maybe move this to another file?
+# gets the tile if it exists or initializes the requested tile
+def get_or_initialize_tile(x: int, y: int, zoom: int):
+    tile = Tile.objects.filter(x=x, y=y, lod=zoom)
+    if not tile:
+        tile = Tile()
+        tile.x = x
+        tile.y = y
+        tile.lod = zoom
+        tile.save()
+    return tile
 
-    # iterate through the directory and for each file (maybe multithreaded)
-    # calculate the coordinates of each pixel and fetch the according height
-    # information and generate a numpy array
-    # FIXME: do this in another function ?
 
-    # create empty image
-    np_image = np.zeros((TILE_SIZE_PIXEL, TILE_SIZE_PIXEL, 4), dtype=np.uint16)
+# generates the database (cache) entry for the dhm
+def generate_dhm_db(x: int, y: int, zoom: int):
+
+    # create the empty dhm array for this tile with an unsigned integer with 20 bit precision
+    np_heightmap = np.zeros((TILE_SIZE_PIXEL, TILE_SIZE_PIXEL), dtype=np.uint32)
 
     # iterate to all pixels of the image in terms of projected coordinates
     point = webmercator.Point(tile_x=x, tile_y=y, zoom_level=zoom)
@@ -92,10 +100,39 @@ def process_dhm_to_tile(x: int, y: int, zoom: int):
 
             # if there are registered heights we have to calculate the average
             if dhm_points:
-                np_image[pixel_x, pixel_y] = dhm_points.aggregate(Avg('height'))
+                np_heightmap[pixel_x, pixel_y] = dhm_points.aggregate(Avg('height'))
             # FIXME: we have to somehow estimate from the surounding values
             else:
                 pass
+
+    # store the result as cache of the tile in the database
+    tile = get_or_initialize_tile(x, y, zoom)
+    tile.heightmap = np_heightmap
+    tile.save()
+
+    return np_heightmap
+
+
+# generates a single tile from dhm and splat information in the database
+def generate_dhm_splat_tile(x: int, y: int, zoom: int):
+
+    # load associated tile entry from db
+    tile = get_or_initialize_tile(x, y, zoom)
+
+    # load or generate dhm information
+    np_dhm = tile.heightmap
+    if not np_dhm:
+        # generate tile in db
+        np_dhm = generate_dhm_db(x, y, zoom)
+
+    # create empty image
+    np_image = np.zeros((TILE_SIZE_PIXEL, TILE_SIZE_PIXEL, 4), dtype=np.uint16)
+
+    # add heightmap to the image
+    # we expect values in centimeters as unsigned integer with values from 0-8500000
+    # which requires 20bit to store. In the 16-bit per channel image this requires
+    # 1,5 channels so we store it in RRGgbbaa
+    pass  # FIXME: maybe it is currently sufficiant to use two complete channels (RRGG)
 
     # write the file including the alpha mask
     output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
@@ -108,5 +145,5 @@ def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
     filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        process_dhm_to_tile(tile_x, tile_y, zoom)
+        generate_dhm_splat_tile(tile_x, tile_y, zoom)
     return filename

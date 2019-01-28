@@ -18,14 +18,14 @@ class Tile(models.Model):
     # we might want to use https://django-mptt.readthedocs.io
     parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT)
 
-    # the level of detail identifier
+    # the level of detail identifier (aka zoom)
     lod = models.IntegerField()
 
     # the x-coordinate in the QuadTree pyramid
-    x = models.BigIntegerField()
+    x = models.IntegerField()
 
     # the y-coordinate in the QuadTree pyramid
-    y = models.BigIntegerField()
+    y = models.IntegerField()
 
     # this is the heightmap of the give tile (None if not yet calculated)
     # stored as an 2 dimensional array of float values in meters (max. resolution 1cm)
