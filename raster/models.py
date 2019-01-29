@@ -14,18 +14,18 @@ class Tile(models.Model):
     # the associated project area (scenario)
     scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)
 
-    # we add the actual quadtree structure
+    # we add the actual QuadTree structure
     # we might want to use https://django-mptt.readthedocs.io
     parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT)
 
-    # the level of detail identifier
+    # the level of detail identifier (aka zoom)
     lod = models.IntegerField()
 
-    # the x-coordinate in the quadtree pyramid
-    x = models.BigIntegerField()
+    # the x-coordinate in the QuadTree pyramid
+    x = models.IntegerField()
 
-    # the y-coordinate in the quadtree pyramid
-    y = models.BigIntegerField()
+    # the y-coordinate in the QuadTree pyramid
+    y = models.IntegerField()
 
     # this is the heightmap of the give tile (None if not yet calculated)
     # stored as an 2 dimensional array of float values in meters (max. resolution 1cm)

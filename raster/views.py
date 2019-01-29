@@ -1,7 +1,8 @@
+import webmercator
 from django.http import JsonResponse
 
-from raster.process_orthos import filename_from_coords
-from raster.dhm_to_json import getDHM
+import calculate_dhm
+import process_orthos
 from .png_to_response import *
 
 
@@ -11,13 +12,18 @@ def static_raster(request, filename):
     return JsonResponse(request_to_png_response(filename))
 
 
-# delivers the old dhm format
-def get_dhm(request):
-    data = getDHM(request)
-    return JsonResponse(data)
-
-
 # returns the pointer to the filename which contains the combined ortho and dhm info
-def get_ortho_dhm(request, layer, meter_x, meter_y, zoom):
-    filename = filename_from_coords(layer, meter_x, meter_y, zoom)
-    return JsonResponse({'f': filename})
+# TODO: maybe we want to provide the same API with given tile coordinates?
+def get_ortho_dhm(request, meter_x, meter_y, zoom):
+
+    # fetch the related filenames
+    p = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
+    filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
+    filename_dhmsplat = calculate_dhm.get_dhmsplat_from_coords(p.tile_x, p.tile_y, zoom)
+
+    # answer with a json
+    ret = {
+        'ortho': filename_ortho,
+        'dhmsplat': filename_dhmsplat,
+    }
+    return JsonResponse(ret)
