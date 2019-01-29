@@ -25,8 +25,9 @@ logger = logging.getLogger(__name__)
 def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
 
     # delete all old data within the bounding box
-    logger.debug("delete all data from database within geometry {}".format(bounding_box))
-    DigitalHeightModel.objects.filter(point__within=bounding_box).delete()
+    if bounding_box:
+        logger.debug("delete all data from database within geometry {}".format(bounding_box))
+        DigitalHeightModel.objects.filter(point__within=bounding_box).delete()
 
     # getting the type of dhm and check if we import a vector (*.shp) or raster file (anything else)
     if dhm_filename.lower().endswith(".shp"):
@@ -40,21 +41,29 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
 
     # raster implementation
     else:
-        logger.debug("starting raster import")
         with rasterio.open(dhm_filename) as dhm_datasource:
             crs = dhm_datasource.get_crs()
-            transform = dhm_datasource.get_transform()
             np_heightmap = dhm_datasource.read(1)  # we assume there is a single height band
-            rows, cols = np_heightmap.shape()
+            rows, cols = np_heightmap.shape
+            logger.debug("starting raster import with {} points".format(rows * cols))
 
+            count = 0
             for x in range(0, rows):
                 for y in range(0, cols):
-                    point = Point(transform * (x, y), srid=crs)  # convert x,y to meters in crs
-                    if bounding_box.contains(point):  # only import points within the bounding polygon
-                        dhm_point = DigitalHeightModel()
-                        dhm_point.point = point
-                        dhm_point.height = np_heightmap[x, y]
-                        dhm_point.save()
+                    x_m, y_m = dhm_datasource.affine * (x, y)
+                    point = Point(x_m, y_m, srid=crs)  # convert x,y to meters in crs
+                    if count % 1000:
+                        logger.debug("imported {} from {} ({} %)".format(count, rows * cols, count * 100 / rows * cols))
+                    count += 1
+
+                    # only import points within the bounding polygon
+                    if bounding_box:
+                        if not bounding_box.contains(point):
+                            continue
+                    dhm_point = DigitalHeightModel()
+                    dhm_point.point = point
+                    dhm_point.height = np_heightmap[x, y]
+                    dhm_point.save()
 
 
 # processes the imported height model and calculates a single tile
@@ -89,7 +98,7 @@ def process_dhm_to_tile(x: int, y: int, zoom: int):
             # if there are registered heights we have to calculate the average
             if dhm_points:
                 np_image[pixel_x, pixel_y] = dhm_points.aggregate(Avg('height'))
-            # FIXME: we have to somehow estimate from the surounding values
+            # FIXME: we have to somehow estimate from the surrounding values
             else:
                 pass
 
