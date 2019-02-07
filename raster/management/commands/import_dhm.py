@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from calculate_dhm import import_dhm
+from raster.calculate_dhm import import_dhm
 from location.models import Scenario
 import django.contrib.gis.geos as geos
 
@@ -26,8 +26,8 @@ class Command(BaseCommand):
         if options['scenario']:
             scenario = Scenario.objects.get(pk=options['scenario'])
             bounding_box = scenario.bounding_polygon
-        if options['extent']:
-            bounding_box = geos.fromstr(options['extent'], srid=srid)
+        if options['bounding_polygon']:
+            bounding_box = geos.fromstr(options['bounding_polygon'], srid=srid)
 
         # now we hand off to the internal implementation
-        import_dhm(options['dhm_shapefile'], bounding_box, srid=srid)
+        import_dhm(options['filename'], bounding_box, srid=srid)

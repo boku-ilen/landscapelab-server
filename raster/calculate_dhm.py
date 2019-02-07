@@ -1,3 +1,5 @@
+from itertools import islice
+
 import fiona
 import png
 import webmercator
@@ -17,6 +19,7 @@ DHM_SPLAT_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 DHM_SPLAT_IDENTIFIER = "dhm_splat"
 DEFAULT_DHM_SRID = 3857  # WebMercator Aux Sphere
 TILE_SIZE_PIXEL = 256
+BATCH_SIZE = 50000
 
 logger = logging.getLogger(__name__)
 
@@ -48,14 +51,12 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
             rows, cols = np_heightmap.shape
             logger.debug("starting raster import with {} points".format(rows * cols))
 
-            count = 0
+            # add all valid points to a list
+            dhm_list = []
             for x in range(0, rows):
                 for y in range(0, cols):
                     x_m, y_m = dhm_datasource.affine * (x, y)
                     point = Point(x_m, y_m, srid=crs)  # convert x,y to meters in crs
-                    if count % 1000:
-                        logger.debug("imported {} from {} ({} %)".format(count, rows * cols, count * 100 / rows * cols))
-                    count += 1
 
                     # only import points within the bounding polygon
                     if bounding_box:
@@ -64,7 +65,18 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
                     dhm_point = DigitalHeightModel()
                     dhm_point.point = point
                     dhm_point.height = np_heightmap[x, y]
-                    dhm_point.save()
+                    dhm_list.append(dhm_point)
+
+            # bulk insert the batch into the database
+            count = 0
+            while True:
+                batch = list(islice(dhm_list, BATCH_SIZE))
+                if not batch:
+                    break
+                DigitalHeightModel.objects.bulk_create(batch, BATCH_SIZE)
+                count += BATCH_SIZE
+                logger.debug("inserted {} from {} entries ({} %)".format(count, len(dhm_list),
+                                                                         count * 100 / len(dhm_list)))
 
 
 # TODO: maybe move this to another file?
@@ -138,13 +150,7 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
     # we expect values in centimeters as unsigned integer with values from 0-8500000
     # which requires 20bit to store. In the 16-bit per channel image this requires
     # 1,5 channels so we store it in RRGgbbaa
-    pass  # FIXME: maybe it is currently sufficient to use two complete channels (RRGG)
-
-    # TODO: we aggregate all height differences here and provide the final height profile
-    # TODO: to the client. If this is not feasable due to performance issues, we go back
-    # TODO: to the proposed solution to transfer the height deltas separably
-
-    # TODO: we probably will work with numpy packbits and unpackbits
+    pass  # FIXME: maybe it is currently sufficiant to use two complete channels (RRGG)
 
     # write the file including the alpha mask
     output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
