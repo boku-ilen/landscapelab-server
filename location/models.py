@@ -1,6 +1,19 @@
 from django.contrib.gis.db import models
 
 
+# this defines the starting location and alternate interesting visiting points
+class Location(models.Model):
+
+    # the description of the location/poi
+    name = models.TextField()
+
+    # the geographic coordinates of the location
+    location = models.PointField()
+
+    # the direction in which the user should look in the beginning (0 = north)
+    direction = models.FloatField()
+
+
 # represents a disclosed area with an individual setup of available geodata
 class Scenario(models.Model):
 
@@ -8,7 +21,7 @@ class Scenario(models.Model):
     name = models.TextField()
 
     # start location when first entering the scenario
-    start_location = models.PointField()
+    start_location = models.ForeignKey(Location, on_delete=models.PROTECT)
 
     # the bounding polygon (TODO: is a seperate bounding box necessairy?)
     bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
