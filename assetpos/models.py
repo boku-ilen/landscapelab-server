@@ -9,7 +9,7 @@ class AssetType(models.Model):
     name = models.TextField()
 
 
-# TODO: do we have to have an asset object for every asset? propably
+# TODO: do we have to have an asset object for every asset? probably
 class Asset(models.Model):
 
     # an identifier string
@@ -33,3 +33,6 @@ class AssetPositions(models.Model):
 
     # the geographical location
     location = models.PointField()
+
+    # the direction in degrees (0 = north) of the placement
+    orientation = models.FloatField()
