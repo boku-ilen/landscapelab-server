@@ -13,7 +13,7 @@ class Command(BaseCommand):
         group.add_argument('--bounding_polygon', type=str, nargs='?')
         parser.add_argument('--srid', type=int, nargs='?')
         group.add_argument('--scenario', type=int, nargs='?')
-        parser.add_argument('--filename', type=str, nargs='1')
+        parser.add_argument('--filename', type=str)
 
     def handle(self, *args, **options):
 
