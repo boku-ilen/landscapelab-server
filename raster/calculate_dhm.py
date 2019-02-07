@@ -132,7 +132,13 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
     # we expect values in centimeters as unsigned integer with values from 0-8500000
     # which requires 20bit to store. In the 16-bit per channel image this requires
     # 1,5 channels so we store it in RRGgbbaa
-    pass  # FIXME: maybe it is currently sufficiant to use two complete channels (RRGG)
+    pass  # FIXME: maybe it is currently sufficient to use two complete channels (RRGG)
+
+    # TODO: we aggregate all height differences here and provide the final height profile
+    # TODO: to the client. If this is not feasable due to performance issues, we go back
+    # TODO: to the proposed solution to transfer the height deltas separably
+
+    # TODO: we probably will work with numpy packbits and unpackbits
 
     # write the file including the alpha mask
     output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
