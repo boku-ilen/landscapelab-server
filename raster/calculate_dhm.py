@@ -1,5 +1,3 @@
-import os
-
 import fiona
 import png
 import webmercator
@@ -44,21 +42,29 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
 
     # raster implementation
     else:
-        logger.debug("starting raster import")
         with rasterio.open(dhm_filename) as dhm_datasource:
             crs = dhm_datasource.get_crs()
-            transform = dhm_datasource.get_transform()
             np_heightmap = dhm_datasource.read(1)  # we assume there is a single height band
-            rows, cols = np_heightmap.shape()
+            rows, cols = np_heightmap.shape
+            logger.debug("starting raster import with {} points".format(rows * cols))
 
+            count = 0
             for x in range(0, rows):
                 for y in range(0, cols):
-                    point = Point(transform * (x, y), srid=crs)  # convert x,y to meters in crs
-                    if bounding_box.contains(point):  # only import points within the bounding polygon
-                        dhm_point = DigitalHeightModel()
-                        dhm_point.point = point
-                        dhm_point.height = np_heightmap[x, y]
-                        dhm_point.save()
+                    x_m, y_m = dhm_datasource.affine * (x, y)
+                    point = Point(x_m, y_m, srid=crs)  # convert x,y to meters in crs
+                    if count % 1000:
+                        logger.debug("imported {} from {} ({} %)".format(count, rows * cols, count * 100 / rows * cols))
+                    count += 1
+
+                    # only import points within the bounding polygon
+                    if bounding_box:
+                        if not bounding_box.contains(point):
+                            continue
+                    dhm_point = DigitalHeightModel()
+                    dhm_point.point = point
+                    dhm_point.height = np_heightmap[x, y]
+                    dhm_point.save()
 
 
 # TODO: maybe move this to another file?
