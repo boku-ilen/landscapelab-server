@@ -1,5 +1,7 @@
 from django.contrib.gis.db import models
 
+from assetpos.models import Asset
+
 
 class Species(models.Model):
 
@@ -24,7 +26,7 @@ class SpeciesRepresentation(models.Model):
     species = models.ForeignKey(Species, on_delete=models.PROTECT)
 
     # the associated 3d-asset
-    asset = models.ForeignKey(None, on_delete=models.PROTECT)  # FIXME!
+    asset = models.ForeignKey(Asset, on_delete=models.PROTECT)  # FIXME!
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species

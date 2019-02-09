@@ -1,3 +1,5 @@
+from itertools import islice
+
 import fiona
 import os
 import png
@@ -18,6 +20,7 @@ DHM_SPLAT_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 DHM_SPLAT_IDENTIFIER = "dhm_splat"
 DEFAULT_DHM_SRID = 3857  # WebMercator Aux Sphere
 TILE_SIZE_PIXEL = 256
+BATCH_SIZE = 50000
 
 logger = logging.getLogger(__name__)
 
@@ -49,14 +52,12 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
             rows, cols = np_heightmap.shape
             logger.debug("starting raster import with {} points".format(rows * cols))
 
-            count = 0
+            # add all valid points to a list
+            dhm_list = []
             for x in range(0, rows):
                 for y in range(0, cols):
                     x_m, y_m = dhm_datasource.affine * (x, y)
                     point = Point(x_m, y_m, srid=crs)  # convert x,y to meters in crs
-                    if count % 1000:
-                        logger.debug("imported {} from {} ({} %)".format(count, rows * cols, count * 100 / rows * cols))
-                    count += 1
 
                     # only import points within the bounding polygon
                     if bounding_box:
@@ -65,7 +66,18 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
                     dhm_point = DigitalHeightModel()
                     dhm_point.point = point
                     dhm_point.height = np_heightmap[x, y]
-                    dhm_point.save()
+                    dhm_list.append(dhm_point)
+
+            # bulk insert the batch into the database
+            count = 0
+            while True:
+                batch = list(islice(dhm_list, BATCH_SIZE))
+                if not batch:
+                    break
+                DigitalHeightModel.objects.bulk_create(batch, BATCH_SIZE)
+                count += BATCH_SIZE
+                logger.debug("inserted {} from {} entries ({} %)".format(count, len(dhm_list),
+                                                                         count * 100 / len(dhm_list)))
 
 
 # TODO: maybe move this to another file?

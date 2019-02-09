@@ -40,7 +40,7 @@ class DigitalHeightModel(models.Model):
     # the tile on which the point is located
     # TODO: the tile is acutally also located on all parent tiles so we currently
     # TODO: need to insert the most detailed tile here
-    tile = models.ForeignKey(Tile, on_delete=models.PROTECT)
+    tile = models.ForeignKey(Tile, null=True, on_delete=models.PROTECT)
 
     # the location of one data point
     point = models.PointField()

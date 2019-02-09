@@ -1,8 +1,8 @@
 import webmercator
 from django.http import JsonResponse
 
-import calculate_dhm
-import process_orthos
+from raster import calculate_dhm
+from raster import process_orthos
 from .png_to_response import *
 
 
