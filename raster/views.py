@@ -17,7 +17,7 @@ def static_raster(request, filename):
 def get_ortho_dhm(request, meter_x, meter_y, zoom):
 
     # fetch the related filenames
-    p = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
+    p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=int(zoom))
     filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhmsplat = calculate_dhm.get_dhmsplat_from_coords(p.tile_x, p.tile_y, zoom)
 

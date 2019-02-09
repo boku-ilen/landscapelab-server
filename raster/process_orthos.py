@@ -88,7 +88,7 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
             pass  # skip if all paths are already there
         logger.debug("getting tile {} {}/{}-{}".format(layer, zoom, col, row))
         try:
-            tile = tile_server.gettile(layer=layer, tilematrix=str(zoom), row=row, column=col)
+            tile = tile_server.gettile(layer=layer, tilematrix=str(zoom), row=str(row), column=str(col))
             out = open(file, 'wb')
             out.write(tile.read())
             out.close()

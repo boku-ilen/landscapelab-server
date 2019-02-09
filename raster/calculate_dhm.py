@@ -1,4 +1,5 @@
 import fiona
+import os
 import png
 import webmercator
 import numpy as np
