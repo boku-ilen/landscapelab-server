@@ -25,12 +25,18 @@ class SpeciesRepresentation(models.Model):
     # the species which is represented
     species = models.ForeignKey(Species, on_delete=models.PROTECT)
 
-    # the associated 3d-asset
+    # the associated 3d-asset (only shown up close?)
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT)  # FIXME!
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
     # this value gives the average height in this occurrence in centimeters
+
+    # how would we use these height values - simply scale the plant by a random value?
+    # scaling seems like it could result in odd visuals...
+    # related: in order to prevent obvious monotony, we will want multiple graphics for a single species
+    # perhaps, instead of using that height to scale the plant,
+    # we can simply have different heights of plants in the different graphics?
     avg_height = models.IntegerField()
     # the sigma value (scattering for normal distribution)
     sigma_height = models.FloatField()
@@ -56,17 +62,26 @@ class VegetationLayer(models.Model):
         (2, "B2"),
         (3, "S1"),
         (4, "S2"),
-        (5, "K")  # herb layer, which is rendered via a shader
+        (5, "K")
     )
 
     layer_type = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
 
 
-# this is a specific plant community as a set of appearance of different
-# plants in different sizes and densities
 class Phytocoenosis(models.Model):
+    """
+    A specific plant community with multiple plants and their distribution.
+
+    Includes a distribution graphic which defines how often plants occur and how they are distributed.
+    Thus, behavior like 'single tree X is surrounded by many plants Y and few plants Z' can be accurately modeled
+    """
 
     name = models.TextField()
+
+    species = models.ManyToManyField(Species)
+
+    # TODO: move to own class? probably not necessary, since these are very specific to the phytocoenosis and plant IDs
+    distribution_graphic_path = models.TextField()  # or 'distribution_graphic = models.ImageField()'?
 
     # TODO: we might want to add additional parameters to make the parametrisation
     # TODO: of the algorithm which chooses the Phytocoenosis more robust - currently
@@ -78,3 +93,28 @@ class Phytocoenosis(models.Model):
     # the slope parameters of the appearance as divisor of length to height
     min_slope = models.FloatField()
     max_slope = models.FloatField()
+
+    # the client has separate modules for each layer so we can fine-tune at what point they're rendered at what detail
+    # thus, the client requests a phytocoenosis + a specific layer in that phytocoenosis
+    def for_layer(self, layer: VegetationLayer):
+        """Get the distribution and the plants of the phytocoenosis for a specific VegetationLayer (in one image)"""
+
+        # the client fills the shader of a specific vegetation layer with the distribution graphic and an image
+        # containing all sprites. this means the for_layer function will return the distribution graphic of the
+        # phytocoenosis, but with the pixels set to values which correspond to the plants in this specific layer. for
+        # example: phytocoenosis has plants of id 2, 3, 5, 6, 7 and a distribution graphic. plants 3 and 5 are in the
+        # requested layer S1. therefore, the server sends an image containing the sprites for plants 3 and 5 + the
+        # distribution graphic with the pixels of value 3 set to 1, the pixels of value 5 set to 2, and all other
+        # pixels set to 0, since nothing should be drawn at that layer on these positions. to make it possible for
+        # the client to parse the spritesheet, the total number of sprites in the image is also sent.
+        #
+        # this is useful because we can render the layer with the biggest average height first, and with rising LOD,
+        # render continuously smaller layers.
+        #
+        # this is assuming every species only has one sprite!
+        # how could we pack an arbitrary number of sprites?...
+        # idea: repeat everything and send number of repeats
+        # e.g. if there are 2 available sprites for ID 1, and 3 for ID 2, the spritesheet would look like this:
+        # (sprite for 1) (sprite for 2) (sprite for 1) (sprite for 2) (empty) (sprite for 2)
+        # the client is sent the number of species in that sheet (2) and the number of repeats (3).
+        # in a PNG, the empty pixels should not be a problem for file size.
