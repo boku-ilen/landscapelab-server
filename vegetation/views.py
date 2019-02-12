@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from vegetation_spritesheet import generate_spritesheet
+from vegetation_spritesheet import get_spritesheet_for_id_and_layer
 
 
 def get_vegetation_splatmap(request, meter_x, meter_y):
@@ -19,7 +19,7 @@ def get_phytocoenosis_data(request, phytocoenosis_id, layer_name):
 
     res = {
         'path_to_distribution': '',
-        'path_to_spritesheet': generate_spritesheet(phytocoenosis_id, layer_name)
+        'path_to_spritesheet': get_spritesheet_for_id_and_layer(phytocoenosis_id, layer_name)
     }
 
     return JsonResponse(res)

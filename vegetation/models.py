@@ -26,7 +26,7 @@ class SpeciesRepresentation(models.Model):
     species = models.ForeignKey(Species, on_delete=models.PROTECT)
 
     # the associated 3d-asset (only shown up close?)
-    asset = models.ForeignKey(Asset, on_delete=models.PROTECT)  # FIXME!
+    asset = models.ForeignKey(Asset, on_delete=models.PROTECT, null=True)  # FIXME!
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
@@ -81,11 +81,11 @@ class Phytocoenosis(models.Model):
     # TODO: it needs to be selected manually or is completely random
     # e.g.
     # the height parameters of the appearance in meters
-    min_height = models.IntegerField()
-    max_height = models.IntegerField()
+    min_height = models.IntegerField(null=True)
+    max_height = models.IntegerField(null=True)
     # the slope parameters of the appearance as divisor of length to height
-    min_slope = models.FloatField()
-    max_slope = models.FloatField()
+    min_slope = models.FloatField(null=True)
+    max_slope = models.FloatField(null=True)
 
     # the client has separate modules for each layer so we can fine-tune at what point they're rendered at what detail
     # thus, the client requests a phytocoenosis + a specific layer in that phytocoenosis
