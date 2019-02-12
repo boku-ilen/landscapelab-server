@@ -31,12 +31,6 @@ class SpeciesRepresentation(models.Model):
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
     # this value gives the average height in this occurrence in centimeters
-
-    # how would we use these height values - simply scale the plant by a random value?
-    # scaling seems like it could result in odd visuals...
-    # related: in order to prevent obvious monotony, we will want multiple graphics for a single species
-    # perhaps, instead of using that height to scale the plant,
-    # we can simply have different heights of plants in the different graphics?
     avg_height = models.IntegerField()
     # the sigma value (scattering for normal distribution)
     sigma_height = models.FloatField()
@@ -69,8 +63,7 @@ class VegetationLayer(models.Model):
 
 
 class Phytocoenosis(models.Model):
-    """
-    A specific plant community with multiple plants and their distribution.
+    """A specific plant community with multiple specific SpeciesRepresentations and their distribution.
 
     Includes a distribution graphic which defines how often plants occur and how they are distributed.
     Thus, behavior like 'single tree X is surrounded by many plants Y and few plants Z' can be accurately modeled
@@ -78,7 +71,7 @@ class Phytocoenosis(models.Model):
 
     name = models.TextField()
 
-    species = models.ManyToManyField(Species)
+    speciesRepresentations = models.ManyToManyField(SpeciesRepresentation)
 
     # TODO: move to own class? probably not necessary, since these are very specific to the phytocoenosis and plant IDs
     distribution_graphic_path = models.TextField()  # or 'distribution_graphic = models.ImageField()'?

@@ -8,4 +8,5 @@ urlpatterns = [
     path('buildings/', include("buildings.urls")),
     path('location/', include("location.urls")),
     path('raster/', include("raster.urls")),
+    path('vegetation/', include("vegetation.urls")),
 ]
