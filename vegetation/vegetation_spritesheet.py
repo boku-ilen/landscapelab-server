@@ -10,24 +10,46 @@ from PIL import Image
 SPRITE_BASEPATH = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/"
 SPRITE_PATHSET = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}"
 SPRITE_FILE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}/{}.png"
+SPRITE_COUNT_FILE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}/{}.count"
 
 logger = logging.getLogger(__name__)
 
 
-def generate_spritesheet(id, layer):
+def generate_spritesheet(pid, layer):
     """Generates the spritesheet containing all plant images for a given phytocoenosis ID and layer.
+    Also saves the number of sprites in this sheet in a separate file.
 
-    Example: With id=2 and layer=K, the resulting path would be /phytocoenosis-spritesheet/2/K.png
+    If the phytocoenosis does not exist, Error 404 is raised.
+    If there are no applicable sprites, the spritesheet is not created, but the count of 0 is saved.
+
+    Example: With pid=2 and layer=1, the resulting path would be /phytocoenosis-spritesheet/2/1.png, with the number
+    of sprites being stored in /phytocoenosis-spritesheet/2/1.count
     """
 
-    representations = get_object_or_404(Phytocoenosis, id=id).speciesRepresentations.filter(vegetation_layer=layer).all()
+    # Create all required directories if they don't yet exist
+    pathset = SPRITE_PATHSET.format(pid)
+
+    if not (os.path.exists(SPRITE_BASEPATH)):
+        os.mkdir(SPRITE_BASEPATH)
+
+    if not (os.path.exists(pathset)):
+        os.mkdir(pathset)
+
+    # Get the required objects from the database
+    representations = get_object_or_404(Phytocoenosis, id=pid)\
+        .speciesRepresentations.filter(vegetation_layer=layer).all()
     sprite_paths = [rep.billboard for rep in representations]
+    number_of_sprites = len(sprite_paths)
 
-    # TODO: Save the number of sprites in the spritesheet
+    # Write the number of sprites in this sheet to a file
+    count_filename = SPRITE_COUNT_FILE.format(pid, layer)
 
-    if len(sprite_paths) == 0:
-        logger.info("No sprites in phytocoenosis {} at layer {}; if this was requested by the client, check its code "
-                    "for errors!".format(id, layer))
+    with open(count_filename, "w+") as count_file:
+        count_file.write("{}\n".format(number_of_sprites))
+
+    # If the number of sprites is 0, this request shouldn't be here - log that
+    if number_of_sprites == 0:
+        logger.info("No sprites in phytocoenosis {} at layer {}!".format(pid, layer))
         logger.info("Spritesheet not created!")
         return
 
@@ -39,7 +61,7 @@ def generate_spritesheet(id, layer):
     max_width = max(widths)
     max_height = max(heights)
 
-    spritesheet = Image.new('RGBA', (max_width * len(sprite_paths), max_height))
+    spritesheet = Image.new('RGBA', (max_width * number_of_sprites, max_height))
 
     # Iterate over all sprites and paste them in the spritesheet, with an increasing x_offset, at the correct height
     # to have every sprite reach the bottom of the image
@@ -50,33 +72,51 @@ def generate_spritesheet(id, layer):
         spritesheet.paste(sprite, (x_offset, max_height - height))
         x_offset += max_width
 
-    # Create all required directories if they don't yet exist
-    pathset = SPRITE_PATHSET.format(id)
-
-    if not (os.path.exists(SPRITE_BASEPATH)):
-        os.mkdir(SPRITE_BASEPATH)
-
-    if not (os.path.exists(pathset)):
-        os.mkdir(pathset)
-
     # Save the spritesheet
-    filename = SPRITE_FILE.format(id, layer)
+    filename = SPRITE_FILE.format(pid, layer)
     spritesheet.save(filename)
 
     logging.info("Sprite saved into {}".format(filename))
 
 
-def get_spritesheet_for_id_and_layer(id, layer):
+def get_count(pid, layer):
+    """Accesses the .count file for a spritesheet and returns the value within, cast to an integer.
+    The file must exist, otherwise an IOError is raised.
+    If the file is empty or invalid, the value 0 is returned, and the error is logged.
+
+    As the handling for spritesheet generation is done there, this function is supposed to only be called in
+    get_spritesheet_and_count_for_id_and_layer.
+    """
+
+    count_filename = SPRITE_COUNT_FILE.format(pid, layer)
+
+    if not os.path.isfile(count_filename):
+        raise IOError("The requested count file {} does not exist - the function get_count should only be called in "
+                      "get_spritesheet_and_count_for_id_and_layer!".format(count_filename))
+
+    with open(count_filename, "r") as count_file:
+        count = 0
+        try:
+            count = int(count_file.readline())
+        except ValueError:
+            logger.info("Invalid count file: {}".format(count_filename))
+        finally:
+            return count
+
+
+def get_spritesheet_and_count_for_id_and_layer(pid, layer):
     """Returns the path to the spritesheet containing all plant images for a given phytocoenosis ID and layer.
     If the file does not exist yet, it is generated.
     """
 
-    filename = SPRITE_FILE.format(id, layer)
+    filename = SPRITE_FILE.format(pid, layer)
 
     logging.info("Requested spritesheet for {}".format(filename))
 
     if not os.path.isfile(filename):
         logging.info("Generating spritesheet for {}...".format(filename))
-        generate_spritesheet(id, layer)
+        generate_spritesheet(pid, layer)
 
-    return filename
+    count = get_count(pid, layer)
+
+    return filename, count
