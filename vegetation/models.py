@@ -10,6 +10,11 @@ LAYER_TYPE = (
     (5, "B1")
 )
 
+DISTRIBUTION_TYPE = (
+    (1, "Random"),
+    (2, "Clumping")
+)
+
 
 class Species(models.Model):
 
@@ -49,6 +54,9 @@ class SpeciesRepresentation(models.Model):
     # the VegetationLayer this plant is in
     # TODO: Choose automatically based on avg_height and sigma_height or max_height in Species?
     vegetation_layer = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
+
+    # how this plant is distributed
+    distribution_type = models.PositiveIntegerField(choices=DISTRIBUTION_TYPE, default=1)
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
