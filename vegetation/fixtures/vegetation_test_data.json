@@ -14,6 +14,7 @@
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
+      "vegetation_layer": 1,
       "billboard": "landscapelab/resources/sprites/grass1.png"
     }
   },
@@ -23,6 +24,7 @@
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
+      "vegetation_layer": 1,
       "billboard": "landscapelab/resources/sprites/grass2.png"
     }
   },
@@ -32,6 +34,7 @@
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
+      "vegetation_layer": 1,
       "billboard": "landscapelab/resources/sprites/grass3.png"
     }
   },
@@ -41,6 +44,7 @@
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
+      "vegetation_layer": 1,
       "billboard": "landscapelab/resources/sprites/grass4.png"
     }
   },

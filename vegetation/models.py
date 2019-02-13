@@ -2,6 +2,14 @@ from django.contrib.gis.db import models
 
 from assetpos.models import Asset
 
+LAYER_TYPE = (
+    (1, "K"),
+    (2, "S2"),
+    (3, "S1"),
+    (4, "B2"),
+    (5, "B1")
+)
+
 
 class Species(models.Model):
 
@@ -16,10 +24,17 @@ class Species(models.Model):
     max_height = models.IntegerField()
 
 
+# currently just a separator of different layers with approximately the same height of the associated plants
+# TODO: What would be sensible max_heights for each layer? (required for size of mesh to draw on in client)
+class VegetationLayer(models.Model):
+
+    layer_type = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
+
+
 # TODO: decide if we want to subclass Asset for that?
 # TODO: or how do we connect an asset with a single instance (including custom height and maybe other parameters)
 # TODO: alternatively we can provide a height range and the height is generated at runtime
-# FIXME: alternative name SpeciesInstance (?)
+# FIXME: alternative name SpeciesInstance (?) - I think SpeciesRepresentation is fine, as this is a general description
 class SpeciesRepresentation(models.Model):
 
     # the species which is represented
@@ -28,15 +43,19 @@ class SpeciesRepresentation(models.Model):
     # the associated 3d-asset (only shown up close?)
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT, null=True)  # FIXME!
 
+    # the billboard representation
+    billboard = models.TextField()  # TODO: how to store?
+
+    # the VegetationLayer this plant is in
+    # TODO: Choose automatically based on avg_height and sigma_height or max_height in Species?
+    vegetation_layer = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
+
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
     # this value gives the average height in this occurrence in centimeters
     avg_height = models.IntegerField()
     # the sigma value (scattering for normal distribution)
     sigma_height = models.FloatField()
-
-    # the billboard representation
-    billboard = models.TextField()  # TODO: how to store?
 
     # TODO: the species definition xml http://vterrain.org/Implementation/Formats/species.html
     # TODO: also defines shadow values to alter the plant's cast shadow
@@ -46,20 +65,6 @@ class SpeciesRepresentation(models.Model):
 # TODO: might be abstract as we have to differentiate between assets and shaders
 class SpeciesOccurance(models.Model):
     pass
-
-
-# currently just a separator of different layers with approximately the same
-# height of the associated plants
-class VegetationLayer(models.Model):
-    LAYER_TYPE = (
-        (1, "B1"),
-        (2, "B2"),
-        (3, "S1"),
-        (4, "S2"),
-        (5, "K")
-    )
-
-    layer_type = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
 
 
 class Phytocoenosis(models.Model):

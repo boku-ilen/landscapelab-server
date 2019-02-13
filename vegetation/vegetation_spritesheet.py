@@ -20,9 +20,16 @@ def generate_spritesheet(id, layer):
     Example: With id=2 and layer=K, the resulting path would be /phytocoenosis-spritesheet/2/K.png
     """
 
-    # TODO: Layer is not actually used yet!
-    representations = get_object_or_404(Phytocoenosis, id=id).speciesRepresentations.all()
+    representations = get_object_or_404(Phytocoenosis, id=id).speciesRepresentations.filter(vegetation_layer=layer).all()
     sprite_paths = [rep.billboard for rep in representations]
+
+    # TODO: Save the number of sprites in the spritesheet
+
+    if len(sprite_paths) == 0:
+        logger.info("No sprites in phytocoenosis {} at layer {}; if this was requested by the client, check its code "
+                    "for errors!".format(id, layer))
+        logger.info("Spritesheet not created!")
+        return
 
     # Open all sprites at the sprite_paths using Pillow
     sprites = list(map(Image.open, sprite_paths))
