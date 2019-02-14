@@ -8,9 +8,9 @@ from vegetation.models import Phytocoenosis
 from PIL import Image
 
 SPRITE_BASEPATH = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/"
-SPRITE_PATHSET = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}"
-SPRITE_FILE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}/{}.png"
-SPRITE_COUNT_FILE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/{}/{}.count"
+SPRITE_PATHSET = os.path.join(SPRITE_BASEPATH, "{}")
+SPRITE_FILE = os.path.join(SPRITE_PATHSET, "{}.png")
+SPRITE_COUNT_FILE = os.path.join(SPRITE_PATHSET, "{}.count")
 
 logger = logging.getLogger(__name__)
 
