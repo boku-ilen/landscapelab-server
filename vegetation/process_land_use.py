@@ -1,0 +1,85 @@
+from PIL import Image
+
+LAND_USE_PIXELS_PER_METER = 0.2
+SPLATMAP_PIXELS_PER_METER = 1
+
+# Maps land use color to phytocoenosis ID - TODO: This one works for 1:1 mappings, will be replaced!
+land_use_color_phytocoenosis_id = {
+    (118, 208, 128, 255): 1
+}
+
+# Currently this is just a pixel-by-pixel mapping, in the future we will want to guess a lot more detail.
+# Ideally we'll be able to define custom parameters which increase/decrease the likelihood for a phytocoenosis, such as
+# "close to water", "close to phytocoenosis X", ...
+# Then, when constructing the splatmap, we'll take the phytocoenosis with the highest match.
+
+# Example: On the land use map, the pixel is an acre, and the existing adjacent pixels on the splatmap are wheat
+# acres (the first acre pixel was chosen to become a wheat acre based on other parameters) -> most likely this pixel
+# also becomes a wheat acre
+
+# Example 2: On the land use map, the pixel is grassland, with forest nearby -> most likely this pixel becomes a
+# grassland - forest transition
+
+# TODO: How should we store these parameters?
+# TODO: Do we need to loop through every phytocoenosis and calculate its likelihood then, or is there a more
+#  efficient way? -> grouping?
+
+
+def land_use_to_splatmap(path_to_land_use):
+    """Takes a path to a land use map and constructs and returns a phytocoenosis ID splatmap for it."""
+
+    # Load land use map
+    land_use_image = Image.open(path_to_land_use)
+    land_use_width_pixels, land_use_height_pixels = land_use_image.size
+    land_use_width_meters, land_use_height_meters = land_use_width_pixels / LAND_USE_PIXELS_PER_METER, \
+        land_use_height_pixels / LAND_USE_PIXELS_PER_METER
+    land_use_pixels = land_use_image.load()
+
+    splatmap_width_pixels, splatmap_height_pixels = int(land_use_width_meters * SPLATMAP_PIXELS_PER_METER), \
+        int(land_use_height_meters * SPLATMAP_PIXELS_PER_METER)
+
+    # Create splatmap
+    splatmap_image = Image.new('I', (splatmap_width_pixels, splatmap_height_pixels))
+    splatmap_pixels = splatmap_image.load()
+
+    # Go through each pixel on the splatmap
+    for x in range(splatmap_width_pixels):
+        for y in range(splatmap_height_pixels):
+            land_use_x, land_use_y = splatmap_to_land_use_coords(x, y)
+            land_use_pixel = land_use_pixels[land_use_x, land_use_y]
+
+            # Map the pixel to the corresponding phytocoenosis ID - TODO: Replace with more sophisticated method
+            splatmap_pixels[x, y] = get_splatmap_pixel_for_land_use_pixel(land_use_pixel)
+
+    return splatmap_image
+
+
+def get_splatmap_pixel_for_land_use_pixel(land_use_pixel):
+    """Takes a splatmap pixel and returns the corresponding land_use_pixel.
+
+    If the value is present in the land use color to phytocoenosis ID map, the correct phytocoenosis ID is entered.
+    Otherwise, the returned splatmap pixel is 0, meaning no phytocoenosis is present there.
+
+    Currently a 1:1-mapping without using additional parameters - this function will probably be replaced once the
+    mapping becomes more sophisticated.
+    """
+
+    splatmap_pixel = 0
+
+    if land_use_pixel in land_use_color_phytocoenosis_id:
+        splatmap_pixel = land_use_color_phytocoenosis_id[land_use_pixel]
+
+    return splatmap_pixel
+
+
+def splatmap_to_land_use_pixel(coord):
+    """Translates a splatmap pixel coordinate to the corresponding land use pixel coordinate."""
+
+    meter_coord = coord / SPLATMAP_PIXELS_PER_METER
+    return meter_coord * LAND_USE_PIXELS_PER_METER
+
+
+def splatmap_to_land_use_coords(x, y):
+    """Translates splatmap x and y pixel coordinates to the corresponding land use x and y pixel coordinates."""
+
+    return splatmap_to_land_use_pixel(x), splatmap_to_land_use_pixel(y)

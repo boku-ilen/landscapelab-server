@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 
+from splatmap import get_splatmap_for_coordinates
 from vegetation_distribution import get_distribution_for_id_and_layer
 from vegetation_spritesheet import get_spritesheet_and_count_for_id_and_layer
 
@@ -8,7 +9,7 @@ def get_vegetation_splatmap(request, meter_x, meter_y):
     """Returns a JsonResponse with the path to the splatmap PNG for the given location"""
 
     res = {
-        'path_to_splatmap': ''
+        'path_to_splatmap': get_splatmap_for_coordinates(int(float(meter_x)), int(float(meter_y)))
     }
 
     return JsonResponse(res)
