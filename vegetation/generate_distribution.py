@@ -24,7 +24,7 @@ def get_random_img_array(number_of_species):
 
     # Generate a random value for each pixel
     for x in range(0, IMG_SIZE ** 2):
-        img_data.append((random.randint(1, number_of_species + 1), 0, 0))
+        img_data.append(random.randint(1, number_of_species))
 
     return img_data
 
@@ -99,7 +99,8 @@ def generate_distribution_for_phytocoenosis_and_layer(pid, layer):
         for y in range(IMG_SIZE):
             if pixels[x, y] in ids:
                 # Replace
-                pixels[x, y] = 1 + ids.index(pixels[x, y])
+                new = 1 + ids.index(pixels[x, y])
+                pixels[x, y] = new
             else:
                 # Nothing here
                 pixels[x, y] = 0

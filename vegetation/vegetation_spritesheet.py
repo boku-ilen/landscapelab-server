@@ -1,4 +1,5 @@
 import logging
+import math
 import os
 
 from django.shortcuts import get_object_or_404
@@ -11,6 +12,9 @@ SPRITE_BASEPATH = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/"
 SPRITE_PATHSET = os.path.join(SPRITE_BASEPATH, "{}")
 SPRITE_FILE = os.path.join(SPRITE_PATHSET, "{}.png")
 SPRITE_COUNT_FILE = os.path.join(SPRITE_PATHSET, "{}.count")
+
+MAX_SPRITE_SIZE = 1024
+MAX_SPRITE_ROW = 16
 
 logger = logging.getLogger(__name__)
 
@@ -57,20 +61,35 @@ def generate_spritesheet(pid, layer):
     sprites = list(map(Image.open, sprite_paths))
     widths, heights = zip(*(s.size for s in sprites))
 
-    # The maximum width and height are used for the spritesheet in order to fit in all images
-    max_width = max(widths)
-    max_height = max(heights)
+    # Resize all sprites to be no bigger than 1024x1024
+    for sprite in sprites:
+        sprite.thumbnail((MAX_SPRITE_SIZE, MAX_SPRITE_SIZE))
 
-    spritesheet = Image.new('RGBA', (max_width * number_of_sprites, max_height))
+    # Calculate the rows and columns we need
+    cols = min(number_of_sprites, MAX_SPRITE_ROW)
+    rows = math.ceil(number_of_sprites / MAX_SPRITE_ROW)
 
-    # Iterate over all sprites and paste them in the spritesheet, with an increasing x_offset, at the correct height
-    # to have every sprite reach the bottom of the image
-    x_offset = 0
+    spritesheet = Image.new('RGBA', (MAX_SPRITE_SIZE * cols, MAX_SPRITE_SIZE * rows))
+
+    # Iterate over all sprites and paste them in the spritesheet, at the correct height to have every sprite reach
+    # the bottom of the image
+    col, row = 0, 0
 
     for sprite in sprites:
         width, height = sprite.size
-        spritesheet.paste(sprite, (x_offset, max_height - height))
-        x_offset += max_width
+
+        x_offset = col * MAX_SPRITE_SIZE
+        y_offset = row * MAX_SPRITE_SIZE
+
+        # Paste the scaled sprite into the spritesheet at the current offset, and also center (x) + floor (y) the object
+        spritesheet.paste(sprite, (x_offset + int((MAX_SPRITE_SIZE - width) / 2), y_offset + MAX_SPRITE_SIZE - height))
+
+        col += 1
+
+        # Jump to the next row if necessary
+        if col >= MAX_SPRITE_ROW:
+            col = 0
+            row += 1
 
     # Save the spritesheet
     filename = SPRITE_FILE.format(pid, layer)
