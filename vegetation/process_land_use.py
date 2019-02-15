@@ -26,7 +26,9 @@ land_use_color_phytocoenosis_id = {
 
 
 def land_use_to_splatmap(path_to_land_use):
-    """Takes a path to a land use map and constructs and returns a phytocoenosis ID splatmap for it."""
+    """Takes a path to a land use map and constructs and returns a phytocoenosis ID splatmap for it, as well as a set
+    with all IDs in this splatmap.
+    """
 
     # Load land use map
     land_use_image = Image.open(path_to_land_use)
@@ -42,6 +44,8 @@ def land_use_to_splatmap(path_to_land_use):
     splatmap_image = Image.new('I', (splatmap_width_pixels, splatmap_height_pixels))
     splatmap_pixels = splatmap_image.load()
 
+    ids_in_splatmap = set()
+
     # Go through each pixel on the splatmap
     for x in range(splatmap_width_pixels):
         for y in range(splatmap_height_pixels):
@@ -49,9 +53,15 @@ def land_use_to_splatmap(path_to_land_use):
             land_use_pixel = land_use_pixels[land_use_x, land_use_y]
 
             # Map the pixel to the corresponding phytocoenosis ID - TODO: Replace with more sophisticated method
-            splatmap_pixels[x, y] = get_splatmap_pixel_for_land_use_pixel(land_use_pixel)
+            splat_id = get_splatmap_pixel_for_land_use_pixel(land_use_pixel)
+            splatmap_pixels[x, y] = splat_id
 
-    return splatmap_image
+            # Add this ID to the set of IDs in the map
+            ids_in_splatmap.add(splat_id)
+
+    ids_in_splatmap.remove(0)  # Remove the 0 because it just means 'empty' - it is not an ID
+
+    return splatmap_image, ids_in_splatmap
 
 
 def get_splatmap_pixel_for_land_use_pixel(land_use_pixel):
