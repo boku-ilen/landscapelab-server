@@ -1,7 +1,7 @@
 from PIL import Image
 
 LAND_USE_PIXELS_PER_METER = 0.2
-SPLATMAP_PIXELS_PER_METER = 1
+SPLATMAP_PIXELS_PER_METER = 0.2
 
 # Maps land use color to phytocoenosis ID - TODO: This one works for 1:1 mappings, will be replaced!
 land_use_color_phytocoenosis_id = {
@@ -41,7 +41,7 @@ def land_use_to_splatmap(path_to_land_use):
         int(land_use_height_meters * SPLATMAP_PIXELS_PER_METER)
 
     # Create splatmap
-    splatmap_image = Image.new('I', (splatmap_width_pixels, splatmap_height_pixels))
+    splatmap_image = Image.new('RGB', (splatmap_width_pixels, splatmap_height_pixels))
     splatmap_pixels = splatmap_image.load()
 
     ids_in_splatmap = set()
@@ -54,7 +54,7 @@ def land_use_to_splatmap(path_to_land_use):
 
             # Map the pixel to the corresponding phytocoenosis ID - TODO: Replace with more sophisticated method
             splat_id = get_splatmap_pixel_for_land_use_pixel(land_use_pixel)
-            splatmap_pixels[x, y] = splat_id
+            splatmap_pixels[x, y] = (splat_id, 0, 0)  # TODO: Split the value up to all channels
 
             # Add this ID to the set of IDs in the map
             ids_in_splatmap.add(splat_id)
