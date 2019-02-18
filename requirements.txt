@@ -3,7 +3,6 @@ numpy
 requests
 owslib   # TODO: it's buggy and we need to additionally apply a patch
 webmercator
-# rasterio ~> 0.36.0
 pypng ~> 0.0.18
 pysolar ~> 0.8
 django ~> 2.0.8
