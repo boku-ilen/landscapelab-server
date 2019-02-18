@@ -1,0 +1,59 @@
+[
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "genus_name": "Grass Genus",
+      "epithet_name": "Grass Epiphet",
+      "common_name": "Grass",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 1,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/sprites/grass1.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 1,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/sprites/grass2.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 1,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/sprites/grass3.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 1,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/sprites/grass4.png"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "speciesRepresentations": [1, 2, 3, 4],
+      "name": "Grass",
+      "distribution_graphic_path": ""
+    }
+  }
+]

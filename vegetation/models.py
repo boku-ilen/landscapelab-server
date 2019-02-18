@@ -2,6 +2,19 @@ from django.contrib.gis.db import models
 
 from assetpos.models import Asset
 
+LAYER_TYPE = (
+    (1, "K"),
+    (2, "S2"),
+    (3, "S1"),
+    (4, "B2"),
+    (5, "B1")
+)
+
+DISTRIBUTION_TYPE = (
+    (1, "Random"),
+    (2, "Clumping")
+)
+
 
 class Species(models.Model):
 
@@ -16,33 +29,41 @@ class Species(models.Model):
     max_height = models.IntegerField()
 
 
+# currently just a separator of different layers with approximately the same height of the associated plants
+# TODO: What would be sensible max_heights for each layer? (required for size of mesh to draw on in client)
+class VegetationLayer(models.Model):
+
+    layer_type = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
+
+
 # TODO: decide if we want to subclass Asset for that?
 # TODO: or how do we connect an asset with a single instance (including custom height and maybe other parameters)
 # TODO: alternatively we can provide a height range and the height is generated at runtime
-# FIXME: alternative name SpeciesInstance (?)
+# FIXME: alternative name SpeciesInstance (?) - I think SpeciesRepresentation is fine, as this is a general description
 class SpeciesRepresentation(models.Model):
 
     # the species which is represented
     species = models.ForeignKey(Species, on_delete=models.PROTECT)
 
     # the associated 3d-asset (only shown up close?)
-    asset = models.ForeignKey(Asset, on_delete=models.PROTECT)  # FIXME!
+    asset = models.ForeignKey(Asset, on_delete=models.PROTECT, null=True)  # FIXME!
+
+    # the billboard representation
+    billboard = models.TextField()  # TODO: how to store?
+
+    # the VegetationLayer this plant is in
+    # TODO: Choose automatically based on avg_height and sigma_height or max_height in Species?
+    vegetation_layer = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
+
+    # how this plant is distributed
+    distribution_type = models.PositiveIntegerField(choices=DISTRIBUTION_TYPE, default=1)
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species
     # this value gives the average height in this occurrence in centimeters
-
-    # how would we use these height values - simply scale the plant by a random value?
-    # scaling seems like it could result in odd visuals...
-    # related: in order to prevent obvious monotony, we will want multiple graphics for a single species
-    # perhaps, instead of using that height to scale the plant,
-    # we can simply have different heights of plants in the different graphics?
     avg_height = models.IntegerField()
     # the sigma value (scattering for normal distribution)
     sigma_height = models.FloatField()
-
-    # the billboard representation
-    billboard = models.TextField()  # TODO: how to store?
 
     # TODO: the species definition xml http://vterrain.org/Implementation/Formats/species.html
     # TODO: also defines shadow values to alter the plant's cast shadow
@@ -54,23 +75,8 @@ class SpeciesOccurance(models.Model):
     pass
 
 
-# currently just a separator of different layers with approximately the same
-# height of the associated plants
-class VegetationLayer(models.Model):
-    LAYER_TYPE = (
-        (1, "B1"),
-        (2, "B2"),
-        (3, "S1"),
-        (4, "S2"),
-        (5, "K")
-    )
-
-    layer_type = models.PositiveIntegerField(choices=LAYER_TYPE, default=None)
-
-
 class Phytocoenosis(models.Model):
-    """
-    A specific plant community with multiple plants and their distribution.
+    """A specific plant community with multiple specific SpeciesRepresentations and their distribution.
 
     Includes a distribution graphic which defines how often plants occur and how they are distributed.
     Thus, behavior like 'single tree X is surrounded by many plants Y and few plants Z' can be accurately modeled
@@ -78,7 +84,7 @@ class Phytocoenosis(models.Model):
 
     name = models.TextField()
 
-    species = models.ManyToManyField(Species)
+    speciesRepresentations = models.ManyToManyField(SpeciesRepresentation)
 
     # TODO: move to own class? probably not necessary, since these are very specific to the phytocoenosis and plant IDs
     distribution_graphic_path = models.TextField()  # or 'distribution_graphic = models.ImageField()'?
@@ -88,11 +94,11 @@ class Phytocoenosis(models.Model):
     # TODO: it needs to be selected manually or is completely random
     # e.g.
     # the height parameters of the appearance in meters
-    min_height = models.IntegerField()
-    max_height = models.IntegerField()
+    min_height = models.IntegerField(null=True)
+    max_height = models.IntegerField(null=True)
     # the slope parameters of the appearance as divisor of length to height
-    min_slope = models.FloatField()
-    max_slope = models.FloatField()
+    min_slope = models.FloatField(null=True)
+    max_slope = models.FloatField(null=True)
 
     # the client has separate modules for each layer so we can fine-tune at what point they're rendered at what detail
     # thus, the client requests a phytocoenosis + a specific layer in that phytocoenosis
