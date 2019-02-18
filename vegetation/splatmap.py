@@ -4,8 +4,8 @@ import pickle
 
 from django.http import Http404
 
-import settings
-from process_land_use import land_use_to_splatmap
+from django.conf import settings
+from vegetation.process_land_use import land_use_to_splatmap
 
 SPLATMAP_BASE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-splatmap/"
 SPLATMAP_METER_Y = os.path.join(SPLATMAP_BASE, "{}")

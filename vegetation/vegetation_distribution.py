@@ -1,8 +1,7 @@
 import logging
 import os
 
-import settings
-import vegetation.generate_distribution
+from django.conf import settings
 
 DISTRIBUTION_BASE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-distribution/"
 DISTRIBUTION_PATHSET = os.path.join(DISTRIBUTION_BASE, "{}")
@@ -13,6 +12,8 @@ def get_distribution_for_id_and_layer(pid, layer):
     """Returns the path to the spritesheet containing all plant images for a given phytocoenosis ID and layer.
     If the file does not exist yet, it is generated.
     """
+
+    import vegetation.generate_distribution
 
     filename = DISTRIBUTION_PATH.format(pid, layer)
 

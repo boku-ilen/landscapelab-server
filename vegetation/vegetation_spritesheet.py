@@ -4,7 +4,7 @@ import os
 
 from django.shortcuts import get_object_or_404
 
-import settings
+from django.conf import settings
 from vegetation.models import Phytocoenosis
 from PIL import Image
 

@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 
-from splatmap import get_splatmap_path_and_ids_for_coordinates
-from vegetation_distribution import get_distribution_for_id_and_layer
-from vegetation_spritesheet import get_spritesheet_and_count_for_id_and_layer
+from vegetation.splatmap import get_splatmap_path_and_ids_for_coordinates
+from vegetation.vegetation_distribution import get_distribution_for_id_and_layer
+from vegetation.vegetation_spritesheet import get_spritesheet_and_count_for_id_and_layer
 
 
 def get_vegetation_splatmap(request, meter_x, meter_y):
