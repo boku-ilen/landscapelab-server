@@ -164,5 +164,7 @@ def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
     filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        generate_dhm_splat_tile(tile_x, tile_y, zoom)
+        # TODO: Commented out until it's implemented because it throws errors
+        # generate_dhm_splat_tile(tile_x, tile_y, zoom)
+        pass
     return filename
