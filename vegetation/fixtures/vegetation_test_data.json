@@ -53,7 +53,8 @@
     "fields": {
       "speciesRepresentations": [1, 2, 3, 4],
       "name": "Grass",
-      "distribution_graphic_path": ""
+      "distribution_graphic_path": "",
+      "albedo_path": "Test"
     }
   }
 ]
