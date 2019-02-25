@@ -1,9 +1,13 @@
 import webmercator
 from django.http import JsonResponse
 
+import settings
 from raster import calculate_dhm
 from raster import process_orthos
 from .png_to_response import *
+
+# TODO: Remove once dhmsplat is finished
+DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/heightmap.png"
 
 
 # delivers a static raster file by given filename as json
@@ -21,9 +25,16 @@ def get_ortho_dhm(request, meter_x, meter_y, zoom):
     filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhmsplat = calculate_dhm.get_dhmsplat_from_coords(p.tile_x, p.tile_y, zoom)
 
+    # TODO: Remove once dhmsplat is finished
+    if int(zoom) == 12:
+        dhm = DHM_FILE
+    else:
+        dhm = 'None'
+
     # answer with a json
     ret = {
         'ortho': filename_ortho,
-        'dhmsplat': filename_dhmsplat,
+        'dhm': dhm,  # TODO: Remove once dhmsplat is finished
+        'dhmsplat': filename_dhmsplat
     }
     return JsonResponse(ret)
