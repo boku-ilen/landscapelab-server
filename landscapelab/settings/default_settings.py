@@ -105,6 +105,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "resources")
 ]
+MEDIA_URL = '/out/'
 
 # setup logging properly
 LOGFILE = "logging.conf"
