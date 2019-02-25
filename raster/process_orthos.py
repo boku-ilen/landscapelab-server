@@ -105,6 +105,7 @@ def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
     filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        tile_server = wmts.WebMapTileService(DEFAULT_URL)
-        fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+        # tile_server = wmts.WebMapTileService(DEFAULT_URL)
+        # fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+        filename = "None"
     return filename

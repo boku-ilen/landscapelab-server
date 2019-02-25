@@ -153,6 +153,9 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
     # 1,5 channels so we store it in RRGgbbaa
     pass  # FIXME: maybe it is currently sufficiant to use two complete channels (RRGG)
 
+    # Heightmap: RRGgbbaa
+    # Vegetation Splatmap: rrgGBbaa
+
     # write the file including the alpha mask
     output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
     png.from_array(np_image, 'RGBA').save(output_file)
