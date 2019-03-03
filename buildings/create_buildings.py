@@ -5,9 +5,16 @@ from math import *
 from mathutils import Vector
 import numpy as np
 
+dir = os.path.dirname(bpy.data.filepath)
+if dir not in sys.path:
+    sys.path.append(dir)
+#import django
+#from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
+#from buildings.models import BuildingLayout
+
 # TODO get db connection data from django server somehow
 db = {
-    'NAME': 'buildingTest2',
+    'NAME': 'retour',
     'USER': 'postgres',
     'PASSWORD': 'retour4321',
     'HOST': 'localhost',
@@ -65,7 +72,7 @@ if __name__ == '__main__':
     for a in arg:
         # get building name TODO maybe get building height as well if it is stored in db
         # FIXME table name is subject to change, do not hardcode, maybe get data in different, more reliable way
-        cur.execute('SELECT name FROM public.buildings_buildinglayout where id = {};'.format(a))
+        cur.execute('SELECT name FROM public.assetpos_asset WHERE id IN (SELECT asset_id FROM public.assetpos_assetpositions WHERE id IN (SELECT asset_id FROM public.buildings_buildinglayout WHERE id = {}));'.format(a))
         name = cur.fetchone()[0]
 
         # get building vertices

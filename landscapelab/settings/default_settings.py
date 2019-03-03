@@ -103,7 +103,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "resources")
+    os.path.join(BASE_DIR, "resources"),
+    os.path.abspath(os.path.join(BASE_DIR, os.path.pardir, "buildings", "out"))
 ]
 MEDIA_URL = '/out/'
 

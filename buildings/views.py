@@ -1,4 +1,4 @@
-#TODO THIS FILE IS DEPRECATED AND IT'S CODE SHOULD NO LONGER BE USED; REMOVE IF THE CLIENT NO LONGER RELIES ON IT
+
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from buildings.apps import BuildingsConfig
@@ -48,11 +48,26 @@ def get_buildings_in_bbox(bbox : Polygon):
     return JsonResponse({'data': data})
 
 
+def generate_buildings_with_asset_id(asset_ids):
+    assets = AssetPositions.objects.filter(pk__in=asset_ids)
+    building_ids = []
+    for asset in assets:
+        building_ids.append(BuildingLayout.objects.get(asset=asset).pk)
+
+    if building_ids:
+        logger.info('creating {} new buildings'.format(len(building_ids)))
+
+        params = ['blender', '--background', '--python', '{}\create_buildings.py'.format(BuildingsConfig.name), '--']
+        for b in building_ids:
+            params.append(str(b))
+        subprocess.run(params)
+
+        logger.info('finished creating buildings')
+
+
 # def find_buildings(x_min, y_min, x_max, y_max):
 #     bbox = Polygon.from_bbox ((x_min, y_min, x_max, y_max))
 #     return BuildingLayout.objects.filter(position__contained=bbox)
-
-# TODO write function for when asset pos asks for buildings (necessary because the exported buildings might not even exist yet)
 
 
 
