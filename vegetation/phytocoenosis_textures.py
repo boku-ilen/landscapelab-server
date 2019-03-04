@@ -15,7 +15,7 @@ def get_all_ground_texture_paths(pid):
     phytocoenosis = get_object_or_404(Phytocoenosis, id=pid)
     tex_dict = {
         "albedo_path": phytocoenosis.albedo_path,
-        "bumpmap_path": phytocoenosis.bumpmap_path,
+        "normal_path": phytocoenosis.normal_path,
         "heightmap_detail_path": phytocoenosis.heightmap_detail_path
     }
 

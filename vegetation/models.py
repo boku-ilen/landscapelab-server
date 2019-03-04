@@ -95,7 +95,7 @@ class Phytocoenosis(models.Model):
     distribution_graphic_path = models.TextField()
 
     albedo_path = models.TextField(null=True)
-    bumpmap_path = models.TextField(null=True)
+    normal_path = models.TextField(null=True)
 
     heightmap_detail_path = models.TextField(null=True)
 
