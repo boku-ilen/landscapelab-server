@@ -16,7 +16,7 @@ class Tile(models.Model):
 
     # we add the actual QuadTree structure
     # we might want to use https://django-mptt.readthedocs.io
-    parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT)
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT, blank=True, null=True)
 
     # the level of detail identifier (aka zoom)
     lod = models.IntegerField()
