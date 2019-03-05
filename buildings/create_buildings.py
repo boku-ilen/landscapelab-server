@@ -30,7 +30,7 @@ def create_building(name, vertices):
     bpy.ops.object.delete()
 
     # reformat vertices
-    vertices = np.pad(np.asarray(vertices), (0,1),'constant')[:-1]
+    vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
     # setup scene
     mesh = bpy.data.meshes.new('mesh')
@@ -57,7 +57,6 @@ def create_building(name, vertices):
     bm.to_mesh(mesh)
     bm.free()
 
-
     # export scene
     bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'))
 
@@ -82,7 +81,6 @@ if __name__ == '__main__':
 
         # create and export the building
         create_building(name, vertices)
-
 
     cur.close()
     conn.close()

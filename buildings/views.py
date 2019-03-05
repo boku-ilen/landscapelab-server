@@ -1,7 +1,6 @@
 
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
-from buildings.apps import BuildingsConfig
 from buildings.models import BuildingLayout
 from assetpos.models import AssetPositions, AssetType
 from django.contrib.gis.geos import Polygon
@@ -68,48 +67,3 @@ def generate_buildings_with_asset_id(asset_ids):
 # def find_buildings(x_min, y_min, x_max, y_max):
 #     bbox = Polygon.from_bbox ((x_min, y_min, x_max, y_max))
 #     return BuildingLayout.objects.filter(position__contained=bbox)
-
-
-
-
-
-
-
-
-#TODO DEPRECATED CODE; REMOVE
-# OLD DEPRECATED CODE OLD DEPRECATED CODE OLD DEPRECATED CODE OLD DEPRECATED CODE OLD DEPRECATED CODE OLD DEPRECATED CODE OLD DEPRECATED CODE
-from buildings.building_to_json import get_buildings
-from django.http import JsonResponse
-import os.path
-from django.contrib.staticfiles import finders
-
-BASE = 'buildings'
-
-
-def index(request):
-    if 'filename' not in request.GET:
-        return JsonResponse({"Error": "no filename specified"})
-    # get parameters
-    filename = request.GET.get('filename')
-
-    # set modifiers
-    try:
-        modifiers = get_modifiers(request)
-    except ValueError:
-        return JsonResponse({"Error": "invalid modifier arguments"})
-
-    # add filename to modifiers
-    modifiers['filename'] = finders.find(os.path.join(BASE, filename + ".shp"))
-    if modifiers['filename'] is None:
-        return JsonResponse({"Error": "file %s.shp does not exist" % filename})
-
-    logger.debug(modifiers)
-    return JsonResponse(get_buildings(modifiers))
-
-
-def get_modifiers(request):
-    modifiers = dict(
-        splits=int(request.GET.get('splits') if 'splits' in request.GET else 1),
-        part=int(request.GET.get('part') if 'part' in request.GET else 0)
-    )
-    return modifiers
