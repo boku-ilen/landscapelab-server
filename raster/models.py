@@ -16,7 +16,7 @@ class Tile(models.Model):
 
     # we add the actual QuadTree structure
     # we might want to use https://django-mptt.readthedocs.io
-    parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT)
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.PROTECT, blank=True, null=True)
 
     # the level of detail identifier (aka zoom)
     lod = models.IntegerField()
@@ -31,7 +31,7 @@ class Tile(models.Model):
     # stored as an 2 dimensional array of float values in meters (max. resolution 1cm)
     # TODO: how do we apply the different height modifications from other modules (roads, rivers, ..)
     # TODO: we can handle them by priority or store the entire calculation or geometries
-    heightmap = ArrayField(ArrayField(models.FloatField(), size=TILE_SIZE), size=TILE_SIZE)
+    heightmap = ArrayField(ArrayField(models.FloatField(), size=TILE_SIZE), size=TILE_SIZE, blank=True, null=True)
 
 
 # all vectorized height information available (it is cut down based on a bounding box to the project extent)

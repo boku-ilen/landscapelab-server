@@ -20,6 +20,11 @@ land_use_color_phytocoenosis_id = {
 # Example 2: On the land use map, the pixel is grassland, with forest nearby -> most likely this pixel becomes a
 # grassland - forest transition
 
+# Conditional probabilities?
+# e.g. P(wheat acre | wheat acre adjacent) = 0.9; P(mixed forest | land use: forest) = 0.7
+# Then: Get conditions which are fulfilled, get conditional probabilities with that condition from the database,
+# calculate highest value and choose that
+
 # TODO: How should we store these parameters?
 # TODO: Do we need to loop through every phytocoenosis and calculate its likelihood then, or is there a more
 #  efficient way? -> grouping?

@@ -17,7 +17,7 @@ DEFAULT_ZOOM_FROM = 18
 DEFAULT_ZOOM_TO = 22
 
 # the format and location of the ortho pictures
-ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpeg"
+ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
 
 logger = logging.getLogger(__name__)
 
@@ -102,9 +102,10 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 # get the filename based on tiles with the given coordinates
 # and start fetching the ortho if it is still missing
 def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
-    filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_y, tile_x)
+    filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        tile_server = wmts.WebMapTileService(DEFAULT_URL)
-        fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+        # tile_server = wmts.WebMapTileService(DEFAULT_URL)
+        # fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+        filename = "None"
     return filename

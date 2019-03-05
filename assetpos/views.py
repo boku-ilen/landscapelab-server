@@ -4,6 +4,7 @@ import logging
 from django.http import JsonResponse
 # from osgeo import ogr
 from assetpos.models import AssetType, Tile, AssetPositions
+from buildings.views import generate_buildings_with_asset_id
 from .util import *
 from .shp_to_json import get_trees
 from django.contrib.staticfiles import finders
@@ -97,12 +98,21 @@ def get_assetposition(request, zoom, tile_x, tile_y, assettype_id):
     # fetch all associated assets
     asset_type = AssetType.objects.get(id=assettype_id)
     tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.get(tile=tile, asset_type=asset_type)
+    assets = AssetPositions.objects.filter(tile=tile, asset_type=asset_type)
 
     # create the return dict
     ret = []
+    gen_buildings = []
     for asset_position in assets:
-        x,y = asset_position.location
-        ret.append({'x': x, 'y': y, 'asset': asset_position.asset})
+        if asset_type.name == 'building':
+            found_file = finders.find("{}.dae".format(asset_position.asset.name))
+            if not found_file: # os.path.isfile(found_file):
+                gen_buildings.append(asset_position.id)
 
-    return JsonResponse(ret)
+        x,y = asset_position.location
+        ret.append({'x': x, 'y': y, 'asset': asset_position.asset.name})
+
+    if gen_buildings:
+        generate_buildings_with_asset_id(gen_buildings)
+
+    return JsonResponse(ret, safe=False)

@@ -153,6 +153,9 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
     # 1,5 channels so we store it in RRGgbbaa
     pass  # FIXME: maybe it is currently sufficiant to use two complete channels (RRGG)
 
+    # Heightmap: RRGgbbaa
+    # Vegetation Splatmap: rrgGBbaa
+
     # write the file including the alpha mask
     output_file = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, y, x)
     png.from_array(np_image, 'RGBA').save(output_file)
@@ -164,5 +167,7 @@ def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
     filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        generate_dhm_splat_tile(tile_x, tile_y, zoom)
+        # TODO: Commented out until it's implemented because it throws errors
+        # generate_dhm_splat_tile(tile_x, tile_y, zoom)
+        pass
     return filename

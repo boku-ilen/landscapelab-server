@@ -1,3 +1,4 @@
+#TODO THIS FILE IS DEPRECATED AND IT'S CODE SHOULD NO LONGER BE USED; REMOVE IF THE CLIENT NO LONGER RELIES ON IT
 import fiona
 import logging
 logger = logging.getLogger('MainLogger')

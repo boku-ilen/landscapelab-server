@@ -80,14 +80,24 @@ class Phytocoenosis(models.Model):
 
     Includes a distribution graphic which defines how often plants occur and how they are distributed.
     Thus, behavior like 'single tree X is surrounded by many plants Y and few plants Z' can be accurately modeled
+
+    Additional albedo and bumpmap textures can be provided. If possible, those are displayed instead of the orthophoto
+    to increase detail.
+
+    The optional texture at heightmap_detail_path is added to the heightmap in order to allow for smaller-scale detail.
     """
 
     name = models.TextField()
 
     speciesRepresentations = models.ManyToManyField(SpeciesRepresentation)
 
-    # TODO: move to own class? probably not necessary, since these are very specific to the phytocoenosis and plant IDs
-    distribution_graphic_path = models.TextField()  # or 'distribution_graphic = models.ImageField()'?
+    # TODO: This is not actually used - should we save the path here, or just use a pathset string like it is now?
+    distribution_graphic_path = models.TextField()
+
+    albedo_path = models.TextField(null=True)
+    bumpmap_path = models.TextField(null=True)
+
+    heightmap_detail_path = models.TextField(null=True)
 
     # TODO: we might want to add additional parameters to make the parametrisation
     # TODO: of the algorithm which chooses the Phytocoenosis more robust - currently
@@ -99,28 +109,3 @@ class Phytocoenosis(models.Model):
     # the slope parameters of the appearance as divisor of length to height
     min_slope = models.FloatField(null=True)
     max_slope = models.FloatField(null=True)
-
-    # the client has separate modules for each layer so we can fine-tune at what point they're rendered at what detail
-    # thus, the client requests a phytocoenosis + a specific layer in that phytocoenosis
-    def for_layer(self, layer: VegetationLayer):
-        """Get the distribution and the plants of the phytocoenosis for a specific VegetationLayer (in one image)"""
-
-        # the client fills the shader of a specific vegetation layer with the distribution graphic and an image
-        # containing all sprites. this means the for_layer function will return the distribution graphic of the
-        # phytocoenosis, but with the pixels set to values which correspond to the plants in this specific layer. for
-        # example: phytocoenosis has plants of id 2, 3, 5, 6, 7 and a distribution graphic. plants 3 and 5 are in the
-        # requested layer S1. therefore, the server sends an image containing the sprites for plants 3 and 5 + the
-        # distribution graphic with the pixels of value 3 set to 1, the pixels of value 5 set to 2, and all other
-        # pixels set to 0, since nothing should be drawn at that layer on these positions. to make it possible for
-        # the client to parse the spritesheet, the total number of sprites in the image is also sent.
-        #
-        # this is useful because we can render the layer with the biggest average height first, and with rising LOD,
-        # render continuously smaller layers.
-        #
-        # this is assuming every species only has one sprite!
-        # how could we pack an arbitrary number of sprites?...
-        # idea: repeat everything and send number of repeats
-        # e.g. if there are 2 available sprites for ID 1, and 3 for ID 2, the spritesheet would look like this:
-        # (sprite for 1) (sprite for 2) (sprite for 1) (sprite for 2) (empty) (sprite for 2)
-        # the client is sent the number of species in that sheet (2) and the number of repeats (3).
-        # in a PNG, the empty pixels should not be a problem for file size.
