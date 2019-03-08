@@ -18,10 +18,10 @@ def static_raster(request, filename):
 
 # returns the pointer to the filename which contains the combined ortho and dhm info
 # TODO: maybe we want to provide the same API with given tile coordinates?
-def get_ortho_dhm(request, meter_x, meter_y, zoom):
+def get_ortho_dhm(request, meter_x: float, meter_y: float, zoom: int):
 
     # fetch the related filenames
-    p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=int(zoom))
+    p = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
     filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhmsplat = calculate_dhm.get_dhmsplat_from_coords(p.tile_x, p.tile_y, zoom)
 

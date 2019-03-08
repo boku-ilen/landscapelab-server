@@ -31,11 +31,10 @@ def scan_buildings(request, filename : str, scenario_id):
         logger.info('invalid scenario id: {}'.format(scenario_id))
         return JsonResponse({'Error': 'scenario with id {} does not exist'.format(scenario_id)})
 
-
     if not AssetType.objects.filter(name='building'):
         AssetType(name='building').save()
 
-    data = {'new':0,'updated':0, 'ignored':0, 'error':0}
+    data = {'new': 0, 'updated': 0, 'ignored': 0, 'error': 0}
 
     file = fiona.open(filename)
     (leng, fin) = (len(file), 0)
@@ -57,7 +56,7 @@ def scan_buildings(request, filename : str, scenario_id):
     return JsonResponse({'data': data})
 
 
-#saves one building to the database
+# saves one building to the database
 def save_building(vertices : list, scenario : Scenario, name : str):
     name = '{}_{}'.format(scenario.name, name)
     asset = AssetPositions(asset=Asset(name=name), asset_type=AssetType.objects.get(name='building'))
@@ -71,7 +70,6 @@ def save_building(vertices : list, scenario : Scenario, name : str):
         ass = Asset(name=name)
         ass.save()
         asset.asset = ass
-        
 
     mean = [0,0]
     for v in vertices:
@@ -101,15 +99,13 @@ def get_building_tile(scenario : Scenario, location : Point):
     tile = get_root_tile(scenario)
     
     while True:
-        (x,y) = get_corresponding_tile_coordinates(location, tile.lod+1)
+        (x, y) = get_corresponding_tile_coordinates(location, tile.lod+1)
         new_tile = Tile.objects.filter(x=x, y=y, lod=tile.lod+1)
         if not new_tile:
             break
         tile = new_tile.first()
-        
        
     # logger.debug("starting at level {} to generate tiles".format(tile.lod))
-    
     while tile.lod < MIN_LEVEL_BUILDINGS:
         (x,y) = get_corresponding_tile_coordinates(location, tile.lod+1)
         tile = gen_sub_tile(x,y,tile)

@@ -14,4 +14,4 @@ include(
 # give a warning if the optional local settings are not found
 if not os.path.isfile(LOCAL_SETTINGS):
     logger.warning("could not find local settings file in {}"
-                   "- are you sure your setup is correct?".format(LOCAL_SETTINGS))
+                   " - are you sure your setup is correct?".format(LOCAL_SETTINGS))
