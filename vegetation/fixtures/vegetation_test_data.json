@@ -54,8 +54,8 @@
       "speciesRepresentations": [1, 2, 3, 4],
       "name": "Grass",
       "distribution_graphic_path": "",
-      "albedo_path": "landscapelab/resources/raster/textures/grass/albedo.jpg",
-      "normal_path": "landscapelab/resources/raster/textures/grass/normal.jpg"
+      "albedo_path": "raster/textures/grass/albedo.jpg",
+      "normal_path": "raster/textures/grass/normal.jpg"
     }
   }
 ]
