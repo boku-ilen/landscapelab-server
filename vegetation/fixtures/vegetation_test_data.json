@@ -8,6 +8,15 @@
       "max_height": 60
     }
   },
+    {
+    "model": "vegetation.Species",
+    "fields": {
+      "genus_name": "Tree Genus",
+      "epithet_name": "Tree Epiphet",
+      "common_name": "Tree",
+      "max_height": 100
+    }
+  },
   {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
@@ -48,11 +57,41 @@
       "billboard": "landscapelab/resources/sprites/grass4.png"
     }
   },
+    {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 2,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "billboard": "landscapelab/resources/sprites/quercus1.png"
+    }
+  },
+    {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 2,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "billboard": "landscapelab/resources/sprites/quercus2.png"
+    }
+  },
+    {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "species": 2,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "billboard": "landscapelab/resources/sprites/tilia1.png"
+    }
+  },
   {
     "model": "vegetation.Phytocoenosis",
     "fields": {
-      "speciesRepresentations": [1, 2, 3, 4],
-      "name": "Grass",
+      "speciesRepresentations": [1, 2, 3, 4, 5, 6, 7],
+      "name": "Forest",
       "distribution_graphic_path": "",
       "albedo_path": "raster/textures/grass/albedo.jpg",
       "normal_path": "raster/textures/grass/normal.jpg"
