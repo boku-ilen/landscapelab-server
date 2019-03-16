@@ -29,6 +29,37 @@ def get_random_img_array(number_of_species):
     return img_data
 
 
+def get_density_img_array(species):
+    """Returns an array with random positions for each species, taking the density into account (but not the clumping
+    behavior).
+
+    Plants are selected like this:
+    If there is only one SpeciesRepresentation with full density (1), the chance for it to spawn is 50:50.
+    If there are two SpeciesRepresentations with full density, the chance for one of them is 1/3.
+    If there are two SpeciesRepresentations, one with full density, another with a density of 1/2, the chance for the
+    one with full density is 1/3, and the chance for the one with half density is 1/6.
+    etc.
+    """
+
+    number_of_species = len(species)
+
+    img_data = []
+
+    # Generate a random value for each pixel
+    for x in range(0, IMG_SIZE ** 2):
+        new_id = 0
+
+        for s in species:
+            dice = random.randint(0, int(1 / (s.distribution_density / number_of_species)))
+            if dice == 1:
+                new_id = s.id
+                break
+
+        img_data.append(new_id)
+
+    return img_data
+
+
 def generate_distribution_for_phytocoenosis(pid):
     """Generates and saves a distribution image for a whole phytocoenosis.
 
@@ -50,11 +81,9 @@ def generate_distribution_for_phytocoenosis(pid):
     # Get the speciesRepresentations in the phytocoenosis
     species = get_object_or_404(Phytocoenosis, id=pid).speciesRepresentations.all()
 
-    number_of_species = len(species)
-
     # Create an image with randomly spread values for the species IDs
     img = Image.new("L", size=(IMG_SIZE, IMG_SIZE))
-    img.putdata(get_random_img_array(number_of_species))
+    img.putdata(get_density_img_array(species))
 
     filename = DISTRIBUTION_PATH.format(pid, "complete")
     img.save(filename)

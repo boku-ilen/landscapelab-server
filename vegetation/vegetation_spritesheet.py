@@ -136,6 +136,9 @@ def get_spritesheet_and_count_for_id_and_layer(pid, layer):
         logging.info("Generating spritesheet for {}...".format(filename))
         generate_spritesheet(pid, layer)
 
-    count = get_count(pid, layer)
-
-    return filename, count
+    # If the file now exists, return it
+    if os.path.isfile(filename):
+        count = get_count(pid, layer)
+        return filename, count
+    else:
+        return None, None

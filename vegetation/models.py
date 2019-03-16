@@ -57,6 +57,7 @@ class SpeciesRepresentation(models.Model):
 
     # how this plant is distributed
     distribution_type = models.PositiveIntegerField(choices=DISTRIBUTION_TYPE, default=1)
+    distribution_density = models.FloatField(default=1)
 
     # TODO: maybe we want to abstract propability distribution functions in the future?
     # for now we assume a normal distributed height for all species

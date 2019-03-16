@@ -22,4 +22,6 @@ def get_distribution_for_id_and_layer(pid, layer):
         logging.info("Generating distribution for {}...".format(filename))
         vegetation.generate_distribution.generate_distribution_for_phytocoenosis_and_layer(pid, layer)
 
-    return filename
+    # If the file now exists, return it
+    if os.path.isfile(filename):
+        return filename
