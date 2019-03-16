@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 
+from generate_distribution import PIXELS_PER_METER
 from vegetation.phytocoenosis_textures import get_all_ground_texture_paths
 from vegetation.splatmap import get_splatmap_path_and_ids_for_coordinates
 from vegetation.vegetation_distribution import get_distribution_for_id_and_layer
@@ -31,7 +32,8 @@ def get_phytocoenosis_data(request, phytocoenosis_id, layer_name):
     res = {
         'path_to_distribution': get_distribution_for_id_and_layer(phytocoenosis_id, layer_name),
         'path_to_spritesheet': spritesheet,
-        'number_of_sprites': count
+        'number_of_sprites': count,
+        'distribution_pixels_per_meter': PIXELS_PER_METER
     }
 
     # Add available detail ground textures to the dictionary

@@ -64,7 +64,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 4,
-      "distribution_density": 0.1,
+      "distribution_density": 0.02,
       "billboard": "landscapelab/resources/sprites/quercus1.png"
     }
   },
@@ -75,7 +75,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 4,
-      "distribution_density": 0.1,
+      "distribution_density": 0.02,
       "billboard": "landscapelab/resources/sprites/quercus2.png"
     }
   },
@@ -86,7 +86,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 4,
-      "distribution_density": 0.3,
+      "distribution_density": 0.05,
       "billboard": "landscapelab/resources/sprites/tilia1.png"
     }
   },
