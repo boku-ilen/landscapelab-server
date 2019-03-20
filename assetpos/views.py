@@ -93,6 +93,7 @@ def gen_folder_check(gen_file_path):
 
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
+# TODO: add additional properties (eg. overlay information)
 def get_assetposition(request, zoom, tile_x, tile_y, assettype_id):
 
     # fetch all associated assets
