@@ -8,27 +8,6 @@ land_use_color_phytocoenosis_id = {
     (118, 208, 128, 255): 1
 }
 
-# Currently this is just a pixel-by-pixel mapping, in the future we will want to guess a lot more detail.
-# Ideally we'll be able to define custom parameters which increase/decrease the likelihood for a phytocoenosis, such as
-# "close to water", "close to phytocoenosis X", ...
-# Then, when constructing the splatmap, we'll take the phytocoenosis with the highest match.
-
-# Example: On the land use map, the pixel is an acre, and the existing adjacent pixels on the splatmap are wheat
-# acres (the first acre pixel was chosen to become a wheat acre based on other parameters) -> most likely this pixel
-# also becomes a wheat acre
-
-# Example 2: On the land use map, the pixel is grassland, with forest nearby -> most likely this pixel becomes a
-# grassland - forest transition
-
-# Conditional probabilities?
-# e.g. P(wheat acre | wheat acre adjacent) = 0.9; P(mixed forest | land use: forest) = 0.7
-# Then: Get conditions which are fulfilled, get conditional probabilities with that condition from the database,
-# calculate highest value and choose that
-
-# TODO: How should we store these parameters?
-# TODO: Do we need to loop through every phytocoenosis and calculate its likelihood then, or is there a more
-#  efficient way? -> grouping?
-
 
 def land_use_to_splatmap(path_to_land_use):
     """Takes a path to a land use map and constructs and returns a phytocoenosis ID splatmap for it, as well as a set

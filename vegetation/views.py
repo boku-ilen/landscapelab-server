@@ -1,3 +1,4 @@
+import webmercator
 from django.http import JsonResponse
 
 from generate_distribution import PIXELS_PER_METER
@@ -7,10 +8,12 @@ from vegetation.vegetation_distribution import get_distribution_for_id_and_layer
 from vegetation.vegetation_spritesheet import get_spritesheet_and_count_for_id_and_layer
 
 
-def get_vegetation_splatmap(request, meter_x, meter_y):
+def get_vegetation_splatmap(request, meter_x, meter_y, zoom):
     """Returns a JsonResponse with the path to the splatmap PNG for the given location"""
 
-    splat_path, ids = get_splatmap_path_and_ids_for_coordinates(int(float(meter_x)), int(float(meter_y)))
+    zoom = int(zoom)
+    p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=zoom)
+    splat_path, ids = get_splatmap_path_and_ids_for_coordinates(p.tile_x, p.tile_y, zoom)
 
     res = {
         'path_to_splatmap': splat_path,
