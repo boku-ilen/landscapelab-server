@@ -12,8 +12,7 @@ def get_vegetation_splatmap(request, meter_x, meter_y, zoom):
     """Returns a JsonResponse with the path to the splatmap PNG for the given location"""
 
     zoom = int(zoom)
-    p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=zoom)
-    splat_path, ids = get_splatmap_path_and_ids_for_coordinates(p.tile_x, p.tile_y, zoom)
+    splat_path, ids = get_splatmap_path_and_ids_for_coordinates(float(meter_x), float(meter_y), zoom)
 
     res = {
         'path_to_splatmap': splat_path,
