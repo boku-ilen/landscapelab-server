@@ -6,6 +6,9 @@ from django.conf import settings
 
 # from https://stackoverflow.com/questions/5434891/iterate-a-list-as-pair-current-next-in-python
 # returns the next value and the value thereafter of an iterator
+from django.http import HttpResponse
+
+
 def lookahead(iterable):
     """"s -> (s0,s1), (s1,s2), (s2, s3), ..."""
     a, b = tee(iterable)
@@ -20,3 +23,5 @@ def reload_logging(request):
     else:
         logging.config.fileConfig(settings.LOGFILE)
 
+    if request is not None:
+        return HttpResponse(status=200)
