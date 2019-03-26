@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
-import logging.config
+import signal
+
+import utils
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -108,9 +110,7 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/out/'
 
-# setup logging properly
+# setup logging properly - make it possible to dynamically reload logging configuration
 LOGFILE = "logging.conf"
-if not os.path.isfile(LOGFILE):
-    print("WARNING: {} does not exist - logging could not be initialized".format(LOGFILE))
-else:
-    logging.config.fileConfig(LOGFILE)
+utils.reload_logging(None)
+signal.signal(signal.SIGHUP, utils.reload_logging)
