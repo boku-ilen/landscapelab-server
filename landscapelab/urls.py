@@ -1,6 +1,8 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
+import utils
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,4 +11,5 @@ urlpatterns = [
     path('location/', include("location.urls")),
     path('raster/', include("raster.urls")),
     path('vegetation/', include("vegetation.urls")),
+    url(r'^reload_logging', utils.reload_logging),
 ]

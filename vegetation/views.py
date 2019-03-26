@@ -1,7 +1,7 @@
 import webmercator
 from django.http import JsonResponse
 
-from generate_distribution import PIXELS_PER_METER
+from vegetation.generate_distribution import PIXELS_PER_METER
 from vegetation.phytocoenosis_textures import get_all_ground_texture_paths
 from vegetation.splatmap import get_splatmap_path_and_ids_for_coordinates
 from vegetation.vegetation_distribution import get_distribution_for_id_and_layer

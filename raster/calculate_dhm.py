@@ -47,7 +47,7 @@ def import_dhm(dhm_filename: str, bounding_box: Polygon, srid=DEFAULT_DHM_SRID):
     # raster implementation
     else:
         with rasterio.open(dhm_filename) as dhm_datasource:
-            crs = dhm_datasource.get_crs()
+            crs = dhm_datasource.crs
             np_heightmap = dhm_datasource.read(1)  # we assume there is a single height band
             rows, cols = np_heightmap.shape
             logger.debug("starting raster import with {} points".format(rows * cols))
