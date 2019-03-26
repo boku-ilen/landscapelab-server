@@ -2,102 +2,592 @@
   {
     "model": "vegetation.Species",
     "fields": {
-      "genus_name": "Grass Genus",
-      "epithet_name": "Grass Epiphet",
-      "common_name": "Grass",
+      "id": 1,
+      "genus_name": "Getreide Genus",
+      "epithet_name": "Getreide Epiphet",
+      "common_name": "Getreide",
       "max_height": 60
     }
   },
-    {
+  {
     "model": "vegetation.Species",
     "fields": {
-      "genus_name": "Tree Genus",
-      "epithet_name": "Tree Epiphet",
-      "common_name": "Tree",
-      "max_height": 100
+      "id": 2,
+      "genus_name": "Hackfrucht Genus",
+      "epithet_name": "Hackfrucht Epiphet",
+      "common_name": "Hackfrucht",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 3,
+      "genus_name": "Gras Genus",
+      "epithet_name": "Gras Epiphet",
+      "common_name": "Gras",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 4,
+      "genus_name": "Mais Genus",
+      "epithet_name": "Mais Epiphet",
+      "common_name": "Mais",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 5,
+      "genus_name": "Blume Genus",
+      "epithet_name": "Blume Epiphet",
+      "common_name": "Blume",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 6,
+      "genus_name": "Baum Genus",
+      "epithet_name": "Baum Epiphet",
+      "common_name": "Baum",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 7,
+      "genus_name": "Raps Genus",
+      "epithet_name": "Raps Epiphet",
+      "common_name": "Raps",
+      "max_height": 60
+    }
+  },
+  {
+    "model": "vegetation.Species",
+    "fields": {
+      "id": 8,
+      "genus_name": "Wein Genus",
+      "epithet_name": "Wein Epiphet",
+      "common_name": "Wein",
+      "max_height": 60
+    }
+  },
+
+
+
+
+
+
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 1,
+      "species": 1,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_1.png"
     }
   },
   {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
+      "id": 2,
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
-      "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/sprites/grass1.png"
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_2.png"
     }
   },
   {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
+      "id": 3,
       "species": 1,
       "avg_height": 30,
       "sigma_height": 10,
-      "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/sprites/grass2.png"
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_3.png"
     }
   },
+
   {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
-      "species": 1,
-      "avg_height": 30,
-      "sigma_height": 10,
-      "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/sprites/grass3.png"
-    }
-  },
-  {
-    "model": "vegetation.SpeciesRepresentation",
-    "fields": {
-      "species": 1,
-      "avg_height": 30,
-      "sigma_height": 10,
-      "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/sprites/grass4.png"
-    }
-  },
-    {
-    "model": "vegetation.SpeciesRepresentation",
-    "fields": {
+      "id": 4,
       "species": 2,
       "avg_height": 30,
       "sigma_height": 10,
-      "vegetation_layer": 4,
-      "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/sprites/quercus1.png"
+      "vegetation_layer": 1,
+      "distribution_density": 0.1,
+      "billboard": "landscapelab/resources/plants/Hackfruchtacker/hackfrucht1.png"
     }
   },
-    {
+
+  {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
-      "species": 2,
+      "id": 5,
+      "species": 3,
       "avg_height": 30,
       "sigma_height": 10,
-      "vegetation_layer": 4,
-      "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/sprites/quercus2.png"
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/plants/Klee/gras-grün-1.png"
     }
   },
-    {
+
+  {
     "model": "vegetation.SpeciesRepresentation",
     "fields": {
-      "species": 2,
+      "id": 6,
+      "species": 4,
       "avg_height": 30,
       "sigma_height": 10,
-      "vegetation_layer": 4,
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Mais/Corn1.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 7,
+      "species": 4,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Mais/Corn2.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 8,
+      "species": 4,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Mais/Corn3.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 9,
+      "species": 4,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.2,
+      "billboard": "landscapelab/resources/plants/Mais/Corn4.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 10,
+      "species": 5,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
       "distribution_density": 0.05,
-      "billboard": "landscapelab/resources/sprites/tilia1.png"
+      "billboard": "landscapelab/resources/plants/Mohn/blume_rot.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 11,
+      "species": 3,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/plants/Mohn/greengrass083d.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 12,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 3,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Plantageobst/tafelobst_a.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 13,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Plantageobst/tafelobst_b.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 14,
+      "species": 7,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.1,
+      "billboard": "landscapelab/resources/plants/Raps/rapeseed3.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 15,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 3,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_001.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 16,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 3,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_002.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 17,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_004.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 18,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/af_tree_20.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 19,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 3,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/busch01.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 20,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 3,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/busch02.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 21,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/fraxinus2.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 22,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/quercus.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 23,
+      "species": 6,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 4,
+      "distribution_density": 0.02,
+      "billboard": "landscapelab/resources/plants/Wald/quercus1.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 24,
+      "species": 8,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.1,
+      "billboard": "landscapelab/resources/plants/Wein/wein1.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 25,
+      "species": 8,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.1,
+      "billboard": "landscapelab/resources/plants/Wein/wein2.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 26,
+      "species": 8,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 2,
+      "distribution_density": 0.1,
+      "billboard": "landscapelab/resources/plants/Wein/wein3.png"
+    }
+  },
+
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 27,
+      "species": 3,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/plants/Wiesen/greengrass005d.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 28,
+      "species": 3,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "billboard": "landscapelab/resources/plants/Wiesen/greengrass083d.png"
+    }
+  },
+  {
+    "model": "vegetation.SpeciesRepresentation",
+    "fields": {
+      "id": 29,
+      "species": 5,
+      "avg_height": 30,
+      "sigma_height": 10,
+      "vegetation_layer": 1,
+      "distribution_density": 0.05,
+      "billboard": "landscapelab/resources/plants/Wein/blume_weiss.png"
+    }
+  },
+
+
+
+
+
+
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 11,
+      "speciesRepresentations": [],
+      "name": "Gebäude",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Concrete02/Concrete02_col.jpg",
+      "normal_path": "plants/Textures/[2K]Concrete02/Concrete02_nrm.jpg"
     }
   },
   {
     "model": "vegetation.Phytocoenosis",
     "fields": {
-      "speciesRepresentations": [1, 2, 3, 4, 5, 6, 7],
-      "name": "Forest",
+      "id": 12,
+      "speciesRepresentations": [],
+      "name": "Versiegelte Flächen",
       "distribution_graphic_path": "",
-      "albedo_path": "raster/textures/grass/albedo.jpg",
-      "normal_path": "raster/textures/grass/normal.jpg"
+      "albedo_path": "plants/Textures/[2K]Concrete02/Concrete02_col.jpg",
+      "normal_path": "plants/Textures/[2K]Concrete02/Concrete02_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 31,
+      "speciesRepresentations": [],
+      "name": "Offener Boden",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 32,
+      "speciesRepresentations": [],
+      "name": "Fels",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Rocks01/Rocks01_col.jpg",
+      "normal_path": "plants/Textures/[2K]Rocks01/Rocks01_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 70,
+      "speciesRepresentations": [],
+      "name": "Schnee- und Eisdecke",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Snow06/Snow06_col.jpg",
+      "normal_path": "plants/Textures/[2K]Snow06/Snow06_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 91,
+      "speciesRepresentations": [19, 20, 21, 22, 23, 27, 28, 29],
+      "name": "Laubgehölze",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Grass/Ground03_col.jpg",
+      "normal_path": "plants/Textures/[2K]Grass/Ground03_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 93,
+      "speciesRepresentations": [18, 19, 20, 21, 22, 23, 27, 28, 29],
+      "name": "Nadelgehölze",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Grass/Ground03_col.jpg",
+      "normal_path": "plants/Textures/[2K]Grass/Ground03_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 122,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Acker unspezifisch",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 153,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Weizen",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 155,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Gerste",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 163,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Roggen",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 169,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Dinkel",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
+    }
+  },
+  {
+    "model": "vegetation.Phytocoenosis",
+    "fields": {
+      "id": 173,
+      "speciesRepresentations": [1, 2, 3],
+      "name": "Getreide",
+      "distribution_graphic_path": "",
+      "albedo_path": "plants/Textures/[2K]Soil/Ground12_col.jpg",
+      "normal_path": "plants/Textures/[2K]Soil/Ground12_nrm.jpg"
     }
   }
 ]
