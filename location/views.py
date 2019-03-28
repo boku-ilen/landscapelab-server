@@ -9,7 +9,7 @@ from django.contrib.staticfiles import finders
 from pysolar.solar import get_altitude, get_azimuth
 from django.http import JsonResponse, HttpResponse
 
-from location.models import Impression, Scenario, Session
+from location.models import Impression, Scenario, Session, Workshop
 
 logger = logging.getLogger("MainLogger")
 
@@ -114,3 +114,18 @@ def start_session(request, scenario_id):
     logger.info("created session {} for scenario {}".format(session, scenario))
 
     return JsonResponse({'session': session.pk})
+
+
+# returns information like the bounding box of an workshop setup
+# TODO: this is a draft version which has to be adapted to the lego implementation
+def get_workshop(request, workshop_id):
+
+    # TODO: or do we want to ask for the identifier in workshop model?
+    workshop = Workshop.objects.get(id=workshop_id)
+    result = {
+        'identifier': workshop.identifier,
+        'date': workshop.date,
+        'bounding_box': workshop.bounding_box
+    }
+
+    return JsonResponse(result)
