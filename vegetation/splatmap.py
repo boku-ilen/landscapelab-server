@@ -5,7 +5,7 @@ import webmercator
 from PIL import Image
 from django.conf import settings
 
-from tiles import get_tile
+from raster.tiles import get_tile
 
 LAND_USE_BASE = settings.STATICFILES_DIRS[0] + "/land-use/data"
 

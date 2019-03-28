@@ -3,7 +3,7 @@ from django.contrib.gis.geos import Polygon, LinearRing
 from assetpos.models import AssetPositions
 
 
-class BuildingLayout(models.Model):
+class BuildingFootprint(models.Model):
     asset = models.ForeignKey(AssetPositions, on_delete=models.CASCADE)
 
     # the vertices of the building layout relative to the position
