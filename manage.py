@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 import os
 import sys
+import landscapelab.startup as startup
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "landscapelab.settings")
+
+    # run startup scripts
+    startup.startup()
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
