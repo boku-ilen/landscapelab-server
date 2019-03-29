@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BuildingLayout
+from .models import BuildingFootprint
 from django.contrib.gis.db import models
 from .forms import LatLongWidget
 
@@ -13,4 +13,4 @@ class BuildingLayoutAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(BuildingLayout, BuildingLayoutAdmin)
+admin.site.register(BuildingFootprint, BuildingLayoutAdmin)
