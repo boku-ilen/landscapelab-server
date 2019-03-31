@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 srid = options['srid']
             else:
                 srid = 3857  # web mercator auxiliary sphere
-            bounding_box = geos.fromstr(options['extent'], srid)
+            bounding_box = geos.fromstr(options['extent'], srid=srid)
 
         # now we hand off to the internal implementation
         kwargs = dict()

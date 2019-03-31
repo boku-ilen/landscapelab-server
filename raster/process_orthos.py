@@ -13,7 +13,7 @@ import owslib.wmts as wmts
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
 DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
-DEFAULT_ZOOM_FROM = 18
+DEFAULT_ZOOM_FROM = 19
 DEFAULT_ZOOM_TO = 22
 
 # the format and location of the ortho pictures
