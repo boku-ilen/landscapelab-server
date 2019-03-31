@@ -27,6 +27,22 @@ class Scenario(models.Model):
     bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
 
 
+#
+class Workshop(models.Model):
+
+    # the associated scenario for this workshop
+    scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)
+
+    # the unique identifier to associate the workshop instance to the printed map
+    identifier = models.TextField()
+
+    # the timestamp when the workshop takes/took place
+    date = models.DateTimeField()
+
+    # define the area which is printed on the workshop handouts
+    bounding_box = models.PolygonField()
+
+
 # FIXME: how to tell the client which service layers are available in this scenario or on this specific location
 # class Services(models.Model):
 

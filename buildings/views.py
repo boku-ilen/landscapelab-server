@@ -1,8 +1,9 @@
 
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
-from buildings.models import BuildingLayout
+from buildings.models import BuildingFootprint
 from assetpos.models import AssetPositions, AssetType
+from buildings.create_buildings import main
 from django.contrib.gis.geos import Polygon
 import os
 import logging
@@ -10,6 +11,7 @@ import subprocess
 
 logger = logging.getLogger('MainLogger')
 
+BUILDING_PATH = 'buildings'
 
 
 # def get_buildings(request, zoom, tile_x, tile_y, assettype_id):
@@ -21,6 +23,7 @@ def get_from_bbox(request, x_min, y_min, x_max, y_max):
     bbox = Polygon.from_bbox ((x_min, y_min, x_max, y_max))
     return get_buildings_in_bbox(bbox)
 
+
 # just for test purposes
 def get_buildings_in_bbox(bbox : Polygon):
     assets = AssetPositions.objects.filter(location__contained=bbox, asset_type=AssetType.objects.get('building'))
@@ -29,15 +32,14 @@ def get_buildings_in_bbox(bbox : Polygon):
     for building in assets:
         p = []
         p.extend(building.location)
-        data.append({'name': building.asset.name,'position' : p})
-        if not default_storage.exists(os.path.join(BuildingsConfig.name, '{}.dae'.format(building.asset.name))):
-            to_create.append(BuildingLayout.objects.get(asset=building).pk)
-
+        data.append({'name': building.asset.name, 'position': p})
+        if not default_storage.exists(os.path.join(BUILDING_PATH, '{}.dae'.format(building.asset.name))):
+            to_create.append(BuildingFootprint.objects.get(asset=building).pk)
 
     if to_create:
         logger.info('creating {} new buildings'.format(len(to_create)))
 
-        params = ['blender', '--background', '--python', '{}/create_buildings.py'.format(BuildingsConfig.name), '--']
+        params = ['blender', '--background', '--python', '{}/create_buildings.py'.format('buildings'), '--']
         for b in to_create:
             params.append(str(b))
         subprocess.run(params)
@@ -51,12 +53,12 @@ def generate_buildings_with_asset_id(asset_ids):
     assets = AssetPositions.objects.filter(pk__in=asset_ids)
     building_ids = []
     for asset in assets:
-        building_ids.append(BuildingLayout.objects.get(asset=asset).pk)
+        building_ids.append(BuildingFootprint.objects.get(asset=asset).pk)
 
     if building_ids:
         logger.info('creating {} new buildings'.format(len(building_ids)))
 
-        params = ['blender', '--background', '--python', '{}\create_buildings.py'.format(BuildingsConfig.name), '--']
+        params = ['blender', '--background', '--python', '{}\create_buildings.py'.format('buildings'), '--']
         for b in building_ids:
             params.append(str(b))
         subprocess.run(params)

@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.contrib.staticfiles import finders
-from buildings.models import BuildingLayout
+from buildings.models import BuildingFootprint
 from assetpos.models import AssetPositions, Asset, AssetType
 from location.models import Scenario
 from assetpos.models import Tile
@@ -60,13 +60,13 @@ def scan_buildings(request, filename : str, scenario_id):
 def save_building(vertices : list, scenario : Scenario, name : str):
     name = '{}_{}'.format(scenario.name, name)
     asset = AssetPositions(asset=Asset(name=name), asset_type=AssetType.objects.get(name='building'))
-    building = BuildingLayout.objects.filter(asset=asset)
+    building = BuildingFootprint.objects.filter(asset=asset)
     operation = 'new'
     if building:
         building = building.first() # since name is unique the query set has to have size 1
         operation = 'updated'
     else:
-        building = BuildingLayout()
+        building = BuildingFootprint()
         ass = Asset(name=name)
         ass.save()
         asset.asset = ass

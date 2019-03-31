@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
-import utils
+from landscapelab import utils
 
 urlpatterns = [
     path('admin/', admin.site.urls),
