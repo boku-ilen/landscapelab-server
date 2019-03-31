@@ -14,6 +14,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "landscapelab.settings")
 
 # run startup scripts
-startup.startup()
+startup.startup(wsgi=True)
 
 application = get_wsgi_application()
