@@ -33,13 +33,16 @@ class Tile(models.Model):
     # TODO: we can handle them by priority or store the entire calculation or geometries
     heightmap = ArrayField(ArrayField(models.FloatField(), size=TILE_SIZE), size=TILE_SIZE, blank=True, null=True)
 
+    # the generated splatmap for water in binary format
+    watersplatmap = ArrayField(ArrayField(models.BooleanField(), size=TILE_SIZE), size=TILE_SIZE, blank=True, null=True)
+
 
 # all vectorized height information available (it is cut down based on a bounding box to the project extent)
 class DigitalHeightModel(models.Model):
 
     # the tile on which the point is located
     # TODO: the tile is acutally also located on all parent tiles so we currently
-    # TODO: need to insert the most detailed tile here
+    # TODO: need to insert the most detailed tile here (based on the resolution)
     tile = models.ForeignKey(Tile, null=True, on_delete=models.PROTECT)
 
     # the location of one data point
@@ -48,6 +51,8 @@ class DigitalHeightModel(models.Model):
     # height in meters
     height = models.FloatField()
 
+    # resolution information (in meter)
     # TODO: should we store the resolution too in a field so we can import multiple
     # TODO: resolutions for the same area and decide what to take later? but what
     # TODO: about different height information (inconsistencies between dhm sources?)
+    resolution = models.FloatField()

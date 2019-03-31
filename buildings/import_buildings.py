@@ -18,8 +18,8 @@ MIN_LEVEL_BUILDINGS = 16
 
 
 # scans features of a shp file, saves them to the database and assigns the scenario
-def scan_buildings(request, filename : str, scenario_id):
-    filename = finders.find(os.path.join('buildings',filename))
+def scan_buildings(request, filename: str, scenario_id):
+    filename = finders.find(os.path.join('buildings', filename))
     logger.info('starting to import file {}'.format(filename))
     if filename is None:
         logger.info('invalid filename: {}'.format(filename))
