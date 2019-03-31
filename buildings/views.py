@@ -17,11 +17,10 @@ BUILDING_PATH = 'buildings'
 # def get_buildings(request, zoom, tile_x, tile_y, assettype_id):
 #     return JsonResponse({'data':['asdf']})
 
-
-# FIXME: just for test purposes
+# just for test purposes
 def get_from_bbox(request, x_min, y_min, x_max, y_max):
     # useful test parameters: 4583980.1/2739338.7/4583860.7/2739418.7
-    bbox = Polygon.from_bbox((x_min, y_min, x_max, y_max))
+    bbox = Polygon.from_bbox ((x_min, y_min, x_max, y_max))
     return get_buildings_in_bbox(bbox)
 
 

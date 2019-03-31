@@ -6,7 +6,6 @@ from assetpos.models import AssetType, Tile, AssetPositions, Asset
 from buildings.views import generate_buildings_with_asset_id
 from django.contrib.staticfiles import finders
 
-
 logger = logging.getLogger(__name__)
 
 
