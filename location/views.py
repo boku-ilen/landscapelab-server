@@ -11,6 +11,7 @@ from django.http import JsonResponse, HttpResponse
 
 from location.models import Impression, Scenario, Session, Workshop
 
+
 logger = logging.getLogger("MainLogger")
 
 

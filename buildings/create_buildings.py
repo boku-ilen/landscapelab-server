@@ -5,12 +5,15 @@ from math import *
 from mathutils import Vector
 import numpy as np
 
-dir = os.path.dirname(bpy.data.filepath)
+C = bpy.context
+D = bpy.data
+
+dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
     sys.path.append(dir)
-#import django
-#from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
-#from buildings.models import BuildingLayout
+# import django
+# from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
+# from buildings.models import BuildingLayout
 
 # TODO get db connection data from django server somehow
 db = {
@@ -32,23 +35,44 @@ if not os.path.exists(str(out_path)):
 
 
 def create_building(name, vertices, texture=None):
-    # clear scene
-    bpy.ops.wm.read_factory_settings()
-    bpy.ops.object.select_all(action='SELECT')
-    bpy.ops.object.delete()
-
-    # reformat vertices
     vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
-    # setup scene
-    mesh = bpy.data.meshes.new('mesh')
-    building = bpy.data.objects.new(name, mesh)
-    scene = bpy.context.scene
-    scene.objects.link(building)
-    scene.objects.active = building
-    building.select = True
+    clear_scene()
+    building = createBaseMesh(name, vertices)
 
-    mesh = bpy.context.object.data
+    if texture is not None:
+        building_mat = create_material(texture)
+        building.data.materials.append(building_mat)
+        set_uvs(building)
+
+    bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'), use_texture_copies=False)
+    # bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'))
+
+
+def clear_scene():
+    for m in D.meshes:
+        D.meshes.remove(m)
+    for o in D.objects:
+        D.objects.remove(o)
+    for l in D.lights:
+        D.lights.remove(l)
+    for i in D.images:
+        D.images.remove(i)
+    for m in D.materials:
+        D.materials.remove(m)
+    for t in D.textures:
+        D.textures.remove(t)
+    for c in D.cameras:
+        D.cameras.remove(c)
+
+
+def createBaseMesh(name, vertices):
+    # instantiate mesh
+    mesh = D.meshes.new('mesh')
+    building = D.objects.new(name, mesh)
+    C.scene.collection.objects.link(building)
+
+    mesh = building.data
     bm = bmesh.new()
 
     # add vertices to create bottom face
@@ -58,50 +82,90 @@ def create_building(name, vertices, texture=None):
 
     layout = bm.faces.new(vert) # create bottom face
     roof = bmesh.ops.extrude_face_region(bm, geom=[layout]) # extrude face to get roof
-    bmesh.ops.translate(bm, vec=Vector((0,0,10)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)]) # move roof up
+    bmesh.ops.translate(bm, vec=Vector((0, 0, 5)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)]) # move roof up
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces) # correct face normals
 
     # finish mesh
     bm.to_mesh(mesh)
     bm.free()
 
-    if texture is not None:
-        building.data.materials.append(create_material(texture))
-        set_material(building.data)
-
-    # export scene
-    bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'), use_texture_copies=False, include_uv_textures=True, include_material_textures=True)
-    # NOTE: parameter include_uv_textures and include_material_textures might be subject to change in future versions of blender and could cause issues when upgrading
+    return building
 
 
-def set_material(mesh):
+def set_uvs(object):
+    C.view_layer.objects.active = object
     bpy.ops.object.mode_set(mode='EDIT')
+
+    mesh = object.data
     bm = bmesh.from_edit_mesh(mesh)
 
-    bm.faces.ensure_lookup_table()
-    for f in range(len(bm.faces)):
-        ph = bm.faces[f].verts[0].co.z
-        for v in bm.faces[f].verts:
-            if v.co.z != ph:
-                bm.faces[f].select = True
-                break
+    uv_layer = bm.loops.layers.uv.verify()
+    for f in bm.faces:
+        if face_is_wall(f):
+            l = f.loops
+            [mx, my, mz] = face_mean(f)
+            [upper, lower] = [[],[]]
 
-    bpy.ops.uv.reset()
+            # split in upper and lower parts
+            for v in l:
+                if v.vert.co.z > mz:
+                    upper.append(v)
+                else:
+                    lower.append(v)
+
+            # decide how often the texture should repeat itself horizontally
+            columns = max(1, vertex_distance(upper[0].vert,lower[0].vert)//3)
+
+            # find vertex below upper[0] and assign UVs accordingly
+            if vertex_distance(upper[0].vert,lower[0].vert) < vertex_distance(upper[0].vert,lower[1].vert):
+                upper[0][uv_layer].uv = Vector((0,1))
+                lower[0][uv_layer].uv = Vector((0,0))
+                upper[1][uv_layer].uv = Vector((columns,1))
+                lower[1][uv_layer].uv = Vector((columns,0))
+            else:
+                upper[0][uv_layer].uv = Vector((0,1))
+                lower[1][uv_layer].uv = Vector((0,0))
+                upper[1][uv_layer].uv = Vector((columns,1))
+                lower[0][uv_layer].uv = Vector((columns,0))
+
+    bmesh.update_edit_mesh(mesh)
     bpy.ops.object.mode_set(mode='OBJECT')
 
 
 def create_material(texture):
-    mat = bpy.data.materials.new(name=texture)
-    tex = bpy.data.textures.new(texture, type='IMAGE')
-    print(os.path.join(tex_dir, texture))
-    tex.image = bpy.data.images.load(os.path.join(tex_dir, texture))
-    mat.texture_slots.add()
-    ts = mat.texture_slots[0]
-    ts.texture = tex
-    # ts.texture_coords = 'UV'
-    # ts.uv_layer = 'default'
+
+    mat = D.materials.new(name=texture)
+    mat.use_nodes = True
+    tImg =  mat.node_tree.nodes.new('ShaderNodeTexImage')
+    tImg.image = D.images.load(os.path.join(tex_dir, texture))
+    diff = mat.node_tree.nodes["Principled BSDF"]
+    mat.node_tree.links.new(diff.inputs['Base Color'], tImg.outputs['Color'])
 
     return mat
+
+
+def face_is_wall(f):
+    if len(f.loops) is 4:
+        mean_z = face_mean(f)[2]
+        if abs(f.loops[0].vert.co.z - mean_z) > 0.1:
+            return True
+    return False
+
+
+def face_mean(f):
+    mean = np.zeros(3)
+    if len(f.loops) > 0:
+        for l in f.loops:
+            c = l.vert.co
+            mean = np.add(mean,np.array([c.x,c.y,c.z]))
+        mean = np.divide(mean, len(f.loops))
+    return mean.tolist()
+
+
+def vertex_distance(v1, v2):
+    c1 = v1.co
+    c2 = v2.co
+    return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2) + pow(c1.z - c2.z, 2))
 
 
 def get_images():

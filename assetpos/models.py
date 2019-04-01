@@ -2,11 +2,19 @@ from django.contrib.gis.db import models
 from raster.models import Tile
 
 
-# TODO: is this a Layer?
 class AssetType(models.Model):
 
     # an identifier string
     name = models.TextField()
+
+
+class Property(models.Model):
+
+    # an identifier for the property
+    identfier = models.TextField()
+
+    # the associated asset type
+    asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
 
 
 # TODO: do we have to have an asset object for every asset? probably
@@ -17,6 +25,19 @@ class Asset(models.Model):
 
     # the category of the asset
     asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
+
+
+class Attribute(models.Model):
+
+    # the asset to which the given key/value pair is associated
+    asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
+
+    # the associated property
+    property = models.ForeignKey(Property, on_delete=models.PROTECT)
+
+    # the associated numeric value
+    # TODO: is there a case for a string value?
+    value = models.FloatField()
 
 
 # this main table holds all the associated positions of the assets
@@ -31,7 +52,6 @@ class AssetPositions(models.Model):
     asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
 
     # the actual asset (e.g. Pine, Lamp154, ...) which also could be a group of
-    # TODO: how to parameterize (e.g. concrete height of tree, orientation?, ..)
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
 
     # the geographical location

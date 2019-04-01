@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from buildings.models import BuildingFootprint
 from assetpos.models import AssetPositions, AssetType
-from buildings.create_buildings import main
 from django.contrib.gis.geos import Polygon
 import os
 import logging
@@ -17,14 +16,14 @@ BUILDING_PATH = 'buildings'
 # def get_buildings(request, zoom, tile_x, tile_y, assettype_id):
 #     return JsonResponse({'data':['asdf']})
 
-# just for test purposes
+# FIXME: just for test purposes
 def get_from_bbox(request, x_min, y_min, x_max, y_max):
     # useful test parameters: 4583980.1/2739338.7/4583860.7/2739418.7
-    bbox = Polygon.from_bbox ((x_min, y_min, x_max, y_max))
+    bbox = Polygon.from_bbox((x_min, y_min, x_max, y_max))
     return get_buildings_in_bbox(bbox)
 
 
-# just for test purposes
+# FIXME: just for test purposes
 def get_buildings_in_bbox(bbox : Polygon):
     assets = AssetPositions.objects.filter(location__contained=bbox, asset_type=AssetType.objects.get('building'))
     data = []
