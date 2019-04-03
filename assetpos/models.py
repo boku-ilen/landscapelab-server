@@ -14,7 +14,7 @@ class AssetType(models.Model):
 class Property(models.Model):
 
     # an identifier for the property
-    identfier = models.TextField()
+    identifier = models.TextField()
 
     # the associated asset type
     asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
