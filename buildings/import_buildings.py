@@ -67,7 +67,7 @@ def save_building(vertices : list, scenario : Scenario, name : str):
         operation = 'updated'
     else:
         building = BuildingFootprint()
-        ass = Asset(name=name)
+        ass = Asset(name=name, asset_type=AssetType.objects.get(name='building'))
         ass.save()
         asset.asset = ass
 

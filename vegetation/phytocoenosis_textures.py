@@ -17,12 +17,16 @@ def get_all_ground_texture_paths(pid):
 
     phytocoenosis = get_object_or_404(Phytocoenosis, id=pid)
     tex_dict = {
-        "albedo_path": os.path.join(settings.STATICFILES_DIRS[0], phytocoenosis.albedo_path) if phytocoenosis.albedo_path is not None else None,
-        "normal_path": phytocoenosis.normal_path,
-        "heightmap_detail_path": phytocoenosis.heightmap_detail_path
+        "albedo_path": get_full_texture_path(phytocoenosis.albedo_path) if phytocoenosis.albedo_path is not None else None,
+        "normal_path": get_full_texture_path(phytocoenosis.normal_path) if phytocoenosis.normal_path is not None else None,
+        "heightmap_detail_path": get_full_texture_path(phytocoenosis.heightmap_detail_path) if phytocoenosis.heightmap_detail_path is not None else None,
     }
 
     # Remove None values
     tex_dict = {k: v for k, v in tex_dict.items() if v}
 
     return tex_dict
+
+
+def get_full_texture_path(local_path):
+    return os.path.join(settings.STATICFILES_DIRS[0], local_path)

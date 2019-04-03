@@ -1,3 +1,4 @@
+import collections
 import logging
 import os
 
@@ -28,7 +29,11 @@ def get_ids(filename):
 
     if os.path.exists(filename):
         splatmap_image = Image.open(filename)
-        id_list = list(set([pixel[0] for pixel in splatmap_image.getdata()]))  # Ignore alpha channel
+
+        pixels = [pixel[0] for pixel in splatmap_image.getdata()]  # Ignore alpha channel
+        pixels_counted = collections.Counter(pixels)
+
+        id_list = [element for element, count in pixels_counted.most_common()]
 
     return id_list
 

@@ -1,0 +1,9 @@
+[
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 1,
+      "name": "building"
+    }
+  }
+]
