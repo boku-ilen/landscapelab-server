@@ -28,12 +28,12 @@ class Scenario(models.Model):
 
 
 #
-class Workshop(models.Model):
+class Map(models.Model):
 
-    # the associated scenario for this workshop
+    # the associated scenario for this (printed) map
     scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)
 
-    # the unique identifier to associate the workshop instance to the printed map
+    # the unique identifier of the printed map
     identifier = models.TextField()
 
     # the timestamp when the workshop takes/took place
@@ -41,10 +41,6 @@ class Workshop(models.Model):
 
     # define the area which is printed on the workshop handouts
     bounding_box = models.PolygonField()
-
-
-# FIXME: how to tell the client which service layers are available in this scenario or on this specific location
-# class Services(models.Model):
 
 
 # represents a single planning session which is to be monitored
@@ -56,9 +52,6 @@ class Session(models.Model):
 
     # the timestamp when the session changes or the program is terminated (?)
     endtime = models.DateTimeField(null=True, default=None, blank=True)
-
-    # the workshop identifier of the recording
-    workshop = models.TextField(null=True, default=None, blank=True)
 
     # the associated area/location
     scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)

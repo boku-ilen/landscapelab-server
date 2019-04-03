@@ -11,8 +11,8 @@ urlpatterns = [
     # TODO: change the API to include the scenario id in the request
     url(r'^areas', views.services_list, name="services_list"),
 
-    # TODO: get workshop
-    url(r'^workshop/(?P<workshop_id>\d*).json', views.get_workshop),
+    # get the associated information of a printed map
+    url(r'^map/(?P<map_id>\d*).json', views.get_map, name="get_map"),
 
     # a helper request which returns altitude and azimuth angles of the sun of a given date and time
     url(r'^sunposition/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<hour>\d{2})/(?P<minute>\d{2})/'
