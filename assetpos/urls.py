@@ -1,11 +1,11 @@
-# from django.urls import path
 from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    # path('',views.index, name='index'),
-    # url(r'^', views.index, name="index"),
+
+    # get the attributes of an asset
+    url(r'^attributes/(?P<asset_id>(\d+)).json$', views.get_attributes, name='get_attributes'),
 
     # request the locations of an assettype and a given tile
     url(r'^get/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+))/(?P<tile_y>(\d+))/(?P<zoom>(\d+)).json$',

@@ -50,3 +50,14 @@ def get_assetposition(request, zoom, tile_x, tile_y, assettype_id):
         generate_buildings_with_asset_id(gen_buildings)
 
     return JsonResponse(ret, safe=False)
+
+
+# gets the attributes and values of the requested asset_id
+def get_attributes(request, asset_id):
+
+    ret = {}
+    asset = Asset.objects.get(id=asset_id)
+    for attribute in asset.attributes:
+        ret[attribute.property.identfier] = attribute.value
+
+    return JsonResponse(ret)

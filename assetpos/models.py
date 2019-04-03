@@ -30,7 +30,7 @@ class Asset(models.Model):
 class Attribute(models.Model):
 
     # the asset to which the given key/value pair is associated
-    asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
+    asset = models.ForeignKey(Asset, related_name="attributes", on_delete=models.PROTECT)
 
     # the associated property
     property = models.ForeignKey(Property, on_delete=models.PROTECT)
