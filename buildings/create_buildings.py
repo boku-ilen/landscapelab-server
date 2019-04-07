@@ -2,7 +2,7 @@ import psycopg2
 import os, sys
 import bpy, bmesh
 from math import *
-from mathutils import Vector
+from mathutils import Vector, Matrix
 import numpy as np
 
 C = bpy.context
@@ -34,16 +34,18 @@ if not os.path.exists(str(out_path)):
     os.makedirs(out_path)
 
 
-def create_building(name, vertices, texture=None):
+def create_building(name, vertices, height, texture=None):
     vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
     clear_scene()
-    building = createBaseMesh(name, vertices)
+    building = create_base_mesh(name, vertices, height)
 
     if texture is not None:
-        building_mat = create_material(texture)
-        building.data.materials.append(building_mat)
+        buildingMat = create_material(texture)
+        building.data.materials.append(buildingMat)
         set_uvs(building)
+
+    create_roof(name, vertices, height)
 
     bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'), use_texture_copies=False)
     # bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'))
@@ -66,30 +68,97 @@ def clear_scene():
         D.cameras.remove(c)
 
 
-def createBaseMesh(name, vertices):
-    # instantiate mesh
-    mesh = D.meshes.new('mesh')
-    building = D.objects.new(name, mesh)
-    C.scene.collection.objects.link(building)
+def create_base_mesh(name, vertices, height):
+    [building, mesh, bm, vert] = create_footprint(name, vertices)
 
-    mesh = building.data
-    bm = bmesh.new()
-
-    # add vertices to create bottom face
-    vert = []
-    for v in vertices:
-        vert.append(bm.verts.new(v))
-
-    layout = bm.faces.new(vert) # create bottom face
-    roof = bmesh.ops.extrude_face_region(bm, geom=[layout]) # extrude face to get roof
-    bmesh.ops.translate(bm, vec=Vector((0, 0, 5)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)]) # move roof up
+    footprint = bm.faces.new(vert) # create bottom face
+    roof = bmesh.ops.extrude_face_region(bm, geom=[footprint]) # extrude face to get roof
+    bmesh.ops.translate(bm, vec=Vector((0,0,height)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)]) # move roof up
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces) # correct face normals
 
     # finish mesh
+    bpy.ops.object.mode_set(mode='OBJECT')
     bm.to_mesh(mesh)
     bm.free()
 
     return building
+
+
+def create_roof(name, vertices, height):
+    [roof, mesh, bm, vert] = create_footprint(name+"_roof", vertices)
+
+    footprint = bm.faces.new(vert)
+
+    if len(vert) is 4:
+        neat_roof(footprint, bm)
+    else:
+        bmesh.ops.inset_individual(bm,faces=[footprint],thickness=2)
+        bm.faces.ensure_lookup_table()
+        top = bm.faces[0]
+        bmesh.ops.translate(bm, vec=Vector([0,0,2]), verts=[v for v in top.verts])
+
+        # ---- somwhat working code ends here
+        # top = bmesh.ops.extrude_face_region(bm, geom=[footprint])
+        # bmesh.ops.transform(bm, matrix=Matrix.Translation((0,0,1,1)) , verts=[v for v in top["geom"] if isinstance(v,bmesh.types.BMVert)])
+
+        # * Matrix.Scale(1/2,4,Vector((1,1,1)))
+        # bpy.ops.wm.tool_set_by_id(name="builtin.inset_faces")
+
+        # print(bm)
+        # bm = bmesh.from_edit_mesh(mesh)
+
+        # info = bmesh.ops.inset_region(bm, faces=[footprint], thickness=shortest_edge(vert)/3)
+        # print(info)
+        # bm = bmesh.from_edit_mesh(mesh)
+        # topplat = bm.faces[0]
+        # bmesh.ops.translate(bm, vec=Vector((0,0,2)), verts=[v for v in topplat.verts]) # move roof up
+        # bmesh.ops.recalc_face_normals(bm, faces=bm.faces) # correct face normals
+
+    bmesh.ops.translate(bm, vec=Vector([0,0,height]), verts=bm.verts)
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bm.to_mesh(mesh)
+    bm.free()
+
+    return roof
+
+
+def create_footprint(name, vertices):
+    # instantiate mesh
+    mesh = D.meshes.new('mesh')
+    footprint = D.objects.new(name, mesh)
+    C.scene.collection.objects.link(footprint)
+
+    C.view_layer.objects.active = footprint
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    mesh = footprint.data
+    bm = bmesh.new()
+
+    # add vertices to create footprint
+    vert = []
+    for v in vertices:
+        vert.append(bm.verts.new(v))
+
+    return [footprint, mesh, bm, vert]
+
+
+# code from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
+def neat_roof(face, bm):
+    up = Vector((0, 0, 1))
+
+    if len(face.verts) == 4:
+        ret = bmesh.ops.extrude_face_region(bm, geom=[face])
+        verts = [e for e in ret['geom'] if isinstance(e, bmesh.types.BMVert)]
+        faces = [e for e in ret['geom'] if isinstance(e, bmesh.types.BMFace)]
+        bmesh.ops.translate(bm, vec=face.normal * 0.7, verts=verts)
+
+        e1, e2, e3, e4 = faces[0].edges
+        if (e1.calc_length() + e3.calc_length()) < (e2.calc_length() + e4.calc_length()):
+            edges = [e1, e3]
+        else:
+            edges = [e2, e4]
+        bmesh.ops.collapse(bm, edges=edges)
 
 
 def set_uvs(object):
@@ -157,7 +226,7 @@ def face_mean(f):
     if len(f.loops) > 0:
         for l in f.loops:
             c = l.vert.co
-            mean = np.add(mean,np.array([c.x,c.y,c.z]))
+            mean = np.add(mean, np.array([c.x,c.y,c.z]))
         mean = np.divide(mean, len(f.loops))
     return mean.tolist()
 
@@ -166,6 +235,15 @@ def vertex_distance(v1, v2):
     c1 = v1.co
     c2 = v2.co
     return sqrt(pow(c1.x - c2.x, 2) + pow(c1.y - c2.y, 2) + pow(c1.z - c2.z, 2))
+
+
+def shortest_edge(verts):
+    min_edge = float("inf")
+    for i in range(len(verts)):
+        d = vertex_distance(verts[i], verts[(i+1) % len(verts)])
+        if d < min_edge:
+            min_edge = d
+    return d
 
 
 def get_images():
@@ -200,9 +278,9 @@ def main(arguments):
 
         # create and export the building
         if len(images) > 0:
-            create_building(name, vertices, images[int(a) % len(images)])
+            create_building(name, vertices, 5, images[int(a) % len(images)])
         else:
-            create_building(name, vertices, None)
+            create_building(name, vertices, 5, None)
 
     cur.close()
     conn.close()
