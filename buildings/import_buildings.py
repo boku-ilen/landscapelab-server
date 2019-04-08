@@ -12,23 +12,25 @@ import os
 import fiona
 import logging
 
-logger = logging.getLogger('MainLogger')
+
+logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
 
 
 # scans features of a shp file, saves them to the database and assigns the scenario
 def scan_buildings(request, filename: str, scenario_id):
+
     filename = finders.find(os.path.join('buildings', filename))
     logger.info('starting to import file {}'.format(filename))
     if filename is None:
-        logger.info('invalid filename: {}'.format(filename))
+        logger.warning('invalid filename: {}'.format(filename))
         return JsonResponse({'Error': 'unknown filename'})
 
     try:
         scenario = Scenario.objects.get(pk=scenario_id)
-    except ObjectDoesNotExist as error:
-        logger.info('invalid scenario id: {}'.format(scenario_id))
+    except ObjectDoesNotExist:
+        logger.warning('invalid scenario id: {}'.format(scenario_id))
         return JsonResponse({'Error': 'scenario with id {} does not exist'.format(scenario_id)})
 
     if not AssetType.objects.filter(name='building'):
@@ -37,40 +39,47 @@ def scan_buildings(request, filename: str, scenario_id):
     data = {'new': 0, 'updated': 0, 'ignored': 0, 'error': 0}
 
     file = fiona.open(filename)
-    (leng, fin) = (len(file), 0)
+    max_size, count = (len(file), 0)
     for feat in file:
         if feat['geometry']['type'] is 'MultiPolygon':
             for b_id in range(len(feat['geometry']['coordinates'])):
-                result = save_building(feat['geometry']['coordinates'][b_id][0], scenario, '{}_{}'.format(feat['id'], b_id))
+                result = save_building(feat['geometry']['coordinates'][b_id][0],
+                                       scenario, '{}_{}'.format(feat['id'], b_id))
                 data[result] += 1
 
         elif feat['geometry']['type'] is 'Polygon':
-            result = save_building(feat['geometry']['coordinates'][0], scenario, feat['id'])
+            result = save_building(feat['geometry']['coordinates'][0],
+                                   scenario, feat['id'])
             data[result] += 1
         
-        fin += 1
-        if fin % 100 == 0:
-            logger.debug("done with item {} of {} ({}%)".format(fin, leng, round((fin/leng)*100,1)))
+        count += 1
+        if count % 100 == 0:
+            logger.debug("done with item {} of {} ({}%)".format(count, max_size,
+                                                                round((count/max_size)*100,1)))
 
     logger.info('finished importing file {}'.format(filename))
     return JsonResponse({'data': data})
 
 
 # saves one building to the database
-def save_building(vertices : list, scenario : Scenario, name : str):
+def save_building(vertices: list, scenario: Scenario, name: str):
+
     name = '{}_{}'.format(scenario.name, name)
     asset = AssetPositions(asset=Asset(name=name), asset_type=AssetType.objects.get(name='building'))
     building = BuildingFootprint.objects.filter(asset=asset)
     operation = 'new'
+
     if building:
         building = building.first() # since name is unique the query set has to have size 1
         operation = 'updated'
+
     else:
         building = BuildingFootprint()
         ass = Asset(name=name, asset_type=AssetType.objects.get(name='building'))
         ass.save()
         asset.asset = ass
 
+    # TODO: ...
     mean = [0,0]
     for v in vertices:
         mean[0] += v[0]
@@ -78,6 +87,7 @@ def save_building(vertices : list, scenario : Scenario, name : str):
     mean[0]/=len(vertices)
     mean[1]/=len(vertices)
 
+    # TODO ...
     vert = []
     for v in vertices:
         vert.append((v[0]-mean[0],v[1]-mean[1]))
@@ -95,9 +105,11 @@ def save_building(vertices : list, scenario : Scenario, name : str):
     return operation
 
 
-def get_building_tile(scenario : Scenario, location : Point):
+# ..
+def get_building_tile(scenario: Scenario, location: Point):
     tile = get_root_tile(scenario)
-    
+
+    # FIXME .. remove while True
     while True:
         (x, y) = get_corresponding_tile_coordinates(location, tile.lod+1)
         new_tile = Tile.objects.filter(x=x, y=y, lod=tile.lod+1)
@@ -105,11 +117,12 @@ def get_building_tile(scenario : Scenario, location : Point):
             break
         tile = new_tile.first()
        
-    # logger.debug("starting at level {} to generate tiles".format(tile.lod))
+    logger.debug("starting at level {} to generate tiles".format(tile.lod))
     while tile.lod < MIN_LEVEL_BUILDINGS:
         (x,y) = get_corresponding_tile_coordinates(location, tile.lod+1)
         tile = gen_sub_tile(x,y,tile)
-        
+
+    # TODO: check if we can remove that
     # while True:
     #     children = Tile.objects.filter(parent=tile) # tile.parent_set()
     #     new_tile = tile
@@ -131,7 +144,7 @@ def get_building_tile(scenario : Scenario, location : Point):
 
 
 # TODO move to more general context
-def gen_sub_tile(x, y, parent : Tile):
+def gen_sub_tile(x, y, parent: Tile):
     child = Tile(scenario=parent.scenario, parent=parent, x=x, y=y, lod=parent.lod+1)
     child.save()
     
@@ -153,9 +166,11 @@ def get_root_tile(scenario : Scenario):
     tile.parent = tile # maybe tile.parent.save() works (tile.save() does not work because related object 'parent' is unsaved)
     tile.save()
     # generate_dhm_db()
+
     return tile
 
 
-def get_corresponding_tile_coordinates(location : Point, lod):
+def get_corresponding_tile_coordinates(location: Point, lod):
+
     coord = webmercator.Point(meter_x=location.x, meter_y=location.y, zoom_level=lod)
     return coord.tile_x, coord.tile_y

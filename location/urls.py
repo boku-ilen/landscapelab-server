@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
 
-    # get a list of all available scenario and some necessary parameters
+    # get a list of all available scenarios and some necessary parameters
     url(r'^scenario/list.json', views.scenario_list, name="scenario_list"),
 
     # get a list of all available services for a given scenario

@@ -12,7 +12,7 @@ from django.http import JsonResponse, HttpResponse
 from location.models import Impression, Scenario, Session, Map
 
 
-logger = logging.getLogger("MainLogger")
+logger = logging.getLogger(__name__)
 
 
 # uses the pysolar library to calculate the sun angles of a given time and location

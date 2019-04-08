@@ -9,6 +9,7 @@ from requests import HTTPError
 import webmercator
 import owslib.wmts as wmts
 
+
 # current default is the austrian basemap  TODO: make it configurable
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
@@ -102,10 +103,12 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 # get the filename based on tiles with the given coordinates
 # and start fetching the ortho if it is still missing
 def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
+
     filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
     if not os.path.isfile(filename):
         # TODO: maybe postpone the fetching (non-blocking) if not in debug?
         # tile_server = wmts.WebMapTileService(DEFAULT_URL)
         # fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
         filename = "None"
+
     return filename

@@ -1,21 +1,25 @@
 from django import forms
 from django.contrib.gis.geos import Point
 
+
 #taken from https://stackoverflow.com/questions/19231109/geodjango-pointfield-admin-visualization
 class LatLongWidget(forms.MultiWidget):
     """
     A Widget that splits Point input into latitude/longitude text inputs.
     """
 
+
     def __init__(self, attrs=None, date_format=None, time_format=None):
         widgets = (forms.TextInput(attrs=attrs),
                    forms.TextInput(attrs=attrs))
         super(LatLongWidget, self).__init__(widgets, attrs)
 
+
     def decompress(self, value):
         if value:
             return tuple(value.coords)
         return (None, None)
+
 
     def value_from_datadict(self, data, files, name):
         mylat = data[name + '_0']

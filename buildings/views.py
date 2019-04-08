@@ -8,13 +8,12 @@ import os
 import logging
 import subprocess
 
-logger = logging.getLogger('MainLogger')
+
+logger = logging.getLogger(__name__)
 
 BUILDING_PATH = 'buildings'
+BUILDING_IDENTIFIER = 'building'  # this is asset_type id 1
 
-
-# def get_buildings(request, zoom, tile_x, tile_y, assettype_id):
-#     return JsonResponse({'data':['asdf']})
 
 # FIXME: just for test purposes
 def get_from_bbox(request, x_min, y_min, x_max, y_max):
@@ -24,10 +23,12 @@ def get_from_bbox(request, x_min, y_min, x_max, y_max):
 
 
 # FIXME: just for test purposes
-def get_buildings_in_bbox(bbox : Polygon):
-    assets = AssetPositions.objects.filter(location__contained=bbox, asset_type=AssetType.objects.get('building'))
+def get_buildings_in_bbox(bbox: Polygon):
+    assets = AssetPositions.objects.filter(location__contained=bbox,
+                                           asset_type=AssetType.objects.get(BUILDING_IDENTIFIER))
     data = []
     to_create = []
+
     for building in assets:
         p = []
         p.extend(building.location)
@@ -36,14 +37,14 @@ def get_buildings_in_bbox(bbox : Polygon):
             to_create.append(BuildingFootprint.objects.get(asset=building).pk)
 
     if to_create:
-        logger.info('creating {} new buildings'.format(len(to_create)))
+        logger.debug('creating {} new buildings'.format(len(to_create)))
 
         params = ['blender', '--background', '--python', '{}/create_buildings.py'.format('buildings'), '--']
         for b in to_create:
             params.append(str(b))
         subprocess.run(params)
 
-        logger.info('finished creating buildings')
+        logger.debug('finished creating buildings')
 
     return JsonResponse({'data': data})
 
@@ -57,7 +58,7 @@ def generate_buildings_with_asset_id(asset_ids):
     if building_ids:
         logger.info('creating {} new buildings'.format(len(building_ids)))
 
-        params = ['blender', '--background', '--python', '{}\create_buildings.py'.format('buildings'), '--']
+        params = ['blender', '--background', '--python', 'buildings\create_buildings.py', '--']
         for b in building_ids:
             params.append(str(b))
         subprocess.run(params)

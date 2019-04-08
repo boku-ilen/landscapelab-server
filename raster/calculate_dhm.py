@@ -15,6 +15,7 @@ from raster.models import DigitalHeightModel, Tile
 from landscapelab import utils
 import logging
 
+
 DEFAULT_DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/dhm_lamb_10m.tif"
 DHM_SPLAT_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.png"
 DHM_SPLAT_IDENTIFIER = "dhm_splat"

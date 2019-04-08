@@ -4,6 +4,9 @@ import bpy, bmesh
 from math import *
 from mathutils import Vector
 import numpy as np
+# import django
+# from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
+# from buildings.models import BuildingLayout
 
 C = bpy.context
 D = bpy.data
@@ -11,9 +14,6 @@ D = bpy.data
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
     sys.path.append(dir)
-# import django
-# from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
-# from buildings.models import BuildingLayout
 
 # TODO get db connection data from django server somehow
 db = {
@@ -34,10 +34,11 @@ if not os.path.exists(str(out_path)):
     os.makedirs(out_path)
 
 
+# TODO comment
 def create_building(name, vertices, texture=None):
-    vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
     clear_scene()
+    vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
     building = createBaseMesh(name, vertices)
 
     if texture is not None:
@@ -45,11 +46,13 @@ def create_building(name, vertices, texture=None):
         building.data.materials.append(building_mat)
         set_uvs(building)
 
-    bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'), use_texture_copies=False)
+    bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'),
+                              use_texture_copies=False)
     # bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'))
 
 
 def clear_scene():
+
     for m in D.meshes:
         D.meshes.remove(m)
     for o in D.objects:
@@ -67,6 +70,7 @@ def clear_scene():
 
 
 def createBaseMesh(name, vertices):
+
     # instantiate mesh
     mesh = D.meshes.new('mesh')
     building = D.objects.new(name, mesh)
@@ -82,7 +86,8 @@ def createBaseMesh(name, vertices):
 
     layout = bm.faces.new(vert) # create bottom face
     roof = bmesh.ops.extrude_face_region(bm, geom=[layout]) # extrude face to get roof
-    bmesh.ops.translate(bm, vec=Vector((0, 0, 5)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)]) # move roof up
+    # move roof up
+    bmesh.ops.translate(bm, vec=Vector((0, 0, 5)), verts=[v for v in roof["geom"] if isinstance(v,bmesh.types.BMVert)])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces) # correct face normals
 
     # finish mesh
@@ -92,7 +97,9 @@ def createBaseMesh(name, vertices):
     return building
 
 
+# TODO comment
 def set_uvs(object):
+
     C.view_layer.objects.active = object
     bpy.ops.object.mode_set(mode='EDIT')
 
@@ -100,11 +107,13 @@ def set_uvs(object):
     bm = bmesh.from_edit_mesh(mesh)
 
     uv_layer = bm.loops.layers.uv.verify()
+
+    # ... ? TODO
     for f in bm.faces:
         if face_is_wall(f):
             l = f.loops
-            [mx, my, mz] = face_mean(f)
-            [upper, lower] = [[],[]]
+            mx, my, mz = face_mean(f)
+            upper, lower = [],[]
 
             # split in upper and lower parts
             for v in l:
@@ -145,23 +154,28 @@ def create_material(texture):
 
 
 def face_is_wall(f):
+
     if len(f.loops) is 4:
         mean_z = face_mean(f)[2]
         if abs(f.loops[0].vert.co.z - mean_z) > 0.1:
             return True
+
     return False
 
 
 def face_mean(f):
+
     mean = np.zeros(3)
     if len(f.loops) > 0:
         for l in f.loops:
             c = l.vert.co
             mean = np.add(mean,np.array([c.x,c.y,c.z]))
         mean = np.divide(mean, len(f.loops))
+
     return mean.tolist()
 
 
+# TODO ...
 def vertex_distance(v1, v2):
     c1 = v1.co
     c2 = v2.co
@@ -169,8 +183,8 @@ def vertex_distance(v1, v2):
 
 
 def get_images():
-    img_ext = 'jpg'
 
+    img_ext = 'jpg'
     images = []
     files = os.listdir(tex_dir)
 
@@ -182,19 +196,24 @@ def get_images():
 
 
 def main(arguments):
-    images = get_images()
 
-    conn = psycopg2.connect(host=db['HOST'], database=db['NAME'], user=db['USER'], password=db['PASSWORD'], port=db['PORT'])
+    images = get_images()
+    conn = psycopg2.connect(host=db['HOST'], database=db['NAME'], user=db['USER'],
+                            password=db['PASSWORD'], port=db['PORT'])
     cur = conn.cursor()
 
+    # ... TODO
     for a in arguments:
         # get building name TODO maybe get building height as well if it is stored in db
         # FIXME table name is subject to change, do not hardcode, maybe get data in different, more reliable way
-        cur.execute('SELECT name FROM public.assetpos_asset WHERE id IN (SELECT asset_id FROM public.assetpos_assetpositions WHERE id IN (SELECT asset_id FROM public.buildings_buildingfootprint WHERE id = {}));'.format(a))
+        cur.execute('SELECT name FROM public.assetpos_asset WHERE id IN '
+                    '(SELECT asset_id FROM public.assetpos_assetpositions WHERE id IN '
+                    '(SELECT asset_id FROM public.buildings_buildingfootprint WHERE id = {}));'.format(a))
         name = cur.fetchone()[0]
 
         # get building vertices
-        cur.execute('SELECT ST_x(geom), ST_y(geom) FROM (SELECT (St_DumpPoints(vertices)).geom FROM public.buildings_buildingfootprint where id = {}) as foo;'.format(a))
+        cur.execute('SELECT ST_x(geom), ST_y(geom) FROM (SELECT (St_DumpPoints(vertices)).geom FROM '
+                    'public.buildings_buildingfootprint where id = {}) as foo;'.format(a))
         vertices = cur.fetchall()
         del vertices[-1]
 

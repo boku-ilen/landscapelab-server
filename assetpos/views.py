@@ -31,6 +31,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
         return JsonResponse(ret)
     location_point = Point(float(meter_x), float(meter_y))
 
+    # FIXME: hardcoded orientation and tile_id!
     new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1, asset=asset, asset_type=assettype)
     new_assetpos.save()
 
