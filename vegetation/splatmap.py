@@ -1,20 +1,17 @@
 import collections
-import logging
 import os
-
-import webmercator
 from PIL import Image
 from django.conf import settings
 
 from raster import tiles
 
+
 LAND_USE_BASE = settings.STATICFILES_DIRS[0] + "/land-use/data"
 
 
 def get_splatmap_path_and_ids_for_coordinates(meter_x: float, meter_y: float, zoom: int):
-    """Returns the filename of the splatmap for given x and y coordinates (in meters) and a list with all phytocoenosis
-    IDs in this splatmap.
-    If the splatmap doesn't exist yet, it is created.
+    """Returns the filename of the splatmap for given x and y coordinates (in meters) and a list
+    with all phytocoenosis IDs in this splatmap. If the splatmap doesn't exist yet, it is created.
     """
 
     splat_filename = tiles.get_tile(meter_x, meter_y, zoom, LAND_USE_BASE)

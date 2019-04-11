@@ -2,12 +2,13 @@ from django.contrib.gis.db import models
 
 from assetpos.models import Asset
 
+
 LAYER_TYPE = (
-    (1, "K"),
-    (2, "S2"),
-    (3, "S1"),
-    (4, "B2"),
-    (5, "B1")
+    (1, "K"),   # herb layer
+    (2, "S2"),  # lower shrubs
+    (3, "S1"),  # larger shrubs
+    (4, "B2"),  # lower tree layer
+    (5, "B1"),  # high/main tree layer
 )
 
 DISTRIBUTION_TYPE = (
