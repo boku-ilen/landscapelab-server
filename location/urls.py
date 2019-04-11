@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views
+from location import views
 
 
 urlpatterns = [
@@ -8,8 +8,7 @@ urlpatterns = [
     url(r'^scenario/list.json', views.scenario_list, name="scenario_list"),
 
     # get a list of all available services for a given scenario
-    # TODO: change the API to include the scenario id in the request
-    url(r'^areas', views.services_list, name="services_list"),
+    url(r'^services/(?P<scenario_id>\d*).json', views.services_list, name="services_list"),
 
     # get the associated information of a printed map
     url(r'^map/(?P<map_id>\d*).json', views.get_map, name="get_map"),

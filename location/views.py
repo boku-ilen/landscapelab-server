@@ -64,44 +64,45 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
 
 # results an unfiltered list of all configured scenarios on this server
 def scenario_list(request):
+
     result = {}
     lst = Scenario.objects.all()
     for entry in lst:
+
+        # prepare locations and flag the starting location (first entry in order)
+        locations = {}
+        first = True
+        for location in entry.locations:
+            locations[location.order] = {
+                'name': location.name,
+                'location': location.location,
+                'direction': location.direction,
+                'starting_location': first,
+            }
+            first = False
+
+        # return the scenario as json
         result[entry.pk] = {'name': entry.name,
-                            'start_pos': entry.start_location,
+                            'locations': locations,
                             'bounding_polygon': entry.bounding_polygon}
     return JsonResponse(result)
 
 
-# currently we just deliver the preconfigure
-# TODO: in the future get the dynamic list of available services for the database
-def services_list(request):
-    if 'filename' not in request.GET:
-        path = finders.find("areas")
-        area_files = os.listdir(path)
-        area_list = []
-        for area in area_files:
-            if os.path.splitext(area)[1] == '.json':
-                area_list.append(os.path.splitext(area)[0])
-        return JsonResponse({"Areas": area_list})
-    filename = request.GET.get('filename')
+# get the dynamic configuration of a scenario
+def services_list(request, scenario_id):
 
-    path = finders.find(os.path.join("areas", filename + ".json"))
-    logger.debug("delivering area with filename {}".format(path))
-
-    if path is None:
-        return JsonResponse({"Error": "file does not exist"})
-
-    try:
-        with open(path) as f:
-            data = json.load(f)
-        return JsonResponse(data)
-    except JSONDecodeError:
-        return JsonResponse({"Error": "invalid JSON data"})
+    services = {}
+    scenario = Scenario.objects.get(scenario_id)
+    for service in scenario.services:
+        services[service.identifier] = {}
+        for ppty in service.properties:
+            services[service.identifier][ppty.key] = ppty.value
+    return JsonResponse(services)
 
 
 # we start a new tracking session for a given scenario
 def start_session(request, scenario_id):
+
     session = Session()
     try:
         scenario = Scenario.objects.get(pk=scenario_id)

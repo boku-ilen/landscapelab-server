@@ -1,4 +1,49 @@
+from enum import Enum
+
 from django.contrib.gis.db import models
+
+
+# represents a disclosed area with an individual setup of available geodata
+class Scenario(models.Model):
+
+    # the name of the project area
+    name = models.TextField()
+
+    # the bounding polygon
+    bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
+
+
+# an enumeration of all available services which are available for a scenario
+class ServiceChoice(Enum):
+
+    DHM = "Digital Height Model"
+    ORTHO = "Orthophotos"
+    BLDGS = "Buildings"
+    TREES = "Trees / Forests"
+    # TODO: add more..
+
+
+# a service which is associated with an scenario
+class Service(models.Model):
+
+    # the associated scenario
+    scenario = models.ForeignKey(Scenario, related_name='services', on_delete=models.PROTECT)
+
+    # the service identifier
+    identifier = models.CharField(max_length=5, choices=[(tag, tag.value) for tag in ServiceChoice])
+
+
+# a key/value class which provides parameters for a service
+class ServiceProperty(models.Model):
+
+    # the associated service
+    service = models.ForeignKey(Service, related_name="properties", on_delete=models.PROTECT)
+
+    # the identifier (key) of the property
+    key = models.TextField()
+
+    # the value of the property (represented as text)
+    value = models.TextField()
 
 
 # this defines the starting location and alternate interesting visiting points
@@ -13,21 +58,17 @@ class Location(models.Model):
     # the direction in which the user should look in the beginning (0 = north)
     direction = models.FloatField()
 
+    # the associated scenario
+    scenario = models.ForeignKey(Scenario, related_name="locations", on_delete=models.PROTECT)
 
-# represents a disclosed area with an individual setup of available geodata
-class Scenario(models.Model):
+    # the order (where the first element defines the starting location for the scenario)
+    order = models.IntegerField()
 
-    # the name of the project area
-    name = models.TextField()
-
-    # start location when first entering the scenario
-    start_location = models.ForeignKey(Location, on_delete=models.PROTECT)
-
-    # the bounding polygon (TODO: is a seperate bounding box necessairy?)
-    bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
+    class Meta:
+        ordering = ['order']  # default order by property 'order'
 
 
-#
+# the associated printed map for the workshops
 class Map(models.Model):
 
     # the associated scenario for this (printed) map
@@ -35,9 +76,6 @@ class Map(models.Model):
 
     # the unique identifier of the printed map
     identifier = models.TextField()
-
-    # the timestamp when the workshop takes/took place
-    date = models.DateTimeField()
 
     # define the area which is printed on the workshop handouts
     bounding_box = models.PolygonField()
