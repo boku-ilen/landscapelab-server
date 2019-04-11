@@ -1,15 +1,32 @@
 import logging
 
-from django.contrib.gis.geos import Point
+from django.contrib.gis import geos
 from django.http import JsonResponse
 from django.contrib.staticfiles import finders
 
-from assetpos import placement_validation
 from assetpos.models import AssetType, Tile, AssetPositions, Asset
 from buildings.views import generate_buildings_with_asset_id
 
 
 logger = logging.getLogger(__name__)
+
+
+def can_place_at_position(assettype, meter_x, meter_y):
+    """Returns true if the asset with the given id may be placed at the given position."""
+
+    placement_areas = assettype.placement_areas
+
+    # if there are no placement areas present it is not allowed
+    # to place an asset of this asset type
+    if not placement_areas:
+        return False
+
+    # check if the position and the allowed placement areas overlap
+    position = geos.Point(meter_x, meter_y)
+    if placement_areas.covers(position):
+        return True
+    else:
+        return False
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y):
@@ -28,9 +45,9 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
 
     assettype = asset.asset_type
 
-    if not placement_validation.can_place_at_position(assettype, meter_x, meter_y):
+    if not can_place_at_position(assettype, meter_x, meter_y):
         return JsonResponse(ret)
-    location_point = Point(float(meter_x), float(meter_y))
+    location_point = geos.Point(float(meter_x), float(meter_y))
 
     # FIXME: hardcoded orientation and tile_id!
     new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1,
@@ -91,10 +108,10 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
         return JsonResponse(ret)
     assetpos = AssetPositions.objects.get(id=assetpos_id)
 
-    if not placement_validation.can_place_at_position(assetpos.asset_type, meter_x, meter_y):
+    if not can_place_at_position(assetpos.asset_type, meter_x, meter_y):
         return JsonResponse(ret)
 
-    assetpos.location = Point(float(meter_x), float(meter_y))
+    assetpos.location = geos.Point(float(meter_x), float(meter_y))
     assetpos.save()
 
     ret["success"] = True
