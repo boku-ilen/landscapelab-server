@@ -1,20 +1,21 @@
 import logging
 
 from django.contrib.gis.geos import Point
-from django.http import JsonResponse, HttpResponse
-from assetpos.models import AssetType, Tile, AssetPositions, Asset
-from buildings.views import generate_buildings_with_asset_id
+from django.http import JsonResponse
 from django.contrib.staticfiles import finders
 
-from assetpos.placement_validation import can_place_at_position
+from assetpos import placement_validation
+from assetpos.models import AssetType, Tile, AssetPositions, Asset
+from buildings.views import generate_buildings_with_asset_id
+
 
 logger = logging.getLogger(__name__)
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y):
     """Called when an asset should be instantiated at the given location.
-    Returns a JsonResponse with 'creation_success' (bool) and, if true, the 'assetpos_id' of the new assetpos.
-    """
+    Returns a JsonResponse with 'creation_success' (bool) and, if true, the
+    'assetpos_id' of the new assetpos."""
 
     ret = {
         "creation_success": False,
@@ -27,12 +28,13 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
 
     assettype = asset.asset_type
 
-    if not can_place_at_position(assettype, meter_x, meter_y):
+    if not placement_validation.can_place_at_position(assettype, meter_x, meter_y):
         return JsonResponse(ret)
     location_point = Point(float(meter_x), float(meter_y))
 
     # FIXME: hardcoded orientation and tile_id!
-    new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1, asset=asset, asset_type=assettype)
+    new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1,
+                                  asset=asset, asset_type=assettype)
     new_assetpos.save()
 
     ret["creation_success"] = True
@@ -77,9 +79,9 @@ def get_assetposition(request, assetpos_id):
 
 
 def set_assetposition(request, assetpos_id, meter_x, meter_y):
-    """Sets the position of an existing asset instance with the given id to the given coordinates.
-    Returns a JsonResponse with 'success' (bool). If the asset does not exist or can't be moved to that position, this
-    'success' is False."""
+    """Sets the position of an existing asset instance with the given id to the
+    given coordinates. Returns a JsonResponse with 'success' (bool). If the asset
+    does not exist or can't be moved to that position, this 'success' is False."""
 
     ret = {
         "success": False
@@ -89,7 +91,7 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
         return JsonResponse(ret)
     assetpos = AssetPositions.objects.get(id=assetpos_id)
 
-    if not can_place_at_position(assetpos.asset_type, meter_x, meter_y):
+    if not placement_validation.can_place_at_position(assetpos.asset_type, meter_x, meter_y):
         return JsonResponse(ret)
 
     assetpos.location = Point(float(meter_x), float(meter_y))
@@ -112,6 +114,8 @@ def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
     # create the return dict
     ret = []
+    # FIXME: Why do we precalculate the buildings here? At least it should
+    # FIXME: trigger a dedicated method somewhere in buildings?
     gen_buildings = []
     for asset_position in assets:
         if asset_type.name == 'building':
