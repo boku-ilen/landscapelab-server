@@ -5,7 +5,7 @@ import os.path
 import logging
 import json
 
-logger = logging.getLogger('MainLogger')
+logger = logging.getLogger(__name__)
 
 
 # delivers given raster as json

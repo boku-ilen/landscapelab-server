@@ -14,7 +14,7 @@ import owslib.wmts as wmts
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
 DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
-DEFAULT_ZOOM_FROM = 18
+DEFAULT_ZOOM_FROM = 19
 DEFAULT_ZOOM_TO = 22
 
 # the format and location of the ortho pictures
@@ -77,7 +77,7 @@ def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER
         pass  # TODO: error
 
 
-# this fetches a single tile and put's it into our source directory
+# this fetches a single tile and puts it into our source directory
 def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
     file = ORTHOS_FILE.format(layer, zoom, col, row)
@@ -106,9 +106,10 @@ def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
 
     filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
     if not os.path.isfile(filename):
-        # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        # tile_server = wmts.WebMapTileService(DEFAULT_URL)
-        # fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
-        filename = "None"
+        if settings.DEBUG:
+            tile_server = wmts.WebMapTileService(DEFAULT_URL)
+            fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+        else:
+            filename = "None"  # TODO: we could try celery
 
     return filename

@@ -1,10 +1,11 @@
 import webmercator
 from django.http import JsonResponse
+from django.conf import settings
 
-from  django.conf import settings
 from raster import calculate_dhm
 from raster import process_orthos
-from .png_to_response import *
+from raster import png_to_response
+
 
 # TODO: Remove once dhmsplat is finished
 DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/heightmap.png"
@@ -13,7 +14,7 @@ DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/heightmap.png"
 # delivers a static raster file by given filename as json
 # TODO: we will use this for textures and precalculated orthos?
 def static_raster(request, filename):
-    return JsonResponse(request_to_png_response(filename))
+    return JsonResponse(png_to_response.request_to_png_response(filename))
 
 
 # returns the pointer to the filename which contains the combined ortho and dhm info

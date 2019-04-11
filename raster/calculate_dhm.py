@@ -165,10 +165,13 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
 # get the filename for the dhm and splatmap combined file from coordinates
 # checks if the file exists or starts the calculation of given file
 def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
+
     filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
     if not os.path.isfile(filename):
-        # TODO: maybe postpone the fetching (non-blocking) if not in debug?
-        # TODO: Commented out until it's implemented because it throws errors
-        # generate_dhm_splat_tile(tile_x, tile_y, zoom)
-        pass
+        if settings.DEBUG:
+            # FIXME: commented out - does it still raise errors?
+            # generate_dhm_splat_tile(tile_x, tile_y, zoom)
+            pass
+        else:
+            filename = "None"  # TODO: we could try celery
     return filename
