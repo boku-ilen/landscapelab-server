@@ -1,6 +1,7 @@
 import os
 import webmercator
 from PIL import Image
+from raster import epx
 
 ZOOM_PATH = "{}"
 METER_X_PATH = os.path.join(ZOOM_PATH, "{}")
@@ -9,7 +10,7 @@ FULL_PATH = os.path.join(METER_X_PATH, "{}.png")
 MAX_STEP_NUMBER = 10
 
 
-def get_tile(meter_x: float, meter_y: float, zoom: int, path: str):
+def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False):
     """Returns the path to the tile at the given coordinates.
 
     The given path must lead to a tile directory. This means that the content of this directory must be organized like
@@ -19,10 +20,10 @@ def get_tile(meter_x: float, meter_y: float, zoom: int, path: str):
     If such a tile does not exist, it is created by cropping lower LOD tiles.
     """
 
-    return get_cropped_recursively(meter_x, meter_y, zoom, path, 0)
+    return get_cropped_recursively(meter_x, meter_y, zoom, path, 0, do_epx_scale)
 
 
-def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str, steps: int):
+def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str, steps: int, do_epx_scale: bool):
     """Recursively crops tiles until the required one has been generated.
 
     To prevent a stack overflow, the steps are limited to MAX_STEP_NUMBER.
@@ -41,14 +42,14 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
         prev_point_filename = full_path.format(zoom, prev_point.tile_x, prev_point.tile_y)
 
         if not os.path.isfile(prev_point_filename):
-            get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1)
+            get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1, do_epx_scale)
 
-        get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path)
+        get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path, do_epx_scale)
 
     return this_point_filename
 
 
-def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int,  path: str):
+def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale: bool):
     """Takes the tile at the given parameters (which must exist!) and crops it to create a tile one zoom level above
     the given one. This new tile is then saved in the LOD pyramid.
 
@@ -97,5 +98,8 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int,  path: 
                                          int(upper_lower[0] * available_size[1]),
                                          int(left_right[1] * available_size[0]),
                                          int(upper_lower[1] * available_size[1])))
+
+    if do_epx_scale:
+        wanted_image = epx.scale_epx(wanted_image)
 
     wanted_image.save(wanted_filename)
