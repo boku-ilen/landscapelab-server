@@ -8,7 +8,7 @@ class AssetType(models.Model):
     name = models.TextField()
 
     # the areas within this type of asset can be placed
-    placement_areas = models.MultiPolygonField()
+    placement_areas = models.MultiPolygonField(null=True)
 
 
 class Property(models.Model):

@@ -72,10 +72,10 @@ def scenario_list(request):
         # prepare locations and flag the starting location (first entry in order)
         locations = {}
         first = True
-        for location in entry.locations:
+        for location in entry.locations.all():
             locations[location.order] = {
                 'name': location.name,
-                'location': location.location,
+                'location': (location.location.x, location.location.y),
                 'direction': location.direction,
                 'starting_location': first,
             }
@@ -84,7 +84,7 @@ def scenario_list(request):
         # return the scenario as json
         result[entry.pk] = {'name': entry.name,
                             'locations': locations,
-                            'bounding_polygon': entry.bounding_polygon}
+                            'bounding_polygon': entry.bounding_polygon.json}
     return JsonResponse(result)
 
 
