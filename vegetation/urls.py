@@ -9,7 +9,7 @@ urlpatterns = [
         views.get_vegetation_splatmap, name="get_vegetation_splatmap"),
 
     # deliver the required data for a phytocoenosis in a given layer
-    url(r'^(?P<phytocoenosis_id>(\d+))/(?P<layer_name>(.*))',
+    url(r'^(?P<phyto_c_id>(\d+))/(?P<layer_name>(.*))',
         views.get_phytocoenosis_data, name="get_phytocoenosis_data")
 
 ]
