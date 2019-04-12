@@ -1,12 +1,8 @@
-import json
 import logging
 import datetime
-import os
-from json import JSONDecodeError
 
-from django.contrib.gis.geos import Point, MultiPolygon
-from django.contrib.staticfiles import finders
-from pysolar.solar import get_altitude, get_azimuth
+from django.contrib.gis.geos import Point
+from pysolar import solar
 from django.http import JsonResponse, HttpResponse
 
 from location.models import Impression, Scenario, Session, Map
@@ -24,8 +20,8 @@ def sunposition(request, year, month, day, hour, minute, lat, long, elevation):
     # perform the calculation via pysolar
     # FIXME: what to do with the timezone? (make it configurable in the settings or selectable in the client?)
     date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), 0, 0, tzinfo=datetime.timezone.utc)
-    azimuth = get_azimuth(float(lat), float(long), date, float(elevation))
-    altitude = get_altitude(float(lat), float(long), date, float(elevation))
+    azimuth = solar.get_azimuth(float(lat), float(long), date, float(elevation))
+    altitude = solar.get_altitude(float(lat), float(long), date, float(elevation))
 
     # construct the answer
     result = {
