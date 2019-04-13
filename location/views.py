@@ -69,18 +69,21 @@ def scenario_list(request):
         locations = {}
         first = True
         for location in entry.locations.all():
+            transformed_location = location.location.transform("EPSG:3857", True)
+
             locations[location.order] = {
                 'name': location.name,
-                'location': (location.location.x, location.location.y),
+                'location': (transformed_location.x, transformed_location.y),
                 'direction': location.direction,
                 'starting_location': first,
             }
             first = False
 
         # return the scenario as json
+        transformed_polygon = entry.bounding_polygon.transform("EPSG:3857", True)
         result[entry.pk] = {'name': entry.name,
                             'locations': locations,
-                            'bounding_polygon': entry.bounding_polygon.json}
+                            'bounding_polygon': transformed_polygon.json}
     return JsonResponse(result)
 
 
