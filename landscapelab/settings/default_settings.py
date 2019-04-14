@@ -70,12 +70,12 @@ WSGI_APPLICATION = 'landscapelab.wsgi.application'
 
 # Database
 # FIXME: does an sqlite default connection make sense now as we require postgis?
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+    #'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #}
+#}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
