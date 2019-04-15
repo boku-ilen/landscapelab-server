@@ -3,6 +3,7 @@
 * install python 3 (we recommend anaconda)
 * install project dependencies
   * `pip install -r requirements.txt`
+* patch ows library (wmts.py is buggy in current version)
 * install postgresql with postgis extension and configure it properly
 * copy external (geo-)data folder `resources` into the project's root directory
 * copy `logging.conf-dist` to `logging.conf` and (configure it to your needs)
