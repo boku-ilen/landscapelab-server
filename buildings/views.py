@@ -58,7 +58,7 @@ def generate_buildings_with_asset_id(asset_ids):
     if building_ids:
         logger.info('creating {} new buildings'.format(len(building_ids)))
 
-        params = ['blender', '--background', '--python', 'buildings\create_buildings.py', '--']
+        params = ['blender', '--background', '--python', 'buildings/create_buildings.py', '--']
         for b in building_ids:
             params.append(str(b))
         subprocess.run(params)
