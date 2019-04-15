@@ -1,6 +1,5 @@
 from itertools import islice
 
-import fiona
 import os
 import png
 import webmercator

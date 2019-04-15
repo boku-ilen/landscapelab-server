@@ -33,6 +33,15 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     else:
         dhm = 'None'
 
+    # in debug mode make it possible to replace the path which is sent to
+    # the server with another prefix to allow a remote access with different
+    # path layout
+    client_prefix = settings.CLIENT_PATH_PREFIX
+    if settings.DEBUG and client_prefix:
+        server_prefix = settings.STATICFILES_DIRS[0]
+        filename_dhmsplat = filename_dhmsplat.replace(server_prefix, client_prefix)
+        filename_ortho = filename_ortho.replace(server_prefix, client_prefix)
+
     # answer with a json
     ret = {
         'ortho': filename_ortho,
