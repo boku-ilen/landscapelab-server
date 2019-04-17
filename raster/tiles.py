@@ -1,5 +1,6 @@
 import os
 import webmercator
+import logging
 from PIL import Image
 from raster import epx
 
@@ -8,6 +9,8 @@ METER_X_PATH = os.path.join(ZOOM_PATH, "{}")
 FULL_PATH = os.path.join(METER_X_PATH, "{}.png")
 
 MAX_STEP_NUMBER = 10
+
+logger = logging.getLogger(__name__)
 
 
 def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False):
@@ -56,8 +59,6 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     The quarter of the existing tile to crop to is chosen by utilizing how tile coordinates work in OSM:
     2x,2y    2x+1,2y
     2x,2y+1  2x+1,2y+1
-
-    If there is no tile at the given parameters, an IOError is raised.
     """
 
     p_wanted = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom + 1)
@@ -81,7 +82,8 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     wanted_filename = full_path_template.format(zoom + 1, p_wanted.tile_x, p_wanted.tile_y)
 
     if not os.path.isfile(available_filename):
-        raise IOError("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))
+        logger.warning("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))
+        return
 
     zoom_path = zoom_path_template.format(zoom + 1)
     if not os.path.isdir(zoom_path):
