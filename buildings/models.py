@@ -1,9 +1,8 @@
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import Polygon, LinearRing
 from assetpos.models import AssetPositions
 
 
-# FIXME comment...
+# stores building footprint data associated with a building asset
 class BuildingFootprint(models.Model):
 
     # the associated asset with this footprint
@@ -12,6 +11,7 @@ class BuildingFootprint(models.Model):
     # the vertices of the building layout relative to the position
     vertices = models.PolygonField()
 
+    # TODO add building height as a field
 
     # TODO: do we need this somewhere?
     # def __str__(self):

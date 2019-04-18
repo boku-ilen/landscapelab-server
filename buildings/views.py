@@ -49,15 +49,20 @@ def get_buildings_in_bbox(bbox: Polygon):
     return JsonResponse({'data': data})
 
 
+# generates and exports all buildings linked to specified asset IDs
 def generate_buildings_with_asset_id(asset_ids):
+
     assets = AssetPositions.objects.filter(pk__in=asset_ids)
     building_ids = []
+
+    # get the corresponding building IDs to the asset IDs (also filters out any non building assets)
     for asset in assets:
         building_ids.append(BuildingFootprint.objects.get(asset=asset).pk)
 
     if building_ids:
         logger.info('creating {} new buildings'.format(len(building_ids)))
 
+        # start blender in background as a subprocess and add building IDs as parameters
         params = ['blender', '--background', '--python', 'buildings/create_buildings.py', '--']
         for b in building_ids:
             params.append(str(b))
