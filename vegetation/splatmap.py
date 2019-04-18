@@ -6,7 +6,7 @@ from django.conf import settings
 from raster import tiles
 
 
-LAND_USE_BASE = settings.STATICFILES_DIRS[0] + "/land-use/data"
+LAND_USE_BASE = settings.STATICFILES_DIRS[0] + "/raster/land-use/data"
 
 
 def get_splatmap_path_and_ids_for_coordinates(meter_x: float, meter_y: float, zoom: int):
