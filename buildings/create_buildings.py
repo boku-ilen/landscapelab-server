@@ -15,6 +15,9 @@ ASSET_TABLE_NAME = "public.assetpos_asset"
 ASSET_POSITIONS_TABLE_NAME = "public.assetpos_assetpositions"
 BUILDING_FOOTPRINT_TABLE_NAME = "public.buildings_buildingfootprint"
 
+BUILDING_TEXTURE_FOLDER = 'facade'
+ROOF_TEXTURE_FOLDER = 'roof'
+
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
     sys.path.append(dir)
@@ -40,24 +43,15 @@ if not os.path.exists(str(OUTPUT_DIRECTORY)):
 
 # takes name footprint-vertices, building-height and texture name (optional)
 # to create a new building and export it
-def create_building(name, vertices, height, texture=None):
+def create_building(name, vertices, height, textures):
 
     # clear the scene and add z component to the received 2d vertices
     clear_scene()
     vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
-    # crate the base of the building and add textures if possible
-    building = create_base_building_mesh(name, vertices, height)
-    if texture is not None:
-        # create and add material
-        building_mat = create_material(texture)
-        building.data.materials.append(building_mat)
-
-        # set wall UVs
-        set_wall_uvs(building)
-
-    # create the roof
-    create_roof(name, vertices, height)
+    # crate the base of the building and the roof
+    building = create_base_building_mesh(name, vertices, height, textures)
+    roof = create_roof(name, vertices, height, textures)
 
     # export the scene to a collada file
     bpy.ops.wm.collada_export(filepath=os.path.join(OUTPUT_DIRECTORY, name + '.dae'), use_texture_copies=False)
@@ -85,7 +79,7 @@ def clear_scene():
 
 
 # creates a footprint and extrudes it upwards to get a cylindrical base of the building
-def create_base_building_mesh(name, vertices, height):
+def create_base_building_mesh(name, vertices, height, textures):
 
     # create the building footprint
     [building, mesh, bm, footprint] = create_footprint(name, vertices)
@@ -93,21 +87,26 @@ def create_base_building_mesh(name, vertices, height):
     # extrude face to get roof
     roof = bmesh.ops.extrude_face_region(bm, geom=[footprint])
 
-    # move the roof upwards and recalculate the face normals
+    # move the roof upwards, recalculate the face normals and finish edit
     bmesh.ops.translate(bm, vec=Vector((0, 0, height)), verts=[v for v in roof["geom"] if isinstance(v, bmesh.types.BMVert)]) # move roof up
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bmesh.ops.recalc_face_normals(bm, faces = bm.faces)
+    finish_edit(bm, mesh)
 
-    # finish mesh
-    bpy.ops.object.mode_set(mode='OBJECT')
-    bm.to_mesh(mesh)
-    bm.free()
+    # add textures if possible
+    if BUILDING_TEXTURE_FOLDER in textures:
+        # create and add material
+        building_mat = create_material(textures[BUILDING_TEXTURE_FOLDER])
+        building.data.materials.append(building_mat)
+
+        # set wall UVs
+        set_wall_uvs(building)
 
     return building
 
 
 # creates a decently looking roof on any building
 # uses neat_roof() on buildings with 4 vertex footprint
-def create_roof(name, vertices, height):
+def create_roof(name, vertices, height, textures):
 
     # create base face
     [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
@@ -117,8 +116,9 @@ def create_roof(name, vertices, height):
     if len(bm.verts) is 4:
         neat_roof(footprint, bm)
     else:
-
-        bmesh.ops.inset_individual(bm, faces=[footprint], thickness=2)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+        bm.verts.ensure_lookup_table()
+        bmesh.ops.inset_individual(bm, faces=[footprint], thickness = shortest_edge(bm.verts) // 2)
 
         # adjust lookup-table and find new top face
         bm.faces.ensure_lookup_table()
@@ -127,36 +127,30 @@ def create_roof(name, vertices, height):
         # move top face up
         bmesh.ops.translate(bm, vec=Vector([0, 0, 2]), verts=[v for v in top.verts])
 
-        # ---- somwhat working code ends here
-        # top = bmesh.ops.extrude_face_region(bm, geom=[footprint])
-        # bmesh.ops.transform(bm, matrix=Matrix.Translation((0,0,1,1)) , verts=[v for v in top["geom"] if isinstance(v,bmesh.types.BMVert)])
-
-        # * Matrix.Scale(1/2,4,Vector((1,1,1)))
-        # bpy.ops.wm.tool_set_by_id(name="builtin.inset_faces")
-
-        # print(bm)
-        # bm = bmesh.from_edit_mesh(mesh)
-
-        # info = bmesh.ops.inset_region(bm, faces=[footprint], thickness=shortest_edge(vert)/3)
-        # print(info)
-        # bm = bmesh.from_edit_mesh(mesh)
-        # topplat = bm.faces[0]
-        # bmesh.ops.translate(bm, vec=Vector((0,0,2)), verts=[v for v in topplat.verts]) # move roof up
-        # bmesh.ops.recalc_face_normals(bm, faces=bm.faces) # correct face normals
-
-    # translate the roof to the top of the base building
+    # translate the roof to the top of the base building and finish edit
     bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
+    finish_edit(bm, mesh)
 
-    # finish mesh and go back to object mode
-    bpy.ops.object.mode_set(mode='OBJECT')
-    bm.to_mesh(mesh)
-    bm.free()
+    # add textures if possible
+    if ROOF_TEXTURE_FOLDER in textures:
+        # create and add material
+        roof_mat = create_material(textures[ROOF_TEXTURE_FOLDER])
+        roof.data.materials.append(roof_mat)
+
+        # set wall UVs
+        # NOTE: for buildings with 4 vertices this will work perfectly
+        # for other buildings this will distort the UVs
+        # for pattern textures this is hardly noticable
+        # but if for example a window is on the image, it will be noticably distorted
+        # TODO create suitable function for buildings with more than 4 vertices
+        set_wall_uvs(roof)
 
     return roof
 
 
 # creates a new object and adds the footprint of a building as a face
 # returns all necessary elements to continue editing the object
+# NOTE: when caller is finished editing the footprint they should call finish_edit(bm, mesh)
 def create_footprint(name, vertices):
 
     # instantiate mesh
@@ -180,6 +174,14 @@ def create_footprint(name, vertices):
     footprint = bm.faces.new(vert)
 
     return [generated_object, mesh, bm, footprint]
+
+
+# updates mesh, frees bm and returns to object mode
+def finish_edit(bm ,mesh):
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bm.to_mesh(mesh)
+    bm.free()
 
 
 # code from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
@@ -230,8 +232,7 @@ def set_wall_uvs(object):
                     lower.append(v)
 
             # decide how often the texture should repeat itself horizontally
-            columns = max(float(1), vertex_distance(upper[0].vert, lower[0].vert) // 3)
-            # FIXME shouldn't you compare upper with upper?
+            columns = max(float(1), vertex_distance(upper[0].vert, upper[1].vert) // 3)
 
             # find vertex below upper[0] and assign UVs accordingly
             if vertex_distance(upper[0].vert, lower[0].vert) < vertex_distance(upper[0].vert, lower[1].vert):
@@ -317,16 +318,28 @@ def shortest_edge(vertices):
     return d
 
 
-# scans the texture folder for jpg images and returns a list of filenames
+# scans the texture folder
+# creates a dictionary of lists where each subdirectory is a key
+# each list contains all jpg image names of the corresponding direcotry
 def get_images():
 
     img_ext = 'jpg'
-    images = []
-    files = os.listdir(TEXTURE_DIRECTORY)
+    images = {}
+    dirs = os.listdir(TEXTURE_DIRECTORY)
 
-    for file_id in range(len(files)):
-        if files[file_id].endswith(img_ext):
-            images.append(files[file_id])
+    # iterate through all directories
+    for dir in dirs:
+        dir_path = os.path.join(TEXTURE_DIRECTORY, dir)
+        if os.path.isdir(dir_path):
+
+            # add directory name as key to images
+            images[dir] = []
+
+            # add all files with correct extension to images[dir]
+            files = os.listdir(dir_path)
+            for file in files:
+                if file.endswith(img_ext):
+                    images[dir].append(file)
 
     return images
 
@@ -352,7 +365,8 @@ def main(arguments):
                         ASSET_TABLE_NAME,
                         ASSET_POSITIONS_TABLE_NAME,
                         BUILDING_FOOTPRINT_TABLE_NAME,
-                        a)
+                        a
+                        )
                     )
 
         name = cur.fetchone()[0]
@@ -368,11 +382,14 @@ def main(arguments):
         # delete last vertex since it is duplicate of first
         del vertices[-1]
 
+        # select textures from the image pool
+        textures = {}
+        for key, value in images.items():
+            if len(value) > 0:
+                textures[key] = os.path.join(key, value[int(a) % len(value)])
+
         # create and export the building
-        if len(images) > 0:
-            create_building(name, vertices, 5, images[int(a) % len(images)])
-        else:
-            create_building(name, vertices, 5, None)
+        create_building(name, vertices, 5, textures)
 
     cur.close()
     conn.close()
