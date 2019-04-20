@@ -11,6 +11,9 @@ class BuildingFootprint(models.Model):
     # the vertices of the building layout relative to the position
     vertices = models.PolygonField()
 
+    # the height of the building in meters
+    height = models.FloatField()
+
     # TODO add building height as a field
 
     # TODO: do we need this somewhere?

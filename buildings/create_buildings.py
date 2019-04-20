@@ -115,10 +115,19 @@ def create_roof(name, vertices, height, textures):
     # otherwise use inset operator and push resulting face up
     if len(bm.verts) is 4:
         neat_roof(footprint, bm)
+
     else:
+        # prepare face
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
         bm.verts.ensure_lookup_table()
-        bmesh.ops.inset_individual(bm, faces=[footprint], thickness = shortest_edge(bm.verts) // 2)
+
+        # calculate inset thickness and execute inset-operation
+        # TODO while shortest_vertex_distance is a decent approximation it will
+        #  heavily underestimate the polygons thickness in some cases,
+        #  a better approximation would look at each edge and it's distance to
+        #  all the points, that are on the polygon side of the edge
+        thickness = shortest_vertex_distance(bm.verts) / 2
+        bmesh.ops.inset_individual(bm, faces=[footprint], thickness=thickness)
 
         # adjust lookup-table and find new top face
         bm.faces.ensure_lookup_table()
@@ -177,7 +186,7 @@ def create_footprint(name, vertices):
 
 
 # updates mesh, frees bm and returns to object mode
-def finish_edit(bm ,mesh):
+def finish_edit(bm, mesh):
 
     bpy.ops.object.mode_set(mode='OBJECT')
     bm.to_mesh(mesh)
@@ -318,6 +327,20 @@ def shortest_edge(vertices):
     return d
 
 
+# takes a list of vertices and finds
+# the distance of the closest pair in the list
+def shortest_vertex_distance(vertices):
+    min_dist = float("inf")
+
+    for i in range(len(vertices) - 1):
+        for j in range(i + 1, len(vertices)):
+            d = vertex_distance(vertices[i], vertices[j])
+            if min_dist > d:
+                min_dist = d
+
+    return min_dist
+
+
 # scans the texture folder
 # creates a dictionary of lists where each subdirectory is a key
 # each list contains all jpg image names of the corresponding direcotry
@@ -356,25 +379,31 @@ def main(arguments):
     # creates and exports it
     for a in arguments:
 
-        # get building name TODO maybe get building height as well if it is stored in db
-        # FIXME table name is subject to change, do not hardcode, maybe get data in different, more reliable way
-        cur.execute('SELECT name FROM {} WHERE id IN '
-                    '(SELECT asset_id FROM {} WHERE id IN '
-                    '(SELECT asset_id FROM {} WHERE id = {}));'
+        # get building name and height
+        # FIXME maybe get data in different, more reliable way
+        cur.execute('SELECT n.name, h.height '
+                    'FROM {ASSET} as n, (SELECT height FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}) as h '
+                    'WHERE n.id IN '
+                    '(SELECT asset_id FROM {ASSET_POSITIONS} WHERE id IN '
+                    '(SELECT asset_id FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}));'
                     .format(
-                        ASSET_TABLE_NAME,
-                        ASSET_POSITIONS_TABLE_NAME,
-                        BUILDING_FOOTPRINT_TABLE_NAME,
-                        a
+                        ASSET=ASSET_TABLE_NAME,
+                        ASSET_POSITIONS=ASSET_POSITIONS_TABLE_NAME,
+                        BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
+                        argument_id=a
                         )
                     )
-
-        name = cur.fetchone()[0]
+        ret = cur.fetchone()
+        name = ret[0]
+        height = ret[1]
 
         # get building vertices
         cur.execute('SELECT ST_x(geom), ST_y(geom) FROM'
-                    '(SELECT (St_DumpPoints(vertices)).geom FROM {} where id = {}) as foo;'
-                    .format(BUILDING_FOOTPRINT_TABLE_NAME, a)
+                    '(SELECT (St_DumpPoints(vertices)).geom, height FROM {BUILDING_FOOTPRINT} where id = {argument_id}) as foo;'
+                    .format(
+                        BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
+                        argument_id=a
+                        )
                     )
 
         vertices = cur.fetchall()
@@ -389,7 +418,7 @@ def main(arguments):
                 textures[key] = os.path.join(key, value[int(a) % len(value)])
 
         # create and export the building
-        create_building(name, vertices, 5, textures)
+        create_building(name, vertices, height, textures)
 
     cur.close()
     conn.close()
