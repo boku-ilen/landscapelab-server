@@ -9,6 +9,14 @@ def get_vegetation_splatmap(request, meter_x, meter_y, zoom):
     zoom = int(zoom)
     splat_path, ids = splatmap.get_splatmap_path_and_ids_for_coordinates(float(meter_x), float(meter_y), zoom)
 
+    # in debug mode make it possible to replace the path which is sent to
+    # the server with another prefix to allow a remote access with different
+    # path layout
+    if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
+        server_prefix = settings.STATICFILES_DIRS[0]
+        client_prefix = settings.CLIENT_PATH_PREFIX
+        splat_path = splat_path.replace(server_prefix, client_prefix)
+
     res = {
         'path_to_splatmap': splat_path,
         'ids': ids
