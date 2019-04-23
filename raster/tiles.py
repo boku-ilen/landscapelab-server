@@ -3,6 +3,9 @@ import webmercator
 import logging
 from PIL import Image
 from raster import epx
+from django.contrib.gis.geos import Point
+from location.models import Scenario
+from assetpos.models import Tile
 
 ZOOM_PATH = "{}"
 METER_X_PATH = os.path.join(ZOOM_PATH, "{}")
@@ -105,3 +108,88 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
         wanted_image = epx.scale_epx(wanted_image)
 
     wanted_image.save(wanted_filename)
+
+
+# returns the highest LOD (or LOD = max_lod) tile that contains the specified location
+# if the LOD is not high enough new tiles will be generated
+# TODO binary search for the highest currently existing tile could significantly increase performance
+def get_highest_lod_tile(location: Point, parent_tile: Tile, min_lod: int, max_lod: int = 28):
+
+    # break recursion if LOD has reached
+    # the specified max value
+    if parent_tile.lod >= max_lod:
+        return parent_tile
+
+    # get x and y coordinate for the next lod and look for a matching tile
+    x, y = get_corresponding_tile_coordinates(location, parent_tile.lod + 1)
+    child_tile = Tile.objects.filter(x=x, y=y, lod=parent_tile.lod + 1)
+
+    # if no matching tile could be found
+    # check if the LOD is high enough
+    if not child_tile:
+        if parent_tile.lod >= min_lod:
+            # return if LOD is high enough
+            return parent_tile
+
+        else:
+            # create missing LODs if it is not high enough
+            return generate_remaining_sub_tiles(parent_tile, location, min_lod)
+
+    # continue recursion until the highest LOD tile is found
+    return get_highest_lod_tile(location, child_tile.first(), min_lod, max_lod)
+
+
+# recursively generates sub-tiles, from one specific tile with low LOD until
+# the LOD hits the specified target_lod
+# the last generated Tile will be returned
+def generate_remaining_sub_tiles(parent_tile: Tile, location: Point, target_lod: int):
+
+    # break recursion and return highest LOD tile if LOD is high enough
+    if parent_tile.lod >= target_lod:
+        return parent_tile
+
+    # generate tile with higher LOD
+    x, y = get_corresponding_tile_coordinates(location, parent_tile.lod + 1)
+    child_tile = generate_sub_tile(x, y, parent_tile)
+
+    # continue recursion until LOD is high enough
+    return generate_remaining_sub_tiles(child_tile, location, target_lod)
+
+
+# generates a child-tile of specified parent-tile
+def generate_sub_tile(x, y, parent: Tile):
+    child = Tile(scenario=parent.scenario, parent=parent, x=x, y=y, lod=parent.lod + 1)
+    child.save()
+
+    # TODO move assets that are in parent and child to child
+
+    return child
+
+
+# returns the root tile of specified scenario
+def get_root_tile(scenario: Scenario):
+
+    # return Tile.objects.get(scenario=scenario, parent='self') # this apparently does not work
+    # TODO maybe find a more efficient solution (may be possible with simple statement like in comment above)
+
+    # find tile with
+    tiles = Tile.objects.filter(scenario=scenario, x=0, y=0, lod=0)
+    for tile in tiles:
+        if tile.pk == tile.parent.pk:
+            return tile
+
+    # create a new root tile if none could be found
+    tile = Tile(scenario=scenario, x=0, y=0, lod=0)
+    tile.save()
+    tile.parent = tile
+    tile.save()
+
+    return tile
+
+
+# returns the x and y coordinates of the tile that
+# contains the specified location and has the specified LOD
+def get_corresponding_tile_coordinates(location: Point, lod):
+
+    coord = webmercator.Point(meter_x=location.x, meter_y=location.y, zoom_level=lod)
+    return coord.tile_x, coord.tile_y

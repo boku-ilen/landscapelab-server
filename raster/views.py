@@ -6,9 +6,10 @@ from raster import calculate_dhm
 from raster import process_orthos
 from raster import png_to_response
 
+from raster import tiles
 
-# TODO: Remove once dhmsplat is finished
-DHM_FILE = settings.STATICFILES_DIRS[0] + "/raster/heightmap.png"
+
+DHM_BASE = settings.STATICFILES_DIRS[0] + "/raster/heightmap-region-nockberge"
 
 
 # delivers a static raster file by given filename as json
@@ -24,14 +25,9 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     # fetch the related filenames
     zoom = int(zoom)
     p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=zoom)
-    filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
-    filename_dhmsplat = calculate_dhm.get_dhmsplat_from_coords(p.tile_x, p.tile_y, zoom)
 
-    # TODO: Remove once dhmsplat is finished
-    if zoom == 12:
-        dhm = DHM_FILE
-    else:
-        dhm = 'None'
+    filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
+    filename_dhm = tiles.get_tile(float(meter_x), float(meter_y), zoom, DHM_BASE)
 
     # in debug mode make it possible to replace the path which is sent to
     # the server with another prefix to allow a remote access with different
@@ -39,13 +35,12 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
         server_prefix = settings.STATICFILES_DIRS[0]
         client_prefix = settings.CLIENT_PATH_PREFIX
-        filename_dhmsplat = filename_dhmsplat.replace(server_prefix, client_prefix)
         filename_ortho = filename_ortho.replace(server_prefix, client_prefix)
+        filename_dhm = filename_dhm.replace(server_prefix, client_prefix)
 
     # answer with a json
     ret = {
         'ortho': filename_ortho,
-        'dhm': dhm,  # TODO: Remove once dhmsplat is finished
-        'dhmsplat': filename_dhmsplat
+        'dhm': filename_dhm
     }
     return JsonResponse(ret)
