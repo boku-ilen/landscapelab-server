@@ -34,11 +34,6 @@ def sunposition(request, year, month, day, hour, minute, lat, long, elevation):
 # registers an impression into the database
 def register_impression(request, x, y, elevation, target_x, target_y, target_elevation, session_id):
 
-    # TODO: maybe add some sanity checks
-
-    # create a new impression object with the given parameters and stores it in the database
-    # FIXME: how to figure out the associated session object? (store it in the HTTP session?)
-
     try:
         session = Session.objects.get(pk=session_id)
     # the associated session could not be found - we drop the impression
@@ -46,13 +41,19 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
         logger.error("unknown session ID {}".format(session_id))
         return HttpResponse(status=404)
 
+    # create a new impression object with the given parameters and stores it in the database
     impression = Impression()
     impression.session = session
     # FIXME: how to handle srid/projection (?)
-    impression.location = Point(float(x), float(y), float(elevation))
-    impression.viewport = Point(float(target_x), float(target_y), float(target_elevation))
-    impression.save()
-    logger.debug("stored impression {}".format(impression))
+    try:
+        impression.location = Point(float(x), float(y), float(elevation))
+        impression.viewport = Point(float(target_x), float(target_y), float(target_elevation))
+        impression.save()
+        logger.debug("stored impression {}".format(impression))
+    except ValueError:
+        logger.error("invalid parameters to register_impression: {} {} {} {} {} {}".format(x, y, elevation, target_x,
+                                                                                           target_y, target_elevation))
+        return HttpResponse(status=500)
 
     # return an empty content http response
     return HttpResponse(status=204)
