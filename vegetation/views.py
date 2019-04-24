@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.conf import settings
 
 from vegetation import generate_distribution, splatmap, phytocoenosis_textures, vegetation_spritesheet
 
