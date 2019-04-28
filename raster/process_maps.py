@@ -1,9 +1,8 @@
 import logging
 import os
-import shutil
+from urllib import request
 from pathlib import Path
 
-import requests
 import webmercator
 from django.conf import settings
 
@@ -71,12 +70,7 @@ def fetch_tile(tile_url, layer, x, y, zoom):
         # make the request for the image and stores the raw answer into the file
         logger.debug("getting tile {} {}/{}-{}".format(layer, zoom, x, y))
         request_url = tile_url.format("b", zoom, x, y)
-        logger.debug(request_url)
-        request = requests.get(request_url)
-        if request.status_code == 200:
-            request.raw.decode_content = True
-            with open(file, 'wb') as path:
-                shutil.copyfileobj(request.raw, path)
+        request.urlretrieve(request_url, file)
 
     else:
         logger.debug("skipped tile {} {}/{}-{}".format(layer, zoom, y, x))
