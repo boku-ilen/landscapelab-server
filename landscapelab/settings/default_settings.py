@@ -111,4 +111,4 @@ MEDIA_URL = '/out/'
 LOGFILE = "logging.conf"
 
 # this is WebMercator by default
-DEFAULT_SRID = 7483
+DEFAULT_SRID = 3857
