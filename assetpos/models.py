@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from raster.models import Tile
 
@@ -8,7 +9,7 @@ class AssetType(models.Model):
     name = models.TextField()
 
     # the areas within this type of asset can be placed
-    placement_areas = models.MultiPolygonField(null=True)
+    placement_areas = models.MultiPolygonField(null=True, srid=settings.DEFAULT_SRID)
 
 
 class Property(models.Model):
@@ -58,7 +59,7 @@ class AssetPositions(models.Model):
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
 
     # the geographical location
-    location = models.PointField()
+    location = models.PointField(srid=settings.DEFAULT_SRID)
 
     # the direction in degrees (0 = north) of the placement
     orientation = models.FloatField()

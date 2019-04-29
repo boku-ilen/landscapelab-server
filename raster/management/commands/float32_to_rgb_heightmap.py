@@ -28,12 +28,12 @@ class Command(BaseCommand):
         with rasterio.open(filename) as src:
             float32input = src.read(1)
             profile = src.profile
+            
+        # Convert negative pixels to 0, since e.g. nodata may be encoded as -9999
+        float32input[float32input < 0] = 0
 
         # Meters to millimeters
         float_millimeters = float32input * 100
-
-        # Convert negative pixels to 0, since e.g. nodata may be encoded as -9999
-        float_millimeters[float_millimeters < 0] = 0
 
         int_millimeters = float_millimeters.astype(np.uint32)
 

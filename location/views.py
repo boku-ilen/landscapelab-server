@@ -73,7 +73,7 @@ def scenario_list(request):
 
             locations[location.order] = {
                 'name': location.name,
-                'location': (location.x, location.y),
+                'location': (location.location.x, location.location.y),
                 'direction': location.direction,
                 'starting_location': first,
             }

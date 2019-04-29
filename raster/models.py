@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
 
@@ -46,7 +47,7 @@ class DigitalHeightModel(models.Model):
     tile = models.ForeignKey(Tile, null=True, on_delete=models.PROTECT)
 
     # the location of one data point
-    point = models.PointField()
+    point = models.PointField(srid=settings.DEFAULT_SRID)
 
     # height in meters
     height = models.FloatField()

@@ -10,7 +10,7 @@ class BuildingFootprint(models.Model):
     asset = models.ForeignKey(AssetPositions, on_delete=models.PROTECT)
 
     # the vertices of the building layout relative to the position
-    vertices = models.PolygonField(settings.DEFAULT_SRID)
+    vertices = models.PolygonField(srid=settings.DEFAULT_SRID)
 
     # the height of the building in meters
     height = models.FloatField(default=0)
