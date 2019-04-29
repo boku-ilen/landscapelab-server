@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from assetpos.models import AssetPositions
 
@@ -9,13 +10,7 @@ class BuildingFootprint(models.Model):
     asset = models.ForeignKey(AssetPositions, on_delete=models.PROTECT)
 
     # the vertices of the building layout relative to the position
-    vertices = models.PolygonField()
+    vertices = models.PolygonField(settings.DEFAULT_SRID)
 
     # the height of the building in meters
-    height = models.FloatField()
-
-    # TODO add building height as a field
-
-    # TODO: do we need this somewhere?
-    # def __str__(self):
-    #     return "{} ({})".format(self.asset.asset.name, str(self.position))  # FIXME: position not found?
+    height = models.FloatField(default=0)
