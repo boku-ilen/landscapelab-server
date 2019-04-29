@@ -1,5 +1,6 @@
 from enum import Enum
 
+from django.conf import settings
 from django.contrib.gis.db import models
 
 
@@ -10,7 +11,7 @@ class Scenario(models.Model):
     name = models.TextField()
 
     # the bounding polygon
-    bounding_polygon = models.MultiPolygonField()  # TODO: set the default srid (ETRS89-LAEA?)
+    bounding_polygon = models.MultiPolygonField(srid=settings.DEFAULT_SRID)
 
 
 # an enumeration of all available services which are available for a scenario
@@ -19,6 +20,7 @@ class ServiceChoice(Enum):
     DHM = "Digital Height Model"
     ORTHO = "Orthophotos"
     BLDGS = "Buildings"
+    MAP = "Map Tiles"
     TREES = "Trees / Forests"
     # TODO: add more..
 
@@ -53,13 +55,13 @@ class Location(models.Model):
     name = models.TextField()
 
     # the geographic coordinates of the location
-    location = models.PointField()
+    location = models.PointField(srid=settings.DEFAULT_SRID)
 
     # the direction in which the user should look in the beginning (0 = north)
     direction = models.FloatField()
 
     # the associated scenario
-    scenario = models.ForeignKey(Scenario, related_name="locations", on_delete=models.PROTECT)
+    scenario = models.ForeignKey(Scenario, related_name="locations", on_delete=models.DO_NOTHING)
 
     # the order (where the first element defines the starting location for the scenario)
     order = models.IntegerField()
@@ -78,11 +80,10 @@ class Map(models.Model):
     identifier = models.TextField()
 
     # define the area which is printed on the workshop handouts
-    bounding_box = models.PolygonField()
+    bounding_box = models.PolygonField(srid=settings.DEFAULT_SRID)
 
 
 # represents a single planning session which is to be monitored
-# TODO: the current model is just a proposal
 class Session(models.Model):
 
     # automatically fill the timestamp when the recording of a session starts
@@ -92,20 +93,20 @@ class Session(models.Model):
     endtime = models.DateTimeField(null=True, default=None, blank=True)
 
     # the associated area/location
-    scenario = models.ForeignKey(Scenario, on_delete=models.PROTECT)
+    scenario = models.ForeignKey(Scenario, on_delete=models.DO_NOTHING)
 
 
 # a single notification about the location and viewport of the user
 class Impression(models.Model):
 
     # the associated session
-    session = models.ForeignKey(Session, on_delete=models.PROTECT)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
 
     # the location of the camera (3d)
-    location = models.PointField(dim=3)
+    location = models.PointField(dim=3, srid=settings.DEFAULT_SRID)
 
     # the direction of the camera (3d)
-    viewport = models.PointField(dim=3)
+    viewport = models.PointField(dim=3, srid=settings.DEFAULT_SRID)
 
     # the timestamp the impression is recorded
     timestamp = models.DateTimeField(auto_now_add=True)
