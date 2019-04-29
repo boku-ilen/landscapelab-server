@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^attributes/(?P<asset_id>(\d+)).json$', views.get_attributes, name='get_attributes'),
 
     # Creates a new asset (if possible)
+    # FIXME: how to create the actual asset?
     url(r'^create/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)$',
         views.register_assetposition, name='register_assetposition'),
 
