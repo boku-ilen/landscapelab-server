@@ -48,8 +48,9 @@ class Attribute(models.Model):
 # TODO: we have to optimize and probably cache it on the client as this will be called often
 class AssetPositions(models.Model):
 
-    # the associated tile (highest quality) where the
-    tile = models.ForeignKey(Tile, on_delete=models.PROTECT)
+    # the associated tile (highest quality)
+    # nullable for dynamic assets which are not bound to a specific tile
+    tile = models.ForeignKey(Tile, on_delete=models.SET_NULL, null=True)
 
     # the category of asset (e.g. Forest, Buildings, Lamps, etc)
     # TODO: can we get them via asset?
