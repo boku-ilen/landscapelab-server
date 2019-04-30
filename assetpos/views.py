@@ -94,15 +94,15 @@ def get_assetposition(request, assetpos_id):
     return JsonResponse(ret)
 
 
-def get_assetpositions_global(request, assettype_id):
-    """Returns a JsonResponse with the 'position's of all asset instances with the given type.
+def get_assetpositions_global(request, asset_id):
+    """Returns a JsonResponse with the 'position's of all asset instances of the given asset.
     The assets are named by their assetpos ID."""
 
     ret = {
         "assets": None
     }
 
-    assets = AssetPositions.objects.filter(asset_type=assettype_id).all()
+    assets = AssetPositions.objects.filter(asset=asset_id).all()
 
     ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y]} for asset in assets}
 
