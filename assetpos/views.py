@@ -49,7 +49,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
     location_point = geos.Point(float(meter_x), float(meter_y))
 
     # FIXME: hardcoded orientation and tile_id!
-    new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1,
+    new_assetpos = AssetPositions(location=location_point, orientation=1,
                                   asset=asset, asset_type=assettype)
     new_assetpos.save()
 
@@ -90,6 +90,20 @@ def get_assetposition(request, assetpos_id):
     assetpos = AssetPositions.objects.get(id=assetpos_id)
 
     ret["position"] = [assetpos.location.x, assetpos.location.y]
+
+    return JsonResponse(ret)
+
+
+def get_assetpositions_global(request, assettype_id):
+    """Returns a JsonResponse with the 'position's of all assets with the given type."""
+
+    ret = {
+        "assets": None
+    }
+
+    assets = AssetPositions.objects.filter(asset_type=assettype_id).all()
+
+    ret["assets"] = [{"position": [asset.location.x, asset.location.y]} for asset in assets]
 
     return JsonResponse(ret)
 

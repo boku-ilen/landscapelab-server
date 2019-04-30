@@ -23,6 +23,10 @@ urlpatterns = [
     url(r'^set/(?P<assetpos_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)$',
         views.set_assetposition, name='set_assetposition'),
 
+    # Request all locations of an assettype globally
+    url(r'^get_all/(?P<assettype_id>(\d+)).json$',
+        views.get_assetpositions_global, name='get_assetpositions_global'),
+
     # Request all locations of an assettype and a given tile
     url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+))/(?P<tile_y>(\d+))/(?P<zoom>(\d+)).json$',
         views.get_assetpositions, name='get_assetpositions'),
