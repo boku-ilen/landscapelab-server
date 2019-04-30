@@ -95,7 +95,8 @@ def get_assetposition(request, assetpos_id):
 
 
 def get_assetpositions_global(request, assettype_id):
-    """Returns a JsonResponse with the 'position's of all assets with the given type."""
+    """Returns a JsonResponse with the 'position's of all asset instances with the given type.
+    The assets are named by their assetpos ID."""
 
     ret = {
         "assets": None
@@ -103,7 +104,7 @@ def get_assetpositions_global(request, assettype_id):
 
     assets = AssetPositions.objects.filter(asset_type=assettype_id).all()
 
-    ret["assets"] = [{"position": [asset.location.x, asset.location.y]} for asset in assets]
+    ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y]} for asset in assets}
 
     return JsonResponse(ret)
 
@@ -135,6 +136,8 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
+# TODO: The result of this request should be structured the same as the
+#  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
     # fetch all associated assets
