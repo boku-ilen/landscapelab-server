@@ -13,10 +13,4 @@ class BuildingFootprint(models.Model):
     vertices = models.PolygonField(srid=settings.DEFAULT_SRID)
 
     # the height of the building in meters
-    height = models.FloatField()
-
-    # TODO add building height as a field
-
-    # TODO: do we need this somewhere?
-    # def __str__(self):
-    #     return "{} ({})".format(self.asset.asset.name, str(self.position))  # FIXME: position not found?
+    height = models.FloatField(default=0)
