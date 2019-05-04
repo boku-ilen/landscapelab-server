@@ -5,5 +5,12 @@
       "id": 1,
       "name": "building"
     }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 2,
+      "name": "windmill"
+    }
   }
 ]
