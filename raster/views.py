@@ -9,6 +9,7 @@ from raster import png_to_response
 from raster import tiles
 
 
+# FIXME: remove hardcoded reference to specific region in path
 DHM_BASE = settings.STATICFILES_DIRS[0] + "/raster/heightmap-region-nockberge"
 
 

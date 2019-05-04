@@ -49,7 +49,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
     location_point = geos.Point(float(meter_x), float(meter_y))
 
     # FIXME: hardcoded orientation and tile_id!
-    new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1,
+    new_assetpos = AssetPositions(location=location_point, orientation=1,
                                   asset=asset, asset_type=assettype)
     new_assetpos.save()
 
@@ -94,6 +94,21 @@ def get_assetposition(request, assetpos_id):
     return JsonResponse(ret)
 
 
+def get_assetpositions_global(request, asset_id):
+    """Returns a JsonResponse with the 'position's of all asset instances of the given asset.
+    The assets are named by their assetpos ID."""
+
+    ret = {
+        "assets": None
+    }
+
+    assets = AssetPositions.objects.filter(asset=asset_id).all()
+
+    ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y]} for asset in assets}
+
+    return JsonResponse(ret)
+
+
 def set_assetposition(request, assetpos_id, meter_x, meter_y):
     """Sets the position of an existing asset instance with the given id to the
     given coordinates. Returns a JsonResponse with 'success' (bool). If the asset
@@ -121,6 +136,8 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
+# TODO: The result of this request should be structured the same as the
+#  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
     # fetch all associated assets
