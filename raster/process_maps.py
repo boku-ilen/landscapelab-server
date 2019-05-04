@@ -2,6 +2,7 @@ import logging
 import os
 from urllib import request
 from pathlib import Path
+from urllib.error import HTTPError
 
 import webmercator
 from django.conf import settings
@@ -70,7 +71,25 @@ def fetch_tile(tile_url, layer, x, y, zoom):
         # make the request for the image and stores the raw answer into the file
         logger.debug("getting tile {} {}/{}-{}".format(layer, zoom, x, y))
         request_url = tile_url.format("b", zoom, x, y)
-        request.urlretrieve(request_url, file)
+        try:
+            request.urlretrieve(request_url, file)
+        except HTTPError:
+            logger.warning("Could not fetch {}".format(request_url))
 
     else:
         logger.debug("skipped tile {} {}/{}-{}".format(layer, zoom, y, x))
+
+
+# get the filename based on tiles with the given coordinates
+# and start fetching the map if it is still missing
+# FIXME: DRY (this is very similar to process othos etc)
+def get_map_from_coords(tile_x: int, tile_y: int, zoom: int):
+
+    filename = TILE_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
+    if not os.path.isfile(filename):
+        if settings.DEBUG:
+            fetch_tile(TILE_URL_FORMAT, DEFAULT_LAYER, tile_x, tile_y, zoom)
+        else:
+            filename = "None"  # TODO: we could try celery to fetch with delay
+
+    return filename
