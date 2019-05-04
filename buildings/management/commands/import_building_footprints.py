@@ -64,7 +64,6 @@ class Command(BaseCommand):
         max_size, count = (len(file), 0)
         for feat in file:
             if feat['geometry']['type'] is 'MultiPolygon':
-                print(feat['properties'])
                 for b_id in range(len(feat['geometry']['coordinates'])):
                     result = save_building_footprint(
                         feat['geometry']['coordinates'][b_id][0],
@@ -75,7 +74,6 @@ class Command(BaseCommand):
                     data[result] += 1
 
             elif feat['geometry']['type'] is 'Polygon':
-                print(feat['properties'])
                 result = save_building_footprint(
                     feat['geometry']['coordinates'][0],
                     feat['properties'][HEIGHT_FIELD_NAME],
