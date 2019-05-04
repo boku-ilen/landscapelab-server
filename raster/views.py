@@ -39,6 +39,7 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
         client_prefix = settings.CLIENT_PATH_PREFIX
         filename_ortho = filename_ortho.replace(server_prefix, client_prefix)
         filename_dhm = filename_dhm.replace(server_prefix, client_prefix)
+        filename_map = filename_map.replace(server_prefix, client_prefix)
 
     # answer with a json
     ret = {
