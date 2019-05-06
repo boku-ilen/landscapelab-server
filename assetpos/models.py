@@ -8,8 +8,14 @@ class AssetType(models.Model):
     # an identifier string
     name = models.TextField()
 
-    # the areas within this type of asset can be placed
+    # multiple polygons which, depending on the parameter allow_placement are the forbidden or the allowed
+    # areas where this type of object can be placed .. if this parameter is null there are non such areas
+    # and the allow_placement globally allows or disallows the placement of this type
     placement_areas = models.MultiPolygonField(null=True, srid=settings.DEFAULT_SRID)
+
+    # if True it is globally allowed to place this element, the placement_areas are forbidden areas
+    # if False it is not allowed to place this element, the placement_areas are zones where it is allowed
+    allow_placement = models.BooleanField()
 
 
 class Property(models.Model):

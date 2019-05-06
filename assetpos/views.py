@@ -16,16 +16,17 @@ def can_place_at_position(assettype, meter_x, meter_y):
 
     placement_areas = assettype.placement_areas
 
-    # if there are no placement areas present this asset can be placed anywhere
+    # if there are no placement areas present this asset can be placed according
+    # to it's global setting
     if not placement_areas:
-        return True
+        return assettype.allow_placement
 
-    # check if the position and the allowed placement areas overlap
+    # check if the position and the placement areas overlap
     position = geos.Point(meter_x, meter_y)
     if placement_areas.covers(position):
-        return True
+        return not assettype.allow_placement
     else:
-        return False
+        return assettype.allow_placement
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y):
