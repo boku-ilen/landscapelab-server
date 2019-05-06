@@ -49,7 +49,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
         return JsonResponse(ret)
     location_point = geos.Point(float(meter_x), float(meter_y))
 
-    # FIXME: hardcoded orientation and tile_id!
+    # FIXME: hardcoded orientation - how do we want to set it by default?
     new_assetpos = AssetPositions(location=location_point, orientation=1,
                                   asset=asset, asset_type=assettype)
     new_assetpos.save()

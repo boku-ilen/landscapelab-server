@@ -3,14 +3,24 @@
     "model": "assetpos.AssetType",
     "fields": {
       "id": 1,
-      "name": "building"
+      "name": "buildings",
+      "allow_placement": "False"
     }
   },
   {
     "model": "assetpos.AssetType",
     "fields": {
       "id": 2,
-      "name": "windmill"
+      "name": "wind turbine",
+      "allow_placement": "True"
+    }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 3,
+      "name": "photovoltaic plant",
+      "allow_placement": "True"
     }
   }
 ]

@@ -3,8 +3,16 @@
     "model": "assetpos.Asset",
     "fields": {
       "id": 1,
-      "name": "Vestas Windmill",
+      "name": "Vestas wind turbine",
       "asset_type": 2
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
+      "id": 2,
+      "name": "generic pv plant",
+      "asset_type": 3
     }
   }
 ]
