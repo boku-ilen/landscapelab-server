@@ -31,4 +31,7 @@ urlpatterns = [
     url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+))/(?P<tile_y>(\d+))/(?P<zoom>(\d+)).json$',
         views.get_assetpositions, name='get_assetpositions'),
 
+    # returns a nested json of all (editable) assettypes
+    url(r'^get_all_assettypes.json', views.getall_assettypes, name="get_all_assettypes"),
+    url(r'^get_all_editable_assettypes.json', views.getall_assettypes, {"editable": True}, name="get_all_editable"),
 ]

@@ -175,3 +175,12 @@ def get_attributes(request, asset_id):
         ret[attribute.property.identfier] = attribute.value
 
     return JsonResponse(ret)
+
+
+# lists all asset types and nest the associated assets and provide
+# the posibility to filter only editable asset types
+def getall_assettypes(request, editable=False):
+
+    ret = {}
+
+    return JsonResponse(ret)
