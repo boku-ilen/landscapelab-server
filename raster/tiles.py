@@ -9,14 +9,14 @@ from assetpos.models import Tile
 
 ZOOM_PATH = "{}"
 METER_X_PATH = os.path.join(ZOOM_PATH, "{}")
-FULL_PATH = os.path.join(METER_X_PATH, "{}.png")
+FULL_PATH = os.path.join(METER_X_PATH, "{}.{}")
 
 MAX_STEP_NUMBER = 10
 
 logger = logging.getLogger(__name__)
 
 
-def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False):
+def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False, file_ending="png"):
     """Returns the path to the tile at the given coordinates.
 
     The given path must lead to a tile directory. This means that the content of this directory must be organized like
@@ -26,10 +26,10 @@ def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=
     If such a tile does not exist, it is created by cropping lower LOD tiles.
     """
 
-    return get_cropped_recursively(meter_x, meter_y, zoom, path, 0, do_epx_scale)
+    return get_cropped_recursively(meter_x, meter_y, zoom, path, 0, do_epx_scale, file_ending)
 
 
-def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str, steps: int, do_epx_scale: bool):
+def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str, steps: int, do_epx_scale: bool, file_ending: str):
     """Recursively crops tiles until the required one has been generated.
 
     To prevent a stack overflow, the steps are limited to MAX_STEP_NUMBER.
@@ -41,21 +41,21 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
     full_path = os.path.join(path, FULL_PATH)
 
     this_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
-    this_point_filename = full_path.format(zoom, this_point.tile_x, this_point.tile_y)
+    this_point_filename = full_path.format(zoom, this_point.tile_x, this_point.tile_y, file_ending)
 
     if not os.path.isfile(this_point_filename):
         prev_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom - 1)
-        prev_point_filename = full_path.format(zoom, prev_point.tile_x, prev_point.tile_y)
+        prev_point_filename = full_path.format(zoom, prev_point.tile_x, prev_point.tile_y, file_ending)
 
         if not os.path.isfile(prev_point_filename):
-            get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1, do_epx_scale)
+            get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1, do_epx_scale, file_ending)
 
-        get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path, do_epx_scale)
+        get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path, do_epx_scale, file_ending)
 
     return this_point_filename
 
 
-def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale: bool):
+def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale: bool, file_ending: str):
     """Takes the tile at the given parameters (which must exist!) and crops it to create a tile one zoom level above
     the given one. This new tile is then saved in the LOD pyramid.
 
@@ -81,8 +81,8 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     x_path_template = os.path.join(path, METER_X_PATH)
     full_path_template = os.path.join(path, FULL_PATH)
 
-    available_filename = full_path_template.format(zoom, p_available.tile_x, p_available.tile_y)
-    wanted_filename = full_path_template.format(zoom + 1, p_wanted.tile_x, p_wanted.tile_y)
+    available_filename = full_path_template.format(zoom, p_available.tile_x, p_available.tile_y, file_ending)
+    wanted_filename = full_path_template.format(zoom + 1, p_wanted.tile_x, p_wanted.tile_y, file_ending)
 
     if not os.path.isfile(available_filename):
         logger.warning("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))

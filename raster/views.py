@@ -2,8 +2,7 @@ import webmercator
 from django.http import JsonResponse
 from django.conf import settings
 
-from raster import calculate_dhm, process_maps
-from raster import process_orthos
+from raster import process_maps
 from raster import png_to_response
 
 from raster import tiles
@@ -11,6 +10,7 @@ from raster import tiles
 
 # FIXME: remove hardcoded reference to specific region in path
 DHM_BASE = settings.STATICFILES_DIRS[0] + "/raster/heightmap-region-nockberge"
+ORTHO_BASE = settings.STATICFILES_DIRS[0] + "/raster/bmaporthofoto30cm"
 
 
 # delivers a static raster file by given filename as json
@@ -27,7 +27,10 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     zoom = int(zoom)
     p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=zoom)
 
-    filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
+    # TODO: The calls to process_orthos and calculate_dhm (in process_orthos.py) have been removed in favor
+    #  of tiles.get_tile. This means that tiles are cropped, but never fetched from the internet.
+    #  Should we check whether we can download the tile here, before cropping a lower LOD tile?
+    filename_ortho = tiles.get_tile(float(meter_x), float(meter_y), zoom, ORTHO_BASE, False, "jpg")
     filename_map = process_maps.get_map_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhm = tiles.get_tile(float(meter_x), float(meter_y), zoom, DHM_BASE)
 
