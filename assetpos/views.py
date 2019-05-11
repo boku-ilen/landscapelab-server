@@ -141,10 +141,16 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 #  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
+    tile_x = int(float(tile_x))
+    tile_y = int(float(tile_y))
+
     # fetch all associated assets
     asset_type = AssetType.objects.get(id=assettype_id)
-    tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.filter(tile=tile, asset_type=asset_type)
+
+    # TODO: Re-add tile to request once the creation and handling
+    #  of tiles on the server is implemented
+    # tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
+    assets = AssetPositions.objects.filter(asset_type=asset_type)
 
     # create the return dict
     ret = []

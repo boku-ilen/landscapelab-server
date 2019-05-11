@@ -28,7 +28,7 @@ urlpatterns = [
         views.get_assetpositions_global, name='get_assetpositions_global'),
 
     # Request all locations of an assettype and a given tile
-    url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+))/(?P<tile_y>(\d+))/(?P<zoom>(\d+)).json$',
+    url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+(?:\.\d+)))/(?P<tile_y>(\d+(?:\.\d+)))/(?P<zoom>(\d+)).json$',
         views.get_assetpositions, name='get_assetpositions'),
 
     # returns a nested json of all (editable) assettypes
