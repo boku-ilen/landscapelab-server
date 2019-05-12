@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.gis import geos
+from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.staticfiles import finders
 
@@ -184,9 +185,31 @@ def get_attributes(request, asset_id):
 
 
 # lists all asset types and nest the associated assets and provide
-# the posibility to filter only editable asset types
+# the possibility to filter only editable asset types
 def getall_assettypes(request, editable=False):
 
     ret = {}
+
+    # get the relevant asset types
+    if not editable:
+        asset_types = AssetType.objects.all()
+    else:
+        asset_types = AssetType.objects.filter(Q(allow_placement=True) |
+                                               Q(placement_areas__isnull=False))
+
+    # get the assets of each asset types and build the json result
+    for asset_type in asset_types:
+        assets = Asset.objects.filter(asset_type=asset_type)
+        assets_json = {}
+        for asset in assets:
+            assets_json[asset.id] = {
+                'name': asset.name,
+            }
+        ret[asset_type.id] = {
+            'name': asset_type.name,
+            'allow_placement': asset_type.allow_placement,
+            'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'assets': assets_json
+        }
 
     return JsonResponse(ret)
