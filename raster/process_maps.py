@@ -8,14 +8,13 @@ import webmercator
 from django.conf import settings
 
 from location.models import Scenario
+from raster import views
 
 TILE_URL_FORMAT = "https://{}.tile.opentopomap.org/{}/{}/{}.png"
 DEFAULT_LAYER = "opentopomap"
 DEFAULT_ZOOM_FROM = 5
 DEFAULT_ZOOM_TO = 22
 
-# the format and location of the ortho pictures
-TILE_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +57,7 @@ def fetch_tiles(scenario_id, tile_url=TILE_URL_FORMAT, layer=DEFAULT_LAYER,
 # this fetches a single tile and puts it into our source directory
 def fetch_tile(tile_url, layer, x, y, zoom):
 
-    file = TILE_FILE.format(layer, zoom, x, y)
+    file = views.MAP_BASE.format(layer, zoom, x, y)  # FIXME: views is a bad reference for this
 
     if not Path(file).is_file():
 
@@ -82,10 +81,10 @@ def fetch_tile(tile_url, layer, x, y, zoom):
 
 # get the filename based on tiles with the given coordinates
 # and start fetching the map if it is still missing
-# FIXME: DRY (this is very similar to process othos etc)
+# FIXME: propably to be deleted - old code?
 def get_map_from_coords(tile_x: int, tile_y: int, zoom: int):
 
-    filename = TILE_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
+    filename = views.MAP_BASE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
     if not os.path.isfile(filename):
         if settings.DEBUG:
             fetch_tile(TILE_URL_FORMAT, DEFAULT_LAYER, tile_x, tile_y, zoom)

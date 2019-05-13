@@ -106,6 +106,7 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
 # get the filename based on tiles with the given coordinates
 # and start fetching the ortho if it is still missing
+# FIXME: propably to be deleted - old code?
 def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
 
     # generate path with given parameters
@@ -114,7 +115,7 @@ def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
     if not os.path.isfile(filename):
         if settings.DEBUG:
             tile_server = wmts.WebMapTileService(DEFAULT_URL)
-            fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+            fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)
         else:
             filename = "None"  # TODO: we could try celery
 

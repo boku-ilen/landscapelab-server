@@ -133,6 +133,7 @@ def generate_dhm_db(x: int, y: int, zoom: int):
 
 
 # generates a single tile from dhm and splat information in the database
+# FIXME: propably to be deleted - old code?
 def generate_dhm_splat_tile(x: int, y: int, zoom: int):
 
     # load associated tile entry from db
@@ -163,6 +164,7 @@ def generate_dhm_splat_tile(x: int, y: int, zoom: int):
 
 # get the filename for the dhm and splatmap combined file from coordinates
 # checks if the file exists or starts the calculation of given file
+# FIXME: propably to be deleted - old code?
 def get_dhmsplat_from_coords(tile_x, tile_y, zoom):
 
     filename = DHM_SPLAT_FILE.format(DHM_SPLAT_IDENTIFIER, zoom, tile_y, tile_x)
