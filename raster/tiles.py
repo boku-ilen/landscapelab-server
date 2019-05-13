@@ -16,6 +16,8 @@ MAX_STEP_NUMBER = 10
 logger = logging.getLogger(__name__)
 
 
+# TODO: maybe add a callback to the parameters, which is called if the file could not
+# TODO: be found and needs to be downloaded (or generated) externally
 def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False, file_ending="png"):
     """Returns the path to the tile at the given coordinates.
 
