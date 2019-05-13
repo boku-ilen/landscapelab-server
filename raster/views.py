@@ -1,4 +1,3 @@
-import webmercator
 from django.http import JsonResponse
 
 from landscapelab import utils
@@ -28,14 +27,14 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     meter_y = float(meter_y)
 
     # TODO: maybe we add callbacks later to generate the files if they could not be found
-    filename_ortho = tiles.get_tile(meter_x, meter_y, zoom, ORTHO_BASE, False, "jpg")
-    filename_map = tiles.get_tile(meter_x, meter_y, zoom, MAP_BASE, False, "jpg")
-    filename_dhm = tiles.get_tile(meter_x, meter_y, zoom, DHM_BASE)
+    filename_ortho = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(ORTHO_BASE), False, "jpg")
+    filename_map = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(MAP_BASE), False, "jpg")
+    filename_dhm = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(DHM_BASE))
 
     # answer with a json
     ret = {
-        'ortho': utils.get_full_texture_path(filename_ortho),
-        'map': utils.get_full_texture_path(filename_map),
-        'dhm': utils.get_full_texture_path(filename_dhm)
+        'ortho': filename_ortho,
+        'map': filename_map,
+        'dhm': filename_dhm
     }
     return JsonResponse(ret)
