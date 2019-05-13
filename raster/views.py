@@ -1,8 +1,7 @@
 import webmercator
 from django.http import JsonResponse
-from django.conf import settings
 
-from raster import calculate_dhm
+from landscapelab import utils
 from raster import process_orthos
 from raster import png_to_response
 
@@ -10,7 +9,7 @@ from raster import tiles
 
 
 # FIXME: remove hardcoded reference to specific region in path
-DHM_BASE = settings.STATICFILES_DIRS[0] + "/raster/heightmap-region-nockberge"
+DHM_BASE = "/raster/heightmap-region-nockberge"
 
 
 # delivers a static raster file by given filename as json
@@ -30,18 +29,9 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhm = tiles.get_tile(float(meter_x), float(meter_y), zoom, DHM_BASE)
 
-    # in debug mode make it possible to replace the path which is sent to
-    # the server with another prefix to allow a remote access with different
-    # path layout
-    if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
-        server_prefix = settings.STATICFILES_DIRS[0]
-        client_prefix = settings.CLIENT_PATH_PREFIX
-        filename_ortho = filename_ortho.replace(server_prefix, client_prefix)
-        filename_dhm = filename_dhm.replace(server_prefix, client_prefix)
-
     # answer with a json
     ret = {
-        'ortho': filename_ortho,
-        'dhm': filename_dhm
+        'ortho': filename_ortho,  # here the path replacement already is done in the implementation
+        'dhm': utils.get_full_texture_path(filename_dhm)
     }
     return JsonResponse(ret)

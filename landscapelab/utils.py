@@ -25,3 +25,14 @@ def reload_logging(request):
 
     if request is not None:
         return HttpResponse(status=200)
+
+
+# construct the full path and replace the path prefix for remote test server setup in debug mode
+def get_full_texture_path(local_path):
+    full_path = os.path.join(settings.STATICFILES_DIRS[0], local_path)
+
+    if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
+        server_prefix = settings.STATICFILES_DIRS[0]
+        client_prefix = settings.CLIENT_PATH_PREFIX
+        full_path = full_path.replace(server_prefix, client_prefix)
+    return full_path

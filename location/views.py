@@ -124,7 +124,7 @@ def get_map(request, map_id):
     printed_map = Map.objects.get(id=map_id)
     result = {
         'identifier': printed_map.identifier,
-        'bounding_box': printed_map.bounding_box
+        'bounding_box': printed_map.bounding_box.json
     }
 
     return JsonResponse(result)
