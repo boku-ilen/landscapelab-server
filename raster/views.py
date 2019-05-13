@@ -33,8 +33,8 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
 
     # answer with a json
     ret = {
-        'ortho': filename_ortho,
-        'map': filename_map,
-        'dhm': filename_dhm
+        'ortho': utils.replace_path_prefix(filename_ortho),
+        'map': utils.replace_path_prefix(filename_map),
+        'dhm': utils.replace_path_prefix(filename_dhm)
     }
     return JsonResponse(ret)

@@ -25,9 +25,9 @@ def get_all_ground_texture_paths(pytho_c_id):
         heightmap_detail_path = utils.get_full_texture_path(phytocoenosis.heightmap_detail_path)
 
     tex_dict = {
-        "albedo_path": albedo_path,
-        "normal_path": normal_path,
-        "heightmap_detail_path": heightmap_detail_path,
+        "albedo_path": utils.replace_path_prefix(albedo_path),
+        "normal_path": utils.replace_path_prefix(normal_path),
+        "heightmap_detail_path": utils.replace_path_prefix(heightmap_detail_path),
     }
 
     # Remove None values
