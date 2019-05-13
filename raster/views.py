@@ -2,7 +2,7 @@ import webmercator
 from django.http import JsonResponse
 
 from landscapelab import utils
-from raster import process_orthos
+from raster import process_maps
 from raster import png_to_response
 
 from raster import tiles
@@ -10,7 +10,7 @@ from raster import tiles
 
 # FIXME: remove hardcoded reference to specific region in path
 DHM_BASE = "/raster/heightmap-region-nockberge"
-
+ORTHO_BASE = "/raster/bmaporthofoto30cm"
 
 # delivers a static raster file by given filename as json
 # TODO: we will use this for textures and precalculated orthos?
@@ -26,12 +26,17 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
     zoom = int(zoom)
     p = webmercator.Point(meter_x=float(meter_x), meter_y=float(meter_y), zoom_level=zoom)
 
-    filename_ortho = process_orthos.get_ortho_from_coords(p.tile_x, p.tile_y, zoom)
+    # TODO: The calls to process_orthos and calculate_dhm (in process_orthos.py) have been removed in favor
+    #  of tiles.get_tile. This means that tiles are cropped, but never fetched from the internet.
+    #  Should we check whether we can download the tile here, before cropping a lower LOD tile?
+    filename_ortho = tiles.get_tile(float(meter_x), float(meter_y), zoom, ORTHO_BASE, False, "jpg")
+    filename_map = process_maps.get_map_from_coords(p.tile_x, p.tile_y, zoom)
     filename_dhm = tiles.get_tile(float(meter_x), float(meter_y), zoom, DHM_BASE)
 
     # answer with a json
     ret = {
-        'ortho': filename_ortho,  # here the path replacement already is done in the implementation
+        'ortho': utils.get_full_texture_path(filename_ortho),
+        'map': filename_map,
         'dhm': utils.get_full_texture_path(filename_dhm)
     }
     return JsonResponse(ret)

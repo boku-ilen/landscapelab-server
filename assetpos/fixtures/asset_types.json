@@ -1,0 +1,26 @@
+[
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 1,
+      "name": "buildings",
+      "allow_placement": "False"
+    }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 2,
+      "name": "wind turbine",
+      "allow_placement": "True"
+    }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 3,
+      "name": "photovoltaic plant",
+      "allow_placement": "True"
+    }
+  }
+]

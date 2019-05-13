@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.gis import geos
+from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.staticfiles import finders
 
@@ -16,16 +17,17 @@ def can_place_at_position(assettype, meter_x, meter_y):
 
     placement_areas = assettype.placement_areas
 
-    # if there are no placement areas present this asset can be placed anywhere
+    # if there are no placement areas present this asset can be placed according
+    # to it's global setting
     if not placement_areas:
-        return True
+        return assettype.allow_placement
 
-    # check if the position and the allowed placement areas overlap
+    # check if the position and the placement areas overlap
     position = geos.Point(meter_x, meter_y)
     if placement_areas.covers(position):
-        return True
+        return not assettype.allow_placement
     else:
-        return False
+        return assettype.allow_placement
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y):
@@ -48,8 +50,8 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
         return JsonResponse(ret)
     location_point = geos.Point(float(meter_x), float(meter_y))
 
-    # FIXME: hardcoded orientation and tile_id!
-    new_assetpos = AssetPositions(location=location_point, orientation=1, tile_id=1,
+    # FIXME: hardcoded orientation - how do we want to set it by default?
+    new_assetpos = AssetPositions(location=location_point, orientation=1,
                                   asset=asset, asset_type=assettype)
     new_assetpos.save()
 
@@ -94,6 +96,21 @@ def get_assetposition(request, assetpos_id):
     return JsonResponse(ret)
 
 
+def get_assetpositions_global(request, asset_id):
+    """Returns a JsonResponse with the 'position's of all asset instances of the given asset.
+    The assets are named by their assetpos ID."""
+
+    ret = {
+        "assets": None
+    }
+
+    assets = AssetPositions.objects.filter(asset=asset_id).all()
+
+    ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y]} for asset in assets}
+
+    return JsonResponse(ret)
+
+
 def set_assetposition(request, assetpos_id, meter_x, meter_y):
     """Sets the position of an existing asset instance with the given id to the
     given coordinates. Returns a JsonResponse with 'success' (bool). If the asset
@@ -121,12 +138,20 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
+# TODO: The result of this request should be structured the same as the
+#  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
+
+    tile_x = int(float(tile_x))
+    tile_y = int(float(tile_y))
 
     # fetch all associated assets
     asset_type = AssetType.objects.get(id=assettype_id)
-    tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.filter(tile=tile, asset_type=asset_type)
+
+    # TODO: Re-add tile to request once the creation and handling
+    #  of tiles on the server is implemented
+    # tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
+    assets = AssetPositions.objects.filter(asset_type=asset_type)
 
     # create the return dict
     ret = []
@@ -155,5 +180,36 @@ def get_attributes(request, asset_id):
     asset = Asset.objects.get(id=asset_id)
     for attribute in asset.attributes:
         ret[attribute.property.identfier] = attribute.value
+
+    return JsonResponse(ret)
+
+
+# lists all asset types and nest the associated assets and provide
+# the possibility to filter only editable asset types
+def getall_assettypes(request, editable=False):
+
+    ret = {}
+
+    # get the relevant asset types
+    if not editable:
+        asset_types = AssetType.objects.all()
+    else:
+        asset_types = AssetType.objects.filter(Q(allow_placement=True) |
+                                               Q(placement_areas__isnull=False))
+
+    # get the assets of each asset types and build the json result
+    for asset_type in asset_types:
+        assets = Asset.objects.filter(asset_type=asset_type)
+        assets_json = {}
+        for asset in assets:
+            assets_json[asset.id] = {
+                'name': asset.name,
+            }
+        ret[asset_type.id] = {
+            'name': asset_type.name,
+            'allow_placement': asset_type.allow_placement,
+            'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'assets': assets_json
+        }
 
     return JsonResponse(ret)
