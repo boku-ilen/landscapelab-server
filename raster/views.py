@@ -7,9 +7,9 @@ from raster import tiles
 
 
 # FIXME: remove hardcoded reference to specific region in path
-DHM_BASE = "/raster/heightmap-region-nockberge"
-ORTHO_BASE = "/raster/bmaporthofoto30cm"
-MAP_BASE = "/raster/{}".format(process_maps.DEFAULT_LAYER)  # TODO: how to configure different map styles later on?
+DHM_BASE = "raster/heightmap-region-nockberge"
+ORTHO_BASE = "raster/bmaporthofoto30cm"
+MAP_BASE = "raster/{}".format(process_maps.DEFAULT_LAYER)  # TODO: how to configure different map styles later on?
 
 
 # delivers a static raster file by given filename as json
