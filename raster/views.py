@@ -27,7 +27,7 @@ def get_ortho_dhm(request, meter_x: str, meter_y: str, zoom: str):
 
     # TODO: maybe we add callbacks later to generate the files if they could not be found
     filename_ortho = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(ORTHO_BASE), False, "jpg")
-    filename_map = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(MAP_BASE), False, "jpg")
+    filename_map = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(MAP_BASE), False)
     filename_dhm = tiles.get_tile(meter_x, meter_y, zoom, utils.get_full_texture_path(DHM_BASE))
 
     # answer with a json
