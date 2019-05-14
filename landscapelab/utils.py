@@ -34,6 +34,11 @@ def get_full_texture_path(local_path):
 
 # replace the client prefix in debug mode
 def replace_path_prefix(full_path):
+
+    # do a null check, as it could happen to get an empty parameter
+    if not full_path:
+        return None
+
     if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
         server_prefix = settings.STATICFILES_DIRS[0]
         client_prefix = settings.CLIENT_PATH_PREFIX
