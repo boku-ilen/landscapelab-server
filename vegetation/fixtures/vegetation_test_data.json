@@ -95,7 +95,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_1.png"
+      "billboard": "Acker Getreide/Getreide-SO_1.png"
     }
   },
   {
@@ -107,7 +107,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_2.png"
+      "billboard": "Acker Getreide/Getreide-SO_2.png"
     }
   },
   {
@@ -119,7 +119,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Acker Getreide/Getreide-SO_3.png"
+      "billboard": "Acker Getreide/Getreide-SO_3.png"
     }
   },
 
@@ -132,7 +132,7 @@
       "sigma_height": 10,
       "vegetation_layer": 1,
       "distribution_density": 0.1,
-      "billboard": "landscapelab/resources/plants/Hackfruchtacker/hackfrucht1.png"
+      "billboard": "Hackfruchtacker/hackfrucht1.png"
     }
   },
 
@@ -144,7 +144,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/plants/Klee/gras-grün-1.png"
+      "billboard": "Klee/gras-grün-1.png"
     }
   },
 
@@ -157,7 +157,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Mais/Corn1.png"
+      "billboard": "Mais/Corn1.png"
     }
   },
   {
@@ -169,7 +169,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Mais/Corn2.png"
+      "billboard": "Mais/Corn2.png"
     }
   },
   {
@@ -181,7 +181,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Mais/Corn3.png"
+      "billboard": "Mais/Corn3.png"
     }
   },
   {
@@ -193,7 +193,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.2,
-      "billboard": "landscapelab/resources/plants/Mais/Corn4.png"
+      "billboard": "Mais/Corn4.png"
     }
   },
 
@@ -206,7 +206,7 @@
       "sigma_height": 10,
       "vegetation_layer": 1,
       "distribution_density": 0.05,
-      "billboard": "landscapelab/resources/plants/Mohn/blume_rot.png"
+      "billboard": "Mohn/blume_rot.png"
     }
   },
 
@@ -218,7 +218,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/plants/Mohn/greengrass083d.png"
+      "billboard": "Mohn/greengrass083d.png"
     }
   },
 
@@ -231,7 +231,7 @@
       "sigma_height": 10,
       "vegetation_layer": 3,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Plantageobst/tafelobst_a.png"
+      "billboard": "Plantageobst/tafelobst_a.png"
     }
   },
   {
@@ -243,7 +243,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Plantageobst/tafelobst_b.png"
+      "billboard": "Plantageobst/tafelobst_b.png"
     }
   },
 
@@ -256,7 +256,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.1,
-      "billboard": "landscapelab/resources/plants/Raps/rapeseed3.png"
+      "billboard": "Raps/rapeseed3.png"
     }
   },
 
@@ -269,7 +269,7 @@
       "sigma_height": 10,
       "vegetation_layer": 3,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_001.png"
+      "billboard": "Streuobstwiese/baum_so_001.png"
     }
   },
   {
@@ -281,7 +281,7 @@
       "sigma_height": 10,
       "vegetation_layer": 3,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_002.png"
+      "billboard": "Streuobstwiese/baum_so_002.png"
     }
   },
   {
@@ -293,7 +293,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Streuobstwiese/baum_so_004.png"
+      "billboard": "Streuobstwiese/baum_so_004.png"
     }
   },
 
@@ -306,7 +306,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/af_tree_20.png"
+      "billboard": "Wald/af_tree_20.png"
     }
   },
   {
@@ -318,7 +318,7 @@
       "sigma_height": 10,
       "vegetation_layer": 3,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/busch01.png"
+      "billboard": "Wald/busch01.png"
     }
   },
   {
@@ -330,7 +330,7 @@
       "sigma_height": 10,
       "vegetation_layer": 3,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/busch02.png"
+      "billboard": "Wald/busch02.png"
     }
   },
   {
@@ -342,7 +342,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/fraxinus2.png"
+      "billboard": "Wald/fraxinus2.png"
     }
   },
   {
@@ -354,7 +354,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/quercus.png"
+      "billboard": "Wald/quercus.png"
     }
   },
   {
@@ -366,7 +366,7 @@
       "sigma_height": 10,
       "vegetation_layer": 4,
       "distribution_density": 0.02,
-      "billboard": "landscapelab/resources/plants/Wald/quercus1.png"
+      "billboard": "Wald/quercus1.png"
     }
   },
 
@@ -379,7 +379,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.1,
-      "billboard": "landscapelab/resources/plants/Wein/wein1.png"
+      "billboard": "Wein/wein1.png"
     }
   },
   {
@@ -391,7 +391,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.1,
-      "billboard": "landscapelab/resources/plants/Wein/wein2.png"
+      "billboard": "Wein/wein2.png"
     }
   },
   {
@@ -403,7 +403,7 @@
       "sigma_height": 10,
       "vegetation_layer": 2,
       "distribution_density": 0.1,
-      "billboard": "landscapelab/resources/plants/Wein/wein3.png"
+      "billboard": "Wein/wein3.png"
     }
   },
 
@@ -415,7 +415,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/plants/Wiesen/greengrass005d.png"
+      "billboard": "Wiesen/greengrass005d.png"
     }
   },
   {
@@ -426,7 +426,7 @@
       "avg_height": 30,
       "sigma_height": 10,
       "vegetation_layer": 1,
-      "billboard": "landscapelab/resources/plants/Wiesen/greengrass083d.png"
+      "billboard": "Wiesen/greengrass083d.png"
     }
   },
   {
@@ -438,7 +438,7 @@
       "sigma_height": 10,
       "vegetation_layer": 1,
       "distribution_density": 0.05,
-      "billboard": "landscapelab/resources/plants/Wein/blume_weiss.png"
+      "billboard": "Wein/blume_weiss.png"
     }
   },
 
