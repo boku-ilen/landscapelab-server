@@ -92,11 +92,11 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
 
     zoom_path = zoom_path_template.format(zoom + 1)
     if not os.path.isdir(zoom_path):
-        os.mkdir(zoom_path)
+        os.makedirs(zoom_path)
 
     x_path = x_path_template.format(zoom + 1, p_wanted.tile_x)
     if not os.path.isdir(x_path):
-        os.mkdir(x_path)
+        os.makedirs(x_path)
 
     available_image = Image.open(available_filename)
     available_size = tuple(available_image.size)
