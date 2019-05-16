@@ -45,11 +45,11 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
     this_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
     this_point_filename = full_path.format(zoom, this_point.tile_x, this_point.tile_y, file_ending)
 
-    if not os.path.isfile(this_point_filename):
+    if not os.path.isfile(this_point_filename) or (os.path.getsize(this_point_filename) == 0):
         prev_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom - 1)
         prev_point_filename = full_path.format(zoom, prev_point.tile_x, prev_point.tile_y, file_ending)
 
-        if not os.path.isfile(prev_point_filename):
+        if not os.path.isfile(prev_point_filename) or (os.path.getsize(prev_point_filename) == 0):
             get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1, do_epx_scale, file_ending)
 
         get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path, do_epx_scale, file_ending)
