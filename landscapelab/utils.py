@@ -49,4 +49,7 @@ def replace_path_prefix(full_path):
     # is for sure a better overall implementation of this
     full_path = os.path.relpath(full_path, settings.STATICFILES_DIRS[0])
 
+    # godot only accepts unix-style path separators ('/') so we replace them
+    full_path = full_path.replace("\\", "/")
+
     return full_path
