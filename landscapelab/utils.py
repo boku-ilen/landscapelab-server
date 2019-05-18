@@ -43,4 +43,10 @@ def replace_path_prefix(full_path):
         server_prefix = settings.STATICFILES_DIRS[0]
         client_prefix = settings.CLIENT_PATH_PREFIX
         full_path = full_path.replace(server_prefix, client_prefix)
+
+    # to provide relative paths to the client now we revert the
+    # string join done in get_full_texture_path for now. There
+    # is for sure a better overall implementation of this
+    full_path = os.path.relpath(full_path, settings.STATICFILES_DIR[0])
+
     return full_path
