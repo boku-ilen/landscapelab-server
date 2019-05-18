@@ -47,6 +47,6 @@ def replace_path_prefix(full_path):
     # to provide relative paths to the client now we revert the
     # string join done in get_full_texture_path for now. There
     # is for sure a better overall implementation of this
-    full_path = os.path.relpath(full_path, settings.STATICFILES_DIR[0])
+    full_path = os.path.relpath(full_path, settings.STATICFILES_DIRS[0])
 
     return full_path
