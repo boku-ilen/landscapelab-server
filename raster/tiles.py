@@ -98,18 +98,22 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     if not os.path.isdir(x_path):
         os.makedirs(x_path)
 
-    available_image = Image.open(available_filename)
-    available_size = tuple(available_image.size)
+    try:
+        available_image = Image.open(available_filename)
+        available_size = tuple(available_image.size)
 
-    wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
-                                         int(upper_lower[0] * available_size[1]),
-                                         int(left_right[1] * available_size[0]),
-                                         int(upper_lower[1] * available_size[1])))
+        wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
+                                             int(upper_lower[0] * available_size[1]),
+                                             int(left_right[1] * available_size[0]),
+                                             int(upper_lower[1] * available_size[1])))
 
-    if do_epx_scale:
-        wanted_image = epx.scale_epx(wanted_image)
+        if do_epx_scale:
+            wanted_image = epx.scale_epx(wanted_image)
 
-    wanted_image.save(wanted_filename)
+        wanted_image.save(wanted_filename)
+
+    except OSError:
+        logger.warning("Could not process file {} - this file does not seem valid". format(available_filename))
 
 
 # returns the highest LOD (or LOD = max_lod) tile that contains the specified location
