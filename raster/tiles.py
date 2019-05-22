@@ -93,21 +93,25 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     x_path = x_path_template.format(zoom + 1, p_wanted.tile_x)
     os.makedirs(x_path, exist_ok=True)
 
-    available_image = Image.open(available_filename)
-    available_size = tuple(available_image.size)
+    try:
+        available_image = Image.open(available_filename)
+        available_size = tuple(available_image.size)
 
-    wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
-                                         int(upper_lower[0] * available_size[1]),
-                                         int(left_right[1] * available_size[0]),
-                                         int(upper_lower[1] * available_size[1])))
+        wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
+                                             int(upper_lower[0] * available_size[1]),
+                                             int(left_right[1] * available_size[0]),
+                                             int(upper_lower[1] * available_size[1])))
 
-    if do_epx_scale:
-        wanted_image = epx.scale_epx(wanted_image)
+        if do_epx_scale:
+            wanted_image = epx.scale_epx(wanted_image)
 
-    # FIXME: It is possible that in the time since we last checked whether the image exists,
-    #  the same request was handled in another thread. This means that the image already
-    #  exists at this point, even though we checked earlier. We need a Mutex!
-    wanted_image.save(wanted_filename)
+        # FIXME: It is possible that in the time since we last checked whether the image exists,
+        #  the same request was handled in another thread. This means that the image already
+        #  exists at this point, even though we checked earlier. We need a Mutex!
+        wanted_image.save(wanted_filename)
+
+    except OSError:
+        logger.warning("Could not process file {} - this file does not seem valid". format(available_filename))
 
 
 # returns the highest LOD (or LOD = max_lod) tile that contains the specified location

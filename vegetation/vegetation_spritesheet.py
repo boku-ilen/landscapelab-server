@@ -55,8 +55,8 @@ def generate_spritesheet(phyto_c_id, layer):
 
     # If the number of sprites is 0, this request shouldn't be here - log that
     if number_of_sprites == 0:
-        logger.info("No sprites in phytocoenosis {} at layer {}!".format(phyto_c_id, layer))
-        logger.warning("Spritesheet not created!")
+        logger.warning("No sprites in phytocoenosis {} at layer {} - could not create spritesheet!".format(phyto_c_id,
+                                                                                                           layer))
         return  # FIXME: should we escalate an exception?
 
     # Open all sprites at the sprite_paths using Pillow
