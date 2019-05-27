@@ -4,7 +4,7 @@ import logging
 import os
 
 logger = logging.getLogger(__name__)
-LOCAL_SETTINGS = os.path.join(settings.BASE_DIR, "local_settings.py")
+LOCAL_SETTINGS = "local_settings.py"
 
 # setup the django settings
 include(
@@ -13,6 +13,6 @@ include(
 )
 
 # give a warning if the optional local settings are not found
-if not os.path.isfile(LOCAL_SETTINGS):
+if not os.path.isfile(os.path.join(settings.BASE_DIR, LOCAL_SETTINGS)):
     logger.warning("could not find local settings file in {}"
                    " - are you sure your setup is correct?".format(LOCAL_SETTINGS))
