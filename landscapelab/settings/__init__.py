@@ -1,9 +1,10 @@
+from django.conf import settings
 from split_settings.tools import optional, include
 import logging
 import os
 
 logger = logging.getLogger(__name__)
-LOCAL_SETTINGS = "local_settings.py"
+LOCAL_SETTINGS = os.path.join(settings.BASE_DIR, "local_settings.py")
 
 # setup the django settings
 include(
