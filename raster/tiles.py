@@ -90,13 +90,8 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
         logger.warning("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))
         return
 
-    zoom_path = zoom_path_template.format(zoom + 1)
-    if not os.path.isdir(zoom_path):
-        os.makedirs(zoom_path)
-
     x_path = x_path_template.format(zoom + 1, p_wanted.tile_x)
-    if not os.path.isdir(x_path):
-        os.makedirs(x_path)
+    os.makedirs(x_path, exist_ok=True)
 
     try:
         available_image = Image.open(available_filename)
@@ -110,6 +105,9 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
         if do_epx_scale:
             wanted_image = epx.scale_epx(wanted_image)
 
+        # FIXME: It is possible that in the time since we last checked whether the image exists,
+        #  the same request was handled in another thread. This means that the image already
+        #  exists at this point, even though we checked earlier. We need a Mutex!
         wanted_image.save(wanted_filename)
 
     except OSError:
