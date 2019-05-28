@@ -95,6 +95,12 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
 
     try:
         available_image = Image.open(available_filename)
+
+        # PIL needs the image to be in RGB mode for processing - convert it if necessary
+        original_image_mode = available_image.mode
+        if original_image_mode != "RGB":
+            available_image.convert('RGB')
+
         available_size = tuple(available_image.size)
 
         wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
@@ -104,6 +110,10 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
 
         if do_epx_scale:
             wanted_image = epx.scale_epx(wanted_image)
+
+        # If the image has been converted to RGB for processing, convert it back to the original mode
+        if original_image_mode != wanted_image.mode:
+            wanted_image.convert(original_image_mode)
 
         # FIXME: It is possible that in the time since we last checked whether the image exists,
         #  the same request was handled in another thread. This means that the image already
