@@ -17,7 +17,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
-HEIGHT_FIELD_NAME = 'avg_height'
+HEIGHT_FIELD_NAME = '_mean'
+ASSET_TYPE_NAME = 'buildings'
 
 
 class Command(BaseCommand):
@@ -116,9 +117,9 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     if not building:
         # create a new building footprint
         building = BuildingFootprint()
-        asset = Asset(name=name, asset_type=AssetType.objects.get(name='building'))
+        asset = Asset(name=name, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
         asset.save()
-        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name='building'))
+        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
 
     # calculate the mean point
     # of the polygons vertices
