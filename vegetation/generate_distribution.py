@@ -58,9 +58,13 @@ def get_density_img_array(species):
         for s in species:
             dice = random.random() * s.distribution_density
             if dice >= highest_roll:
+                highest_roll = dice
                 new_id = s.id
 
-        img_data.append(ids.index(new_id) if new_id > 0 else 0)
+        # In the distribution, the index of this ID is used. This is because the shader which uses
+        #  these images doesn't care about the actual species IDs anymore, it just enumerates them
+        #  starting at 1. (0 means that nothing should be drawn there.)
+        img_data.append(ids.index(new_id) + 1 if new_id > 0 else 0)
 
     return img_data
 
