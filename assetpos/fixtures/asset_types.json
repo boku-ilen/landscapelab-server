@@ -3,7 +3,7 @@
     "model": "assetpos.AssetType",
     "fields": {
       "id": 1,
-      "name": "buildings",
+      "name": "building",
       "allow_placement": "False"
     }
   },

@@ -9,6 +9,8 @@ from django.contrib.gis.geos import Point, Polygon, LinearRing
 from raster.tiles import get_root_tile, get_highest_lod_tile
 import webmercator.point
 from django.core.management import BaseCommand
+import time
+import datetime
 
 import os
 import fiona
@@ -18,7 +20,9 @@ logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
 HEIGHT_FIELD_NAME = '_mean'
-ASSET_TYPE_NAME = 'buildings'
+ASSET_TYPE_NAME = 'building'
+PERCENTAGE_LOG_FREQUENCY = 20
+FALLBACK_HEIGHT = 3
 
 
 class Command(BaseCommand):
@@ -38,12 +42,13 @@ class Command(BaseCommand):
         if 'scenario_id' not in options:
             raise ValueError("no scenario_id given")
 
-        # find file
-        filename = finders.find(os.path.join('buildings', options['filename']))
-        logger.info('starting to import file {}'.format(filename))
+        filename = options['filename']
+
         if filename is None:
-            logger.warning('invalid filename: {}'.format(filename))
+            logger.error('invalid filename: {}'.format(filename))
             raise ValueError("Invalid filename!")
+
+        logger.info('starting to import file {}'.format(filename))
 
         # get scenario and root tile
         try:
@@ -51,19 +56,21 @@ class Command(BaseCommand):
             scenario = Scenario.objects.get(pk=scenario_id)
             root_tile = get_root_tile(scenario)
         except ObjectDoesNotExist:
-            logger.warning('invalid scenario id: {}'.format(scenario_id))
+            logger.error('invalid scenario id: {}'.format(scenario_id))
             raise ValueError('Scenario with id {} does not exist'.format(scenario_id))
-
-        # create AssetType building if it does not exist
-        if not AssetType.objects.filter(name='building'):
-            AssetType(name='building').save()
 
         data = {'new': 0, 'updated': 0, 'ignored': 0, 'error': 0}
 
         # parse file
         file = fiona.open(filename)
         max_size, count = (len(file), 0)
+        logger.info("Parsing file of size {}".format(max_size))
+        time_spent = 0
+
         for feat in file:
+            # Measure how long we take for this one
+            starttime = time.time()
+
             if feat['geometry']['type'] is 'MultiPolygon':
                 for b_id in range(len(feat['geometry']['coordinates'])):
                     result = save_building_footprint(
@@ -84,10 +91,20 @@ class Command(BaseCommand):
                 data[result] += 1
 
             count += 1
-            # log status update every 100 entries
-            if count % 100 == 0:
-                logger.info("done with item {} of {} ({}%)".format(count, max_size,
-                                                                   round((count/max_size)*100, 1)))
+
+            delta = time.time() - starttime
+            time_spent += delta
+
+            # Update the average duration per entry
+            avg_duration = time_spent / count
+
+            # Show percentage every FREQUENCY entries
+            if count % PERCENTAGE_LOG_FREQUENCY == PERCENTAGE_LOG_FREQUENCY - 1:
+                # Calculate the approx. remaining time by how long we'd take for all remaining entries
+                #  with the current average time
+                remaining = avg_duration * (max_size - count)
+                logger.info("{:7.3f}%, ~{} remaining".format(count / max_size,
+                                                                    str(datetime.timedelta(seconds=remaining))))
 
         logger.info('Done! Finished importing file {}'.format(filename))
         for info, value in data.items():
@@ -96,6 +113,9 @@ class Command(BaseCommand):
 
 # saves one building footprint to the database
 def save_building_footprint(absolute_vertices: list, height: float, name: str, root_tile: Tile):
+    if not height:
+        logger.warning("Building with name {} does not have a valid height! Setting it to fallback"
+                       " of {}m".format(name, FALLBACK_HEIGHT))
 
     operation = 'new'
     building = None
@@ -103,7 +123,8 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     # search for existing entry in db
     search_asset = Asset.objects.filter(name=name)
     if search_asset:
-        asset_position = AssetPositions.objects.filter(asset=search_asset.first(), asset_type=AssetType.objects.get(name='building'))
+        asset_position = AssetPositions.objects.filter(asset=search_asset.first(),
+                                                       asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
         if asset_position:
             asset_position = asset_position.first()
             building = BuildingFootprint.objects.filter(asset=asset_position)
