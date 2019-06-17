@@ -11,6 +11,7 @@ import webmercator.point
 from django.core.management import BaseCommand
 import time
 import datetime
+from buildings.views import generate_buildings_with_asset_id
 
 import os
 import fiona
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 MIN_LEVEL_BUILDINGS = 16
 HEIGHT_FIELD_NAME = '_mean'
 ASSET_TYPE_NAME = 'building'
-PERCENTAGE_LOG_FREQUENCY = 20
+PERCENTAGE_LOG_FREQUENCY = 200
 FALLBACK_HEIGHT = 3
 
 
@@ -103,12 +104,22 @@ class Command(BaseCommand):
                 # Calculate the approx. remaining time by how long we'd take for all remaining entries
                 #  with the current average time
                 remaining = avg_duration * (max_size - count)
-                logger.info("{:7.3f}%, ~{} remaining".format(count / max_size,
-                                                                    str(datetime.timedelta(seconds=remaining))))
 
-        logger.info('Done! Finished importing file {}'.format(filename))
+                logger.info("{:7.3f}%, ~{} remaining".format((count / max_size) * 100,
+                                                             str(datetime.timedelta(seconds=remaining))))
+
+        logger.info('Finished importing file {}'.format(filename))
         for info, value in data.items():
             logger.info(' - {}: {}'.format(info, value))
+
+        logger.info("Generating building files...")
+
+        # Get all buildings from the database and generate their 3D model files
+        gen_buildings = []
+        for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
+            gen_buildings.append(asset.id)
+
+        generate_buildings_with_asset_id(gen_buildings)
 
 
 # saves one building footprint to the database
