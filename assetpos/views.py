@@ -3,11 +3,8 @@ import logging
 from django.contrib.gis import geos
 from django.db.models import Q
 from django.http import JsonResponse
-from django.contrib.staticfiles import finders
 
-from assetpos.models import AssetType, Tile, AssetPositions, Asset
-from buildings.views import generate_buildings_with_asset_id
-
+from assetpos.models import AssetType, AssetPositions, Asset
 
 logger = logging.getLogger(__name__)
 
@@ -142,33 +139,20 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 #  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
-    tile_x = int(float(tile_x))
-    tile_y = int(float(tile_y))
-
     # fetch all associated assets
     asset_type = AssetType.objects.get(id=assettype_id)
 
     # TODO: Re-add tile to request once the creation and handling
     #  of tiles on the server is implemented
     # tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.filter(asset_type=asset_type)
+    assets = AssetPositions.objects.filter(asset_type=asset_type).all()
 
     # create the return dict
     ret = []
-    # FIXME: Why do we precalculate the buildings here? At least it should
-    # FIXME: trigger a dedicated method somewhere in buildings?
-    gen_buildings = []
+
     for asset_position in assets:
-        if asset_type.name == 'building':
-            found_file = finders.find("{}.dae".format(asset_position.asset.name))
-            if not found_file: # os.path.isfile(found_file):
-                gen_buildings.append(asset_position.id)
-
-        x,y = asset_position.location
+        x, y = asset_position.location
         ret.append({'x': x, 'y': y, 'asset': asset_position.asset.name})
-
-    if gen_buildings:
-        generate_buildings_with_asset_id(gen_buildings)
 
     return JsonResponse(ret, safe=False)
 
