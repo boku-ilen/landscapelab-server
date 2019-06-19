@@ -34,8 +34,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--filename', type=str)
         parser.add_argument('--scenario_id', type=int)
+        parser.add_argument('--generate_only', action='store_true')
 
     def handle(self, *args, **options):
+
+        # should we only generate the models, not import?
+        if 'generate_only' in options and options['generate_only']:
+            generate_building_models()
+            return
 
         # check for necessary parameters
         if 'filename' not in options:
@@ -112,14 +118,19 @@ class Command(BaseCommand):
         for info, value in data.items():
             logger.info(' - {}: {}'.format(info, value))
 
-        logger.info("Generating building files...")
+        generate_building_models()
 
-        # Get all buildings from the database and generate their 3D model files
-        gen_buildings = []
-        for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
-            gen_buildings.append(asset.id)
 
-        generate_buildings_with_asset_id(gen_buildings)
+def generate_building_models():
+    """Gest all buildings from the database and generates their 3D model files"""
+
+    logger.info("Generating building files...")
+
+    gen_buildings = []
+    for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
+        gen_buildings.append(asset.id)
+
+    generate_buildings_with_asset_id(gen_buildings)
 
 
 # saves one building footprint to the database
