@@ -1,10 +1,13 @@
 import logging
+import webmercator
 
 from django.contrib.gis import geos
 from django.db.models import Q
 from django.http import JsonResponse
 
 from assetpos.models import AssetType, AssetPositions, Asset
+from assetpos.models import Tile
+from django.contrib.gis.geos import Polygon
 
 logger = logging.getLogger(__name__)
 
@@ -135,31 +138,33 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
-# TODO: The result of this request should be structured the same as the
-#  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
+    ret = {
+        "assets": {}
+    }
 
-    # fetch all associated assets
-    asset_type = AssetType.objects.get(id=assettype_id)
+    # Construct the polygon which represents this tile, filter assets with that polygon
+    point = webmercator.Point(meter_x=float(tile_x), meter_y=float(tile_y), zoom_level=int(zoom))
+    tile_center = webmercator.Point(tile_x=point.tile_x, tile_y=point.tile_y, zoom_level=int(zoom))
 
-    # TODO: Re-add tile to request once the creation and handling
-    #  of tiles on the server is implemented
-    # tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.filter(asset_type=asset_type).all()
+    polygon = Polygon((
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2),
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y - tile_center.meters_per_tile / 2),
+        (tile_center.meter_x - tile_center.meters_per_tile / 2, tile_center.meter_y - tile_center.meters_per_tile / 2),
+        (tile_center.meter_x - tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2),
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2)))
 
-    # create the return dict
-    ret = []
+    assets = AssetPositions.objects.filter(asset_type=AssetType.objects.get(id=assettype_id),
+                                           location__contained=polygon).all()
 
-    for asset_position in assets:
-        x, y = asset_position.location
-        ret.append({'x': x, 'y': y, 'asset': asset_position.asset.name})
+    ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y], "modelpath": asset.asset.name}
+                     for asset in assets}
 
     return JsonResponse(ret, safe=False)
 
 
 # gets the attributes and values of the requested asset_id
 def get_attributes(request, asset_id):
-
     ret = {}
     asset = Asset.objects.get(id=asset_id)
     for attribute in asset.attributes:
@@ -171,7 +176,6 @@ def get_attributes(request, asset_id):
 # lists all asset types and nest the associated assets and provide
 # the possibility to filter only editable asset types
 def getall_assettypes(request, editable=False):
-
     ret = {}
 
     # get the relevant asset types
