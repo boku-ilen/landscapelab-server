@@ -35,12 +35,13 @@ class Command(BaseCommand):
         parser.add_argument('--filename', type=str)
         parser.add_argument('--scenario_id', type=int)
         parser.add_argument('--generate_only', action='store_true')
+        parser.add_argument('--regenerate', action='store_true')
 
     def handle(self, *args, **options):
 
         # should we only generate the models, not import?
-        if 'generate_only' in options and options['generate_only']:
-            generate_building_models()
+        if options['generate_only']:
+            generate_building_models(options['regenerate'])
             return
 
         # check for necessary parameters
@@ -118,17 +119,18 @@ class Command(BaseCommand):
         for info, value in data.items():
             logger.info(' - {}: {}'.format(info, value))
 
-        generate_building_models()
+        generate_building_models(options['generate_only'])
 
 
-def generate_building_models():
+def generate_building_models(regenerate):
     """Gest all buildings from the database and generates their 3D model files"""
 
     logger.info("Generating building files...")
 
     gen_buildings = []
     for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
-        gen_buildings.append(asset.id)
+        if regenerate or not os.path.exists("/home/karl/Data/BOKU/retour-middleware/buildings/out/{}.dae".format(asset.asset.name)):  # FIXME
+            gen_buildings.append(asset.id)
 
     generate_buildings_with_asset_id(gen_buildings)
 
