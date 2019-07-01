@@ -46,6 +46,9 @@ def get_density_img_array(species):
     by the density. The species with the highest number gets inserted.
     """
 
+    # TODO: The distribution_density is in occurances/m². We'll need to extent this algorithm
+    #  to realistically use that value.
+
     ids = [sp.id for sp in species]
 
     img_data = []
