@@ -95,7 +95,7 @@ def parse_species_representation_data(json_data):
 
         try:
             entry["id"] = int(entry["id"])
-            entry["species"] = int(entry["species"] or SPECIES_DEFAULT)
+            entry["species"] = int(entry["species"]) if entry["species"] else None
             entry["avg_height"] = float(entry["avg_height"] or AVG_HEIGHT_DEFAULT)
             entry["sigma_height"] = float(entry["sigma_height"] or SIGMA_HEIGHT_DEFAULT)
 
