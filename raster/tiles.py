@@ -16,6 +16,8 @@ MAX_STEP_NUMBER = 10
 logger = logging.getLogger(__name__)
 
 
+# TODO: maybe add a callback to the parameters, which is called if the file could not
+# TODO: be found and needs to be downloaded (or generated) externally
 def get_tile(meter_x: float, meter_y: float, zoom: int, path: str, do_epx_scale=False, file_ending="png"):
     """Returns the path to the tile at the given coordinates.
 
@@ -43,11 +45,11 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
     this_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
     this_point_filename = full_path.format(zoom, this_point.tile_x, this_point.tile_y, file_ending)
 
-    if not os.path.isfile(this_point_filename):
+    if not os.path.isfile(this_point_filename) or (os.path.getsize(this_point_filename) == 0):
         prev_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom - 1)
         prev_point_filename = full_path.format(zoom, prev_point.tile_x, prev_point.tile_y, file_ending)
 
-        if not os.path.isfile(prev_point_filename):
+        if not os.path.isfile(prev_point_filename) or (os.path.getsize(prev_point_filename) == 0):
             get_cropped_recursively(meter_x, meter_y, zoom - 1, path, steps + 1, do_epx_scale, file_ending)
 
         get_cropped_for_next_tile(meter_x, meter_y, zoom - 1, path, do_epx_scale, file_ending)
@@ -88,26 +90,38 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
         logger.warning("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))
         return
 
-    zoom_path = zoom_path_template.format(zoom + 1)
-    if not os.path.isdir(zoom_path):
-        os.mkdir(zoom_path)
-
     x_path = x_path_template.format(zoom + 1, p_wanted.tile_x)
-    if not os.path.isdir(x_path):
-        os.mkdir(x_path)
+    os.makedirs(x_path, exist_ok=True)
 
-    available_image = Image.open(available_filename)
-    available_size = tuple(available_image.size)
+    try:
+        available_image = Image.open(available_filename)
 
-    wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
-                                         int(upper_lower[0] * available_size[1]),
-                                         int(left_right[1] * available_size[0]),
-                                         int(upper_lower[1] * available_size[1])))
+        # PIL needs the image to be in RGB mode for processing - convert it if necessary
+        original_image_mode = available_image.mode
+        if original_image_mode != "RGB":
+            available_image.convert('RGB')
 
-    if do_epx_scale:
-        wanted_image = epx.scale_epx(wanted_image)
+        available_size = tuple(available_image.size)
 
-    wanted_image.save(wanted_filename)
+        wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
+                                             int(upper_lower[0] * available_size[1]),
+                                             int(left_right[1] * available_size[0]),
+                                             int(upper_lower[1] * available_size[1])))
+
+        if do_epx_scale:
+            wanted_image = epx.scale_epx(wanted_image)
+
+        # If the image has been converted to RGB for processing, convert it back to the original mode
+        if original_image_mode != wanted_image.mode:
+            wanted_image.convert(original_image_mode)
+
+        # FIXME: It is possible that in the time since we last checked whether the image exists,
+        #  the same request was handled in another thread. This means that the image already
+        #  exists at this point, even though we checked earlier. We need a Mutex!
+        wanted_image.save(wanted_filename)
+
+    except OSError:
+        logger.warning("Could not process file {} - this file does not seem valid". format(available_filename))
 
 
 # returns the highest LOD (or LOD = max_lod) tile that contains the specified location

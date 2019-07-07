@@ -1,13 +1,13 @@
 import logging
+import webmercator
 
 from django.contrib.gis import geos
 from django.db.models import Q
 from django.http import JsonResponse
-from django.contrib.staticfiles import finders
 
-from assetpos.models import AssetType, Tile, AssetPositions, Asset
-from buildings.views import generate_buildings_with_asset_id
-
+from assetpos.models import AssetType, AssetPositions, Asset
+from assetpos.models import Tile
+from django.contrib.gis.geos import Polygon
 
 logger = logging.getLogger(__name__)
 
@@ -138,37 +138,27 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
-# TODO: The result of this request should be structured the same as the
-#  get_assetpositions_global result!
 def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
+    ret = {
+        "assets": {}
+    }
 
-    tile_x = int(float(tile_x))
-    tile_y = int(float(tile_y))
+    # Construct the polygon which represents this tile, filter assets with that polygon
+    point = webmercator.Point(meter_x=float(tile_x), meter_y=float(tile_y), zoom_level=int(zoom))
+    tile_center = webmercator.Point(tile_x=point.tile_x, tile_y=point.tile_y, zoom_level=int(zoom))
 
-    # fetch all associated assets
-    asset_type = AssetType.objects.get(id=assettype_id)
+    polygon = Polygon((
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2),
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y - tile_center.meters_per_tile / 2),
+        (tile_center.meter_x - tile_center.meters_per_tile / 2, tile_center.meter_y - tile_center.meters_per_tile / 2),
+        (tile_center.meter_x - tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2),
+        (tile_center.meter_x + tile_center.meters_per_tile / 2, tile_center.meter_y + tile_center.meters_per_tile / 2)))
 
-    # TODO: Re-add tile to request once the creation and handling
-    #  of tiles on the server is implemented
-    # tile = Tile.objects.get(lod=zoom, x=tile_x, y=tile_y)
-    assets = AssetPositions.objects.filter(asset_type=asset_type)
+    assets = AssetPositions.objects.filter(asset_type=AssetType.objects.get(id=assettype_id),
+                                           location__contained=polygon).all()
 
-    # create the return dict
-    ret = []
-    # FIXME: Why do we precalculate the buildings here? At least it should
-    # FIXME: trigger a dedicated method somewhere in buildings?
-    gen_buildings = []
-    for asset_position in assets:
-        if asset_type.name == 'building':
-            found_file = finders.find("{}.dae".format(asset_position.asset.name))
-            if not found_file: # os.path.isfile(found_file):
-                gen_buildings.append(asset_position.id)
-
-        x, y = asset_position.location
-        ret.append({'x': x, 'y': y, 'asset': asset_position.asset.name})
-
-    if gen_buildings:
-        generate_buildings_with_asset_id(gen_buildings)
+    ret["assets"] = {asset.id: {"position": [asset.location.x, asset.location.y], "modelpath": asset.asset.name}
+                     for asset in assets}
 
     return JsonResponse(ret, safe=False)
 

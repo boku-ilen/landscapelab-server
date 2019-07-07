@@ -25,3 +25,31 @@ def reload_logging(request):
 
     if request is not None:
         return HttpResponse(status=200)
+
+
+# construct the full path
+def get_full_texture_path(local_path):
+    return os.path.join(settings.STATICFILES_DIRS[0], local_path)
+
+
+# replace the client prefix in debug mode
+def replace_path_prefix(full_path):
+
+    # do a null check, as it could happen to get an empty parameter
+    if not full_path:
+        return None
+
+    if settings.DEBUG and hasattr(settings, "CLIENT_PATH_PREFIX"):
+        server_prefix = settings.STATICFILES_DIRS[0]
+        client_prefix = settings.CLIENT_PATH_PREFIX
+        full_path = full_path.replace(server_prefix, client_prefix)
+
+    # to provide relative paths to the client now we revert the
+    # string join done in get_full_texture_path for now. There
+    # is for sure a better overall implementation of this
+    full_path = os.path.relpath(full_path, settings.STATICFILES_DIRS[0])
+
+    # godot only accepts unix-style path separators ('/') so we replace them
+    full_path = full_path.replace("\\", "/")
+
+    return full_path

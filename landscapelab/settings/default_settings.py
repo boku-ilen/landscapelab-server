@@ -13,7 +13,7 @@ import os
 import signal
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # TODO: development setup (https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/)
@@ -103,12 +103,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "resources"),
-    os.path.abspath(os.path.join(BASE_DIR, os.path.pardir, "buildings", "out"))
+    os.path.join(BASE_DIR, "landscapelab", "resources"),  # TODO: do we later want to move resources up a level?
+    os.path.abspath(os.path.join(BASE_DIR, "buildings", "out"))
 ]
 MEDIA_URL = '/out/'
 
-LOGFILE = "logging.conf"
+LOGFILE = os.path.join(BASE_DIR, "logging.conf")
 
 # this is WebMercator by default
 DEFAULT_SRID = 3857

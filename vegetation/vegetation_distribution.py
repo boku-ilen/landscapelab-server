@@ -1,9 +1,9 @@
 import logging
 import os
 
-from django.conf import settings
+from landscapelab import utils
 
-DISTRIBUTION_BASE = settings.STATICFILES_DIRS[0] + "/phytocoenosis-distribution/"
+DISTRIBUTION_BASE = "phytocoenosis-distribution/"
 DISTRIBUTION_PATHSET = os.path.join(DISTRIBUTION_BASE, "{}")
 DISTRIBUTION_PATH = os.path.join(DISTRIBUTION_PATHSET, "{}.png")
 
@@ -16,7 +16,7 @@ def get_distribution_for_id_and_layer(pid, layer):
     # FIXME solve circular dependency
     import vegetation.generate_distribution
 
-    filename = DISTRIBUTION_PATH.format(pid, layer)
+    filename = utils.get_full_texture_path(DISTRIBUTION_PATH.format(pid, layer))
 
     if not os.path.isfile(filename):
         logging.info("Generating distribution for {}...".format(filename))
@@ -24,4 +24,4 @@ def get_distribution_for_id_and_layer(pid, layer):
 
     # If the file now exists, return it
     if os.path.isfile(filename):
-        return filename
+        return utils.replace_path_prefix(filename)

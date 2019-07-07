@@ -1,8 +1,6 @@
-import os
-
-from django.conf import settings
 from django.shortcuts import get_object_or_404
 
+from landscapelab import utils
 from vegetation.models import Phytocoenosis
 
 
@@ -20,16 +18,16 @@ def get_all_ground_texture_paths(pytho_c_id):
 
     albedo_path, normal_path, heightmap_detail_path = None, None, None
     if phytocoenosis.albedo_path:
-        albedo_path = get_full_texture_path(phytocoenosis.albedo_path)
+        albedo_path = utils.get_full_texture_path(phytocoenosis.albedo_path)
     if phytocoenosis.normal_path:
-        normal_path = get_full_texture_path(phytocoenosis.normal_path)
+        normal_path = utils.get_full_texture_path(phytocoenosis.normal_path)
     if phytocoenosis.heightmap_detail_path:
-        heightmap_detail_path = get_full_texture_path(phytocoenosis.heightmap_detail_path)
+        heightmap_detail_path = utils.get_full_texture_path(phytocoenosis.heightmap_detail_path)
 
     tex_dict = {
-        "albedo_path": albedo_path,
-        "normal_path": normal_path,
-        "heightmap_detail_path": heightmap_detail_path,
+        "albedo_path": utils.replace_path_prefix(albedo_path),
+        "normal_path": utils.replace_path_prefix(normal_path),
+        "heightmap_detail_path": utils.replace_path_prefix(heightmap_detail_path),
     }
 
     # Remove None values
@@ -37,7 +35,3 @@ def get_all_ground_texture_paths(pytho_c_id):
     tex_dict = {k: v for k, v in tex_dict.items() if v}
 
     return tex_dict
-
-
-def get_full_texture_path(local_path):
-    return os.path.join(settings.STATICFILES_DIRS[0], local_path)

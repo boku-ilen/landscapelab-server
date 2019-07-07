@@ -11,6 +11,8 @@ import owslib.wmts as wmts
 
 
 # current default is the austrian basemap  TODO: make it configurable
+from landscapelab import utils
+
 DEFAULT_URL = "https://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml"
 DEFAULT_LAYER = "bmaporthofoto30cm"
 DEFAULT_ORTHO_SRID = {'init': 'EPSG:3857'}  # WebMercator Aux Sphere
@@ -18,7 +20,7 @@ DEFAULT_ZOOM_FROM = 19
 DEFAULT_ZOOM_TO = 22
 
 # the format and location of the ortho pictures
-ORTHOS_FILE = settings.STATICFILES_DIRS[0] + "/raster/{}/{}/{}/{}.jpg"
+ORTHOS_FILE = "/raster/{}/{}/{}/{}.jpg"
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +82,9 @@ def fetch_wmts_tiles(bounding_box: Polygon, url=DEFAULT_URL, layer=DEFAULT_LAYER
 # this fetches a single tile and puts it into our source directory
 def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
-    file = ORTHOS_FILE.format(layer, zoom, col, row)
+    # generate the path with given parameters
+    file = utils.get_full_texture_path(ORTHOS_FILE.format(layer, zoom, col, row))
+
     # create necessary subdirectories
     if not Path(file).is_file():
         try:
@@ -102,13 +106,16 @@ def fetch_wmts_tile(tile_server, layer, col, row, zoom):
 
 # get the filename based on tiles with the given coordinates
 # and start fetching the ortho if it is still missing
+# FIXME: propably to be deleted - old code?
 def get_ortho_from_coords(tile_x: int, tile_y: int, zoom: int):
 
-    filename = ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y)
+    # generate path with given parameters
+    filename = utils.get_full_texture_path(ORTHOS_FILE.format(DEFAULT_LAYER, zoom, tile_x, tile_y))
+
     if not os.path.isfile(filename):
         if settings.DEBUG:
             tile_server = wmts.WebMapTileService(DEFAULT_URL)
-            fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)  # TODO: verify order of parameters
+            fetch_wmts_tile(tile_server, DEFAULT_LAYER, tile_x, tile_y, zoom)
         else:
             filename = "None"  # TODO: we could try celery
 

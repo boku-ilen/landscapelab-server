@@ -4,12 +4,14 @@ import os
 
 from PIL import Image
 from django.shortcuts import get_object_or_404
-from django.conf import settings
 
+from landscapelab import utils
 from vegetation.models import Phytocoenosis
 
 
-SPRITE_BASEPATH = settings.STATICFILES_DIRS[0] + "/phytocoenosis-spritesheet/"
+SPRITE_BASEPATH = "phytocoenosis-spritesheet"
+REPRESENTATION_BASEPATH = "plants"
+REPRESENTATION_PATHSET = os.path.join(REPRESENTATION_BASEPATH, "{}")
 SPRITE_PATHSET = os.path.join(SPRITE_BASEPATH, "{}")
 SPRITE_FILE = os.path.join(SPRITE_PATHSET, "{}.png")
 SPRITE_COUNT_FILE = os.path.join(SPRITE_PATHSET, "{}.count")
@@ -35,30 +37,26 @@ def generate_spritesheet(phyto_c_id, layer):
     """
 
     # Create all required directories if they don't yet exist
-    pathset = SPRITE_PATHSET.format(phyto_c_id)
-
-    if not (os.path.exists(SPRITE_BASEPATH)):
-        os.mkdir(SPRITE_BASEPATH)
-
+    pathset = utils.get_full_texture_path(SPRITE_PATHSET.format(phyto_c_id))
     if not (os.path.exists(pathset)):
-        os.mkdir(pathset)
+        os.makedirs(pathset)
 
     # Get the required objects from the database
     representations = get_object_or_404(Phytocoenosis, id=phyto_c_id)\
         .speciesRepresentations.filter(vegetation_layer=layer).all()
-    sprite_paths = [rep.billboard for rep in representations]
+    sprite_paths = [utils.get_full_texture_path(rep.billboard) for rep in representations]
     number_of_sprites = len(sprite_paths)
 
     # Write the number of sprites in this sheet to a file
-    count_filename = SPRITE_COUNT_FILE.format(phyto_c_id, layer)
+    count_filename = utils.get_full_texture_path(SPRITE_COUNT_FILE.format(phyto_c_id, layer))
 
     with open(count_filename, "w+") as count_file:
         count_file.write("{}\n".format(number_of_sprites))
 
     # If the number of sprites is 0, this request shouldn't be here - log that
     if number_of_sprites == 0:
-        logger.info("No sprites in phytocoenosis {} at layer {}!".format(phyto_c_id, layer))
-        logger.warning("Spritesheet not created!")
+        logger.warning("No sprites in phytocoenosis {} at layer {} - could not create spritesheet!".format(phyto_c_id,
+                                                                                                           layer))
         return  # FIXME: should we escalate an exception?
 
     # Open all sprites at the sprite_paths using Pillow
@@ -96,7 +94,7 @@ def generate_spritesheet(phyto_c_id, layer):
             row += 1
 
     # Save the spritesheet
-    filename = SPRITE_FILE.format(phyto_c_id, layer)
+    filename = utils.get_full_texture_path(SPRITE_FILE.format(phyto_c_id, layer))
     spritesheet.save(filename)
 
     logging.info("Sprite saved into {}".format(filename))
@@ -111,7 +109,7 @@ def get_count(phyto_c_id, layer):
     supposed to only be called in get_spritesheet_and_count_for_id_and_layer.
     """
 
-    count_filename = SPRITE_COUNT_FILE.format(phyto_c_id, layer)
+    count_filename = utils.get_full_texture_path(SPRITE_COUNT_FILE.format(phyto_c_id, layer))
 
     if not os.path.isfile(count_filename):
         raise IOError("The requested count file {} does not exist - the function get_count should only be called in "
@@ -132,7 +130,7 @@ def get_spritesheet_and_count_for_id_and_layer(phyto_c_id, layer):
     phytocoenosis ID and layer. If the file does not exist yet, it is generated.
     """
 
-    filename = SPRITE_FILE.format(phyto_c_id, layer)
+    filename = utils.get_full_texture_path(SPRITE_FILE.format(phyto_c_id, layer))
 
     logging.debug("Requested spritesheet for {}".format(filename))
 
