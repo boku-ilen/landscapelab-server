@@ -164,7 +164,7 @@ def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
             if not found_file: # os.path.isfile(found_file):
                 gen_buildings.append(asset_position.id)
 
-        x,y = asset_position.location
+        x, y = asset_position.location
         ret.append({'x': x, 'y': y, 'asset': asset_position.asset.name})
 
     if gen_buildings:
