@@ -10,8 +10,17 @@ class Scenario(models.Model):
     # the name of the project area
     name = models.TextField()
 
-    # the bounding polygon
+    # the bounding polygon (which limits the movement of the 1st person view)
     bounding_polygon = models.MultiPolygonField(srid=settings.DEFAULT_SRID)
+
+    # the average energy which should be covered in this scenario
+    energy_requirement_total = models.FloatField()
+
+    # the energy to be covered based on the summer consumption
+    energy_requirement_summer = models.FloatField()
+
+    # the energy to be covered based on the winter consumption
+    energy_requirement_winter = models.FloatField()
 
 
 # an enumeration of all available services which are available for a scenario
