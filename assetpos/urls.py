@@ -34,4 +34,5 @@ urlpatterns = [
     # returns a nested json of all (editable) assettypes
     url(r'^get_all_assettypes.json', views.getall_assettypes, name="get_all_assettypes"),
     url(r'^get_all_editable_assettypes.json', views.getall_assettypes, {"editable": True}, name="get_all_editable"),
+
 ]
