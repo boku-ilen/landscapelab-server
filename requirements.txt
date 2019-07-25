@@ -4,9 +4,9 @@ numpy
 requests
 owslib   # TODO: it's buggy and we need to additionally apply a patch
 webmercator
-pypng ~> 0.0.18
-pysolar ~> 0.8
-django ~> 2.0.8
-django-split-settings ~> 0.3.0
+pypng > 0.0.18
+pysolar == 0.8
+django > 2.0.8
+django-split-settings > 0.3.0
 psycopg2-binary
 rasterio
