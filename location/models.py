@@ -22,6 +22,9 @@ class Scenario(models.Model):
     # the energy to be covered based on the winter consumption
     energy_requirement_winter = models.FloatField()
 
+    # default wind direction for this scenario (0-359°)
+    default_wind_direction = models.FloatField()
+
 
 # an enumeration of all available services which are available for a scenario
 class ServiceChoice(Enum):
