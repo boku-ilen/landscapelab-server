@@ -14,16 +14,16 @@ class Scenario(models.Model):
     bounding_polygon = models.MultiPolygonField(srid=settings.DEFAULT_SRID)
 
     # the average energy which should be covered in this scenario
-    energy_requirement_total = models.FloatField()
+    energy_requirement_total = models.FloatField(default=0)
 
     # the energy to be covered based on the summer consumption
-    energy_requirement_summer = models.FloatField()
+    energy_requirement_summer = models.FloatField(default=0)
 
     # the energy to be covered based on the winter consumption
-    energy_requirement_winter = models.FloatField()
+    energy_requirement_winter = models.FloatField(default=0)
 
     # default wind direction for this scenario (0-359°)
-    default_wind_direction = models.FloatField()
+    default_wind_direction = models.FloatField(default=0)
 
 
 # an enumeration of all available services which are available for a scenario
