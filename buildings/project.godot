@@ -12,3 +12,7 @@ _global_script_classes=[  ]
 _global_script_class_icons={
 
 }
+
+[editor_plugins]
+
+enabled=PoolStringArray( "dscn_io" )

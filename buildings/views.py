@@ -66,7 +66,12 @@ def generate_buildings_with_asset_id(asset_ids):
         params = ['blender', '--background', '--python', 'buildings/create_buildings.py', '--']
         for b in building_ids:
             params.append(str(b))
-        subprocess.run(params)
+
+        process = subprocess.run(params)
+        return_code = process.returncode
+
+        if return_code != 0:
+            print("There was an error! Return code: {}".format(return_code))
 
         logger.info('finished creating buildings')
 
