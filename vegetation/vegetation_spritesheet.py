@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from landscapelab import utils
 from vegetation.models import Phytocoenosis
 
-
 SPRITE_BASEPATH = "phytocoenosis-spritesheet"
 REPRESENTATION_BASEPATH = "plants"
 REPRESENTATION_PATHSET = os.path.join(REPRESENTATION_BASEPATH, "{}")
@@ -42,7 +41,7 @@ def generate_spritesheet(phyto_c_id, layer):
         os.makedirs(pathset)
 
     # Get the required objects from the database
-    representations = get_object_or_404(Phytocoenosis, id=phyto_c_id)\
+    representations = get_object_or_404(Phytocoenosis, id=phyto_c_id) \
         .speciesRepresentations.filter(vegetation_layer=layer).all()
     sprite_paths = [utils.get_full_texture_path(rep.billboard) for rep in representations]
     number_of_sprites = len(sprite_paths)
@@ -53,15 +52,15 @@ def generate_spritesheet(phyto_c_id, layer):
     with open(count_filename, "w+") as count_file:
         count_file.write("{}\n".format(number_of_sprites))
 
-    # If the number of sprites is 0, this request shouldn't be here - log that
+    # If there are no sprites for this phytocoenosis, we don't have to do anything.
+    # This is a valid use case for something like asphalt or ice.
     if number_of_sprites == 0:
-        logger.warning("No sprites in phytocoenosis {} at layer {} - could not create spritesheet!".format(phyto_c_id,
-                                                                                                           layer))
-        return  # FIXME: should we escalate an exception?
+        logger.info("No sprites in phytocoenosis {} at layer {} - could not create spritesheet!".format(phyto_c_id,
+                                                                                                        layer))
+        return
 
     # Open all sprites at the sprite_paths using Pillow
     sprites = list(map(Image.open, sprite_paths))
-    widths, heights = zip(*(s.size for s in sprites))  # FIXME: unused line?
 
     # Resize all sprites to be no bigger than 1024x1024
     for sprite in sprites:
