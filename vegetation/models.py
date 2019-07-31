@@ -10,6 +10,14 @@ LAYER_TYPE = (
     (5, "B1"),  # high/main tree layer
 )
 
+LAYER_MAXHEIGHTS = (
+    (1, 0.5),
+    (2, 2.0),
+    (3, 6.0),
+    (4, 12.0),
+    (5, 40.0)
+)
+
 DISTRIBUTION_TYPE = (
     (1, "Random"),
     (2, "Clumping")
