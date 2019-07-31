@@ -41,3 +41,4 @@ class Command(BaseCommand):
                         # Build the new filename and rename the file
                         full_new_file = os.path.join(full_x_path, new_y_file)
                         os.rename(full_y_file, full_new_file)
+                        print("Renamed {} to {}".format(full_y_file, full_new_file))
