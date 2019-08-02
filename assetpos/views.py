@@ -30,7 +30,7 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return assettype.allow_placement
 
 
-def register_assetposition(request, asset_id, meter_x, meter_y):
+def register_assetposition(request, asset_id, meter_x, meter_y, orientation):
     """Called when an asset should be instantiated at the given location.
     Returns a JsonResponse with 'creation_success' (bool) and, if true, the
     'assetpos_id' of the new assetpos."""
@@ -50,8 +50,8 @@ def register_assetposition(request, asset_id, meter_x, meter_y):
         return JsonResponse(ret)
     location_point = geos.Point(float(meter_x), float(meter_y))
 
-    # FIXME: hardcoded orientation - how do we want to set it by default?
-    new_assetpos = AssetPositions(location=location_point, orientation=1,
+    # TODO: handling the default orientation is up to the client
+    new_assetpos = AssetPositions(location=location_point, orientation=orientation,
                                   asset=asset, asset_type=assettype)
     new_assetpos.save()
 
@@ -199,6 +199,7 @@ def getall_assettypes(request, editable=False):
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
             'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'display_radius': asset_type.display_radius,
             'assets': assets_json
         }
 
