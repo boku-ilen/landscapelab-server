@@ -2,6 +2,7 @@ import os
 from ast import literal_eval
 
 from django.core.management import BaseCommand
+from vegetation.models import LAYER_MAXHEIGHTS
 
 import logging
 import csv
@@ -100,17 +101,21 @@ def parse_species_representation_data(json_data):
             entry["sigma_height"] = float(entry["sigma_height"] or SIGMA_HEIGHT_DEFAULT)
 
             # Get the layer based on the avg_height
-            # TODO: Define these values centrally somewhere
-            if entry["avg_height"] < 1.5:
-                entry["vegetation_layer"] = 1
-            elif entry["avg_height"] < 3.0:
-                entry["vegetation_layer"] = 2
-            elif entry["avg_height"] < 6.0:
-                entry["vegetation_layer"] = 3
-            elif entry["avg_height"] < 15.0:
-                entry["vegetation_layer"] = 4
-            else:
-                entry["vegetation_layer"] = 5
+            layer_set = False
+
+            for (layer, max_height) in LAYER_MAXHEIGHTS:
+                # TODO: The sigma_height should be added to this calculation in the future.
+                #  For now, this works since we don't use the sigma_height here.
+                if entry["avg_height"] <= max_height:
+                    entry["vegetation_layer"] = layer
+                    layer_set = True
+                    break
+
+            # If there was no fitting layer, set it to max, but issue a warning
+            if not layer_set:
+                entry["vegetation_layer"] = len(LAYER_MAXHEIGHTS)
+                logger.warning("The plant with id {} is too high ({}) - the maximum layer has been assigned".format(
+                    entry["id"], entry["avg_height"]))
 
             # Parse the distribution density, convert if needed (it's formatted like '10/ar')
             distribution_density_and_unit = entry["distribution_density"].split("/", 1)

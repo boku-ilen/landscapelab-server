@@ -2,20 +2,8 @@ extends SceneTree
 
 # Adapted from https://github.com/TwistedTwigleg/DSCN_Plugin
 # Runs in the command line: godot -s exported_to_importable.gd
-# Expects a folder named 'out' with .dae files.
+# Expects a folder named 'out' with .glb files.
 # Creates a folder named 'importable' with results.
-
-# TODO: rewrite this!
-# DSCN FILE FORMAT (0.1.0):
-	#	Number of nodes stored in Node list: 1 (or however many nodes are stored)
-	#	Number of resources stored in Resource list: 1 (or however many resources are stored)
-	#	JSON NodeTree: JSON Dictionary built using the node names as the key, and the children
-	#					nodes as values. Leaf nodes only have a single value, called DSCN_Resources
-	#					which holds all of the resources the leaf node needs.
-	#	Metadata : (Nothing for now, but saving this in case!)
-	#	Export Version : 0.1.0
-	#	Node list : all nodes are dumped using "file.store_var(nodes));"
-	#	Resource list : each node is dumped using "file.store_var(resource);"
 
 
 # All of the results that can be returned when trying to export/import
@@ -36,7 +24,7 @@ func _init() -> void:
 	create_importable_dir_if_not_exists()
 	
 	for file in list_files_in_directory("res://out"):
-		if file.ends_with(".dae"):
+		if file.ends_with(".glb"):
 			var node = load("res://out/" + file).instance()
 			export_node_dscn("res://importable/" + file + ".dscn", node)
 	
@@ -197,11 +185,11 @@ func _save_dscn(node, file):
 	
 	# Store nodes
 	for node_to_store in node_list:
-		file.store_var(node_to_store);
+		file.store_var(node_to_store, true);
 	
 	# Store resources
 	for resource_to_store in resource_list:
-		file.store_var(resource_to_store);
+		file.store_var(resource_to_store, true);
 	
 	# Print success!
 	print ("**** DSCN_IO ****");

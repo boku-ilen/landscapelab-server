@@ -1,0 +1,3690 @@
+[
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 1,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/154-pasture.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 2,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 3,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 4,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/centaurea-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 5,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lobelia-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 6,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/plantago-04.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 7,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/yarrow-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 8,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/126-fertilitymeadow-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 9,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/126-fertilitymeadow-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 10,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/taraxacum-06.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 11,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/taraxacum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 12,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 13,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 14,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/151-meadow.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 15,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 16,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 17,
+            "species": null,
+            "avg_height": 2.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/corn1.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 18,
+            "species": null,
+            "avg_height": 2.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/corn2.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 19,
+            "species": null,
+            "avg_height": 2.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/corn3.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 20,
+            "species": null,
+            "avg_height": 2.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/corn4.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 21,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/153-triticum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 22,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/153-triticum-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 23,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 24,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/154-pasture.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 25,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 26,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 27,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 28,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/155-hordeum.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 29,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 30,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 31,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/156-clover-green.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 32,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/luzerne-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 33,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/luzerne-violett-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 34,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 35,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/soybean-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 36,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/soybean-young-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 37,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/soybean-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 38,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/154-pasture.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 39,
+            "species": null,
+            "avg_height": 1.1,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/erigeron-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 40,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/echium-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 41,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/papaver-red-04.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 42,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/papaver-red-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 43,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lobelia-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 44,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/plantago-04.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 45,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/wild-sage-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 46,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/leucanthemum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 47,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/159-triticale.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 48,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/leucanthemum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 49,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/plant-yellowgreen-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 50,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 51,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 52,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 53,
+            "species": null,
+            "avg_height": 2.1,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/vinum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 54,
+            "species": null,
+            "avg_height": 2.1,
+            "sigma_height": 0.3,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/vinum-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 55,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/162-rapeseed-faded.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 56,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/162-rapeseed-faded-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 57,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 58,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/163-secale.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 59,
+            "species": null,
+            "avg_height": 1.7,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/164-avena.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 60,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 61,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 62,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 63,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/165-potato.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 64,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/fieldflower-yellow-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 65,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lotus-corniculatus-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 66,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.5,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/chenopodium-gaensefuss-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 67,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cucurbita-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 68,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cucurbita-young-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 69,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/chenopodium-gaensefuss-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 70,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/fieldflower-yellow-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 71,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/leucanthemum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 72,
+            "species": null,
+            "avg_height": 1.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/167-sunflower.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 73,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/onion-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 74,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/onion-young-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 75,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/chenopodium-gaensefuss-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 76,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.5,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 77,
+            "species": null,
+            "avg_height": 1.3,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/169-triticum_spelta.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 78,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/miscanthus-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 79,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.5,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-brown-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 80,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/plant-yellowgreen-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 81,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/171-pisum-a.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 82,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/171-pisum-b.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 83,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 84,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 85,
+            "species": null,
+            "avg_height": 1.2,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 86,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/171-pisum-a.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 87,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/171-pisum-b.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 88,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 89,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 90,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 91,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/154-pasture.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 92,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/126-fertilitymeadow-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 93,
+            "species": null,
+            "avg_height": 2.5,
+            "sigma_height": 0.5,
+            "vegetation_layer": 3,
+            "distribution_density": 0.004,
+            "billboard": "plant-sprites/apfelplantage01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 94,
+            "species": null,
+            "avg_height": 2.5,
+            "sigma_height": 0.5,
+            "vegetation_layer": 3,
+            "distribution_density": 0.004,
+            "billboard": "plant-sprites/apfelplantage02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 95,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 96,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/173-cereals_gen-young.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 97,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 98,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 99,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 100,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 101,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/173-cereals_gen-young.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 102,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 103,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 104,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 105,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 106,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.8,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/154-pasture.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 107,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-brown-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 108,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 109,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/urtica-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 110,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/centaurea-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 111,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/centaurea-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 112,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/erigeron-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 113,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/wild-sage-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 114,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/wild-sage-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 115,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/176-leguminose-pink.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 116,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/leguminose-pink-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 117,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/leguminose-pink-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 118,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/178-papaver.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 119,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.3,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/erigeron-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 120,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/fieldflower-yellow-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 121,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/173-cereals_gen-young.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 122,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 123,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 124,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 125,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 126,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/181-emmer.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 127,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 128,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 129,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 130,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 131,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/187-parsley-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 132,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/187-parsley-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 133,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/183-fagopyrum.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 134,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/183-fagopyrum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 135,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/183-fagopyrum-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 136,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/183-fagopyrum-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 137,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 138,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 139,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 140,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/214-linum.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 141,
+            "species": null,
+            "avg_height": 1.5,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/185-canabis.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 142,
+            "species": null,
+            "avg_height": 1.5,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/185-canabis-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 143,
+            "species": null,
+            "avg_height": 1.5,
+            "sigma_height": 0.4,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/185-canabis-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 144,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/187-parsley-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 145,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/187-parsley-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 146,
+            "species": null,
+            "avg_height": 6.0,
+            "sigma_height": 0.5,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/189-energieholz.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 147,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/190-sinapis.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 148,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 149,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/artemisia-vulgaris-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 150,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 151,
+            "species": null,
+            "avg_height": 2.5,
+            "sigma_height": 0.4,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/192-miscanthus.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 152,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 153,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 154,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-02-varcolor.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 155,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 156,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 157,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 158,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 159,
+            "species": null,
+            "avg_height": 0.1,
+            "sigma_height": 0.05,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/195-rasen.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 160,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lolium_01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 161,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lolium_02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 162,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lolium_03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 163,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/lolium_04.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 164,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/190-sinapis.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 165,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 166,
+            "species": null,
+            "avg_height": 0.4,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/artemisia-vulgaris-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 167,
+            "species": null,
+            "avg_height": 1.0,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 168,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/197-humulus-a.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 169,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/176-vicia.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 170,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/176-vicia-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 171,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/176-vicia-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 172,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/176-vicia-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 173,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 174,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 175,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/160-beta-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 176,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.05,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/salad-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 177,
+            "species": null,
+            "avg_height": 0.3,
+            "sigma_height": 0.05,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/salad-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 178,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/205-hypericum.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 179,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 180,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 181,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-02-varcolor.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 182,
+            "species": null,
+            "avg_height": 0.2,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/193-fragaria-03.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 183,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 184,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 185,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 186,
+            "species": null,
+            "avg_height": 0.6,
+            "sigma_height": 0.1,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/214-linum.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 187,
+            "species": null,
+            "avg_height": 17.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/deciduous-tree1.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 188,
+            "species": null,
+            "avg_height": 17.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/deciduous-tree1-cvar1.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 189,
+            "species": null,
+            "avg_height": 17.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/deciduous-tree1-cvar2.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 190,
+            "species": null,
+            "avg_height": 17.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/quercus.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 191,
+            "species": null,
+            "avg_height": 17.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/deciduous-tree2.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 192,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 193,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 194,
+            "species": null,
+            "avg_height": 25.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/conifer-spruce-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 195,
+            "species": null,
+            "avg_height": 25.0,
+            "sigma_height": 5.0,
+            "vegetation_layer": 5,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/conifer-spruce-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 196,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 197,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 198,
+            "species": null,
+            "avg_height": 6.0,
+            "sigma_height": 3.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 199,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/busch02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 200,
+            "species": null,
+            "avg_height": 7.0,
+            "sigma_height": 2.0,
+            "vegetation_layer": 4,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/Willow01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 201,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.1,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/173-cereals_gen-young.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 202,
+            "species": null,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 203,
+            "species": null,
+            "avg_height": 0.9,
+            "sigma_height": 0.3,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 204,
+            "species": null,
+            "avg_height": 0.5,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/brassica-gelb-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 205,
+            "species": null,
+            "avg_height": 0.7,
+            "sigma_height": 0.2,
+            "vegetation_layer": 2,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/rumex-faded-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 206,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/spruce-young-01.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 207,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/spruce-young-02.png"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 208,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 209,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 210,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 211,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 212,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 213,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 214,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 215,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 216,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 217,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 218,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 219,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 220,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 221,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 222,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 223,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 224,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 225,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 226,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 227,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 228,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 229,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 230,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 231,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 232,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 233,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 234,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 235,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 236,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 237,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 238,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 239,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 240,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 241,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 242,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 243,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 244,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 245,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 246,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 247,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 248,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.SpeciesRepresentation",
+        "fields": {
+            "id": 249,
+            "species": null,
+            "avg_height": 5.0,
+            "sigma_height": 1.0,
+            "vegetation_layer": 3,
+            "distribution_density": 1,
+            "billboard": "plant-sprites/"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 125,
+            "speciesRepresentations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "name": "Grünland Extensiv"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 126,
+            "speciesRepresentations": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13
+            ],
+            "name": "Grünland Intensiv"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 151,
+            "speciesRepresentations": [
+                14,
+                15,
+                16
+            ],
+            "name": "Grünland"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 152,
+            "speciesRepresentations": [
+                17,
+                18,
+                19,
+                20
+            ],
+            "name": "Mais"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 153,
+            "speciesRepresentations": [
+                21,
+                22,
+                23
+            ],
+            "name": "Weizen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 154,
+            "speciesRepresentations": [
+                24,
+                25,
+                26,
+                27
+            ],
+            "name": "Weide"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 154,
+            "speciesRepresentations": [
+                60,
+                61,
+                62
+            ],
+            "name": "Hafer"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 155,
+            "speciesRepresentations": [
+                28,
+                29,
+                30
+            ],
+            "name": "Gerste"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 156,
+            "speciesRepresentations": [
+                31,
+                32,
+                33,
+                34
+            ],
+            "name": "Klee"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 157,
+            "speciesRepresentations": [
+                35,
+                36,
+                37
+            ],
+            "name": "Soja"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 158,
+            "speciesRepresentations": [
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46
+            ],
+            "name": "Brache"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 159,
+            "speciesRepresentations": [
+                47,
+                48,
+                49
+            ],
+            "name": "Triticale"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 160,
+            "speciesRepresentations": [
+                50,
+                51,
+                52
+            ],
+            "name": "Rüben"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 161,
+            "speciesRepresentations": [
+                53,
+                54
+            ],
+            "name": "Wein"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 162,
+            "speciesRepresentations": [
+                55,
+                56,
+                57
+            ],
+            "name": "Raps"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 163,
+            "speciesRepresentations": [
+                58
+            ],
+            "name": "Roggen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 164,
+            "speciesRepresentations": [
+                59
+            ],
+            "name": "Hafer"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 165,
+            "speciesRepresentations": [
+                63,
+                64,
+                65,
+                66
+            ],
+            "name": "Kartoffel"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 166,
+            "speciesRepresentations": [
+                67,
+                68,
+                69,
+                70,
+                71
+            ],
+            "name": "Kürbis"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 167,
+            "speciesRepresentations": [
+                72
+            ],
+            "name": "Sonnenblumen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 168,
+            "speciesRepresentations": [
+                73,
+                74,
+                75,
+                76
+            ],
+            "name": "Gemüse"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 169,
+            "speciesRepresentations": [
+                77,
+                78,
+                79,
+                80
+            ],
+            "name": "Dinkel"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 170,
+            "speciesRepresentations": [
+                81,
+                82,
+                83,
+                84,
+                85
+            ],
+            "name": "Bohne"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 171,
+            "speciesRepresentations": [
+                86,
+                87,
+                88,
+                89,
+                90
+            ],
+            "name": "Erbse"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 172,
+            "speciesRepresentations": [
+                91,
+                92,
+                93,
+                94,
+                95
+            ],
+            "name": "Baumobst"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 173,
+            "speciesRepresentations": [
+                96,
+                97,
+                98,
+                99,
+                100
+            ],
+            "name": "Getreide"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 174,
+            "speciesRepresentations": [
+                101,
+                102,
+                103,
+                104,
+                105
+            ],
+            "name": "Hirse"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 175,
+            "speciesRepresentations": [
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114
+            ],
+            "name": "Randstreifen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 176,
+            "speciesRepresentations": [
+                115,
+                116,
+                117
+            ],
+            "name": "Wicken"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 178,
+            "speciesRepresentations": [
+                118,
+                119,
+                120
+            ],
+            "name": "Mohn"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 179,
+            "speciesRepresentations": [
+                121,
+                122,
+                123,
+                124,
+                125
+            ],
+            "name": "Sorghum"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 181,
+            "speciesRepresentations": [
+                126,
+                127,
+                128,
+                129,
+                130
+            ],
+            "name": "Emmer"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 182,
+            "speciesRepresentations": [
+                131,
+                132
+            ],
+            "name": "Kräuter"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 183,
+            "speciesRepresentations": [
+                133,
+                134,
+                135,
+                136,
+                137,
+                138,
+                139
+            ],
+            "name": "Buchweizen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 184,
+            "speciesRepresentations": [
+                140
+            ],
+            "name": "Öllein"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 185,
+            "speciesRepresentations": [
+                141,
+                142,
+                143
+            ],
+            "name": "Hanf"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 187,
+            "speciesRepresentations": [
+                144,
+                145
+            ],
+            "name": "Kräuter"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 189,
+            "speciesRepresentations": [
+                146
+            ],
+            "name": "Energieholz"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 190,
+            "speciesRepresentations": [
+                147,
+                148,
+                149,
+                150
+            ],
+            "name": "Senf"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 192,
+            "speciesRepresentations": [
+                151
+            ],
+            "name": "Energiegras"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 193,
+            "speciesRepresentations": [
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158
+            ],
+            "name": "Erdbeeren"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 195,
+            "speciesRepresentations": [
+                159,
+                160,
+                161,
+                162,
+                163
+            ],
+            "name": "Rasen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 196,
+            "speciesRepresentations": [
+                164,
+                165,
+                166,
+                167
+            ],
+            "name": "Leindotter"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 197,
+            "speciesRepresentations": [
+                168
+            ],
+            "name": "Hopfen"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 198,
+            "speciesRepresentations": [
+                169,
+                170,
+                171,
+                172
+            ],
+            "name": "Lupinien"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 200,
+            "speciesRepresentations": [
+                173,
+                174,
+                175
+            ],
+            "name": "Ölrettich"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 202,
+            "speciesRepresentations": [
+                176
+            ],
+            "name": "Gewächshaus"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 203,
+            "speciesRepresentations": [
+                177
+            ],
+            "name": "Folientunnel"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 205,
+            "speciesRepresentations": [
+                178
+            ],
+            "name": "Johanniskraut"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 211,
+            "speciesRepresentations": [
+                179,
+                180,
+                181,
+                182,
+                183,
+                184,
+                185
+            ],
+            "name": "Erdbeeren"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 214,
+            "speciesRepresentations": [
+                186
+            ],
+            "name": "Flachs"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 91,
+            "speciesRepresentations": [
+                187,
+                188,
+                189,
+                190,
+                191,
+                192,
+                193
+            ],
+            "name": "Laubgehölze"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 92,
+            "speciesRepresentations": [
+                194,
+                195,
+                196,
+                197
+            ],
+            "name": "Nadelgehölze"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 100,
+            "speciesRepresentations": [
+                198,
+                199,
+                200
+            ],
+            "name": "Strauchgesellschaften"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 122,
+            "speciesRepresentations": [
+                201,
+                202,
+                203,
+                204,
+                205
+            ],
+            "name": "Acker unspezifisch"
+        }
+    }
+]

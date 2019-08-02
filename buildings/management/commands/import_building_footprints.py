@@ -129,7 +129,7 @@ def generate_building_models(regenerate):
 
     gen_buildings = []
     for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
-        if regenerate or not os.path.exists("/home/karl/Data/BOKU/retour-middleware/buildings/out/{}.dae".format(asset.asset.name)):  # FIXME
+        if regenerate or not os.path.exists("buildings/out/{}.glb".format(asset.asset.name)):
             gen_buildings.append(asset.id)
 
     generate_buildings_with_asset_id(gen_buildings)
