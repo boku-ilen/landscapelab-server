@@ -84,7 +84,7 @@ class Command(BaseCommand):
                     result = save_building_footprint(
                         feat['geometry']['coordinates'][b_id][0],
                         feat['properties'][HEIGHT_FIELD_NAME],
-                        '{}_{}_{}'.format(scenario.name, feat['id'], b_id),
+                        'building_{}_{}_{}'.format(scenario.name, feat['id'], b_id),
                         root_tile
                     )
                     data[result] += 1
@@ -93,7 +93,7 @@ class Command(BaseCommand):
                 result = save_building_footprint(
                     feat['geometry']['coordinates'][0],
                     feat['properties'][HEIGHT_FIELD_NAME],
-                    '{}_{}'.format(scenario.name, feat['id']),
+                    'building_{}_{}'.format(scenario.name, feat['id']),
                     root_tile
                 )
                 data[result] += 1
