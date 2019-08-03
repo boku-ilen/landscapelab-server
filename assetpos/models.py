@@ -21,6 +21,10 @@ class AssetType(models.Model):
     # if False it is not allowed to place this element, the placement_areas are zones where it is allowed
     allow_placement = models.BooleanField(default=False)
 
+    # this is the radius around the 1st person player in the client where this asset type is to be displayed
+    # the default setting of 0 means unlimited
+    display_radius = models.IntegerField(default=0)
+
 
 class Property(models.Model):
 
