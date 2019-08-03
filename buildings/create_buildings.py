@@ -1,9 +1,37 @@
-import psycopg2
 import os, sys
+
+print("Start create_buildings.py")
+
+# FIXME: On Linux, I need to make several changes to the Python path here. This is
+#  because we need both the Blender Python environment and the usual environment
+#  which the server runs in.
+#  The order of many of these statements (including 'import's) seems to be important
+#  as well.
+#  How can we generalize this?
+
+# print("Fixing up the path")
+#
+# sys.path.remove('/usr/lib/python37.zip')
+# sys.path.remove('/usr/lib/python3.7')
+# sys.path.remove('/usr/lib/python3.7/lib-dynload')
+# sys.path.remove('/usr/lib/python3/dist-packages')
+#
+# os.environ['MKL_THREADING_LAYER'] = 'GNU'
+#
+# sys.path.append('/home/karl/anaconda3/envs/boku/lib/python37.zip')
+# sys.path.append('/home/karl/anaconda3/envs/boku/lib/python3.7')
+# sys.path.append('/home/karl/anaconda3/envs/boku/lib/python3.7/lib-dynload')
+# sys.path.append('/home/karl/anaconda3/envs/boku/lib/python3.7/site-packages')
+
+print("Importing other libraries")
+import numpy as np
+import psycopg2
 import bpy, bmesh
 from math import *
 from mathutils import Vector, Matrix
-import numpy as np
+
+# FIXME: Is there a way to use Django and our landscapelab project here? (This script
+#  is run as a subprocess!) Do we need to do more pythonpath trickery?
 # import django
 # from landscapelab.settings.local_settings import GDAL_LIBRARY_PATH
 # from buildings.models import BuildingLayout
@@ -22,23 +50,29 @@ dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
     sys.path.append(dir)
 
-# TODO get db connection data from django server somehow
+# TODO: If we manage to import our landscapelab environment, we don't need this
+#  manual db connection
 db = {
     'NAME': 'retour',
-    'USER': 'postgres',
-    'PASSWORD': 'retour4321',
+    'USER': 'retour',
+    'PASSWORD': 'retour',
     'HOST': 'localhost',
     'PORT': '5432'
 }
 
-TEXTURE_DIRECTORY = os.path.join(os.getcwd(), 'landscapelab', 'resources', 'buildings', 'textures', 'no_rights')
+print("Setting up directories")
+
+# TODO: These will change - allow this to be set via script argument?
+TEXTURE_DIRECTORY = os.path.join(os.getcwd(), 'buildings', 'textures', 'no_rights')
 if not os.path.exists(TEXTURE_DIRECTORY):
     os.makedirs(TEXTURE_DIRECTORY)
 
-# TODO get out path from django server somehow
+# TODO: Get the path from the server; move it to the resources
 OUTPUT_DIRECTORY = os.path.join(os.getcwd(), 'buildings', 'out')
 if not os.path.exists(str(OUTPUT_DIRECTORY)):
     os.makedirs(OUTPUT_DIRECTORY)
+
+print("Setup done")
 
 
 # takes name footprint-vertices, building-height and texture name (optional)
@@ -53,9 +87,8 @@ def create_building(name, vertices, height, textures):
     building = create_base_building_mesh(name, vertices, height, textures)
     roof = create_roof(name, vertices, height, textures)
 
-    # export the scene to a collada file
-    bpy.ops.wm.collada_export(filepath=os.path.join(OUTPUT_DIRECTORY, name + '.dae'), use_texture_copies=False)
-    # bpy.ops.wm.collada_export(filepath=os.path.join(out_path, name+'.dae'))
+    # export the scene to a gltf 2.0 file
+    bpy.ops.export_scene.gltf(filepath=os.path.join(OUTPUT_DIRECTORY, name))
 
 
 # clears unwanted elements from the default scene
@@ -369,18 +402,24 @@ def get_images():
 
 def main(arguments):
 
+    print("Connecting to db...")
+
     images = get_images()
     conn = psycopg2.connect(host=db['HOST'], database=db['NAME'], user=db['USER'],
                             password=db['PASSWORD'], port=db['PORT'])
     cur = conn.cursor()
+
+    print("Connected!")
 
     # goes through each argument
     # fetches the data for specified building
     # creates and exports it
     for a in arguments:
 
+        print("Fetching the next result")
+
         # get building name and height
-        # FIXME maybe get data in different, more reliable way
+        # TODO: Replace with Django code if we can import the landscapelab environment!
         cur.execute('SELECT n.name, h.height '
                     'FROM {ASSET} as n, (SELECT height FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}) as h '
                     'WHERE n.id IN '
@@ -393,11 +432,13 @@ def main(arguments):
                         argument_id=a
                         )
                     )
+
         ret = cur.fetchone()
         name = ret[0]
         height = ret[1]
 
         # get building vertices
+        # TODO: Replace with Django code if we can import the landscapelab environment!
         cur.execute('SELECT ST_x(geom), ST_y(geom) FROM'
                     '(SELECT (St_DumpPoints(vertices)).geom, height FROM {BUILDING_FOOTPRINT} where id = {argument_id}) as foo;'
                     .format(
@@ -417,6 +458,8 @@ def main(arguments):
             if len(value) > 0:
                 textures[key] = os.path.join(key, value[int(a) % len(value)])
 
+        print("Creating the model")
+        
         # create and export the building
         create_building(name, vertices, height, textures)
 
