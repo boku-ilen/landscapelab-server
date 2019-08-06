@@ -15,6 +15,7 @@
 # Setting up the production environment using bitnami
 
 * install the unofficial wheel builds for GDAL, Fiona and rasterio
+* copy the gdal20X.dll and geos_c.dll from the site-packages/osgeo directory in python to the apache2 root directory of bitnami
 * add GDAL_LIBRARY_PATH and GEOS_LIBRARY_PATH to local_settings.py and point them to gdal20X.dll and geos_c.dll
 * add all local ip-adresses into ALLOWED_HOSTS in local_settings.py
 
