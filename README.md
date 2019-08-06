@@ -1,4 +1,4 @@
-# Setup
+# Setup the development version
 
 * install python 3 (we recommend anaconda)
 * install project dependencies
@@ -11,6 +11,14 @@
 * create the database schema and apply defaults
   * `python manage.py migrate` TODO
   * `python manage.py loaddata defaults.json` TODO
+  
+# Setting up the production environment using bitnami
+
+* install the unofficial wheel builds for GDAL, Fiona and rasterio
+* copy the gdal20X.dll and geos_c.dll from the site-packages/osgeo directory in python to the apache2 root directory of bitnami
+* add GDAL_LIBRARY_PATH and GEOS_LIBRARY_PATH to local_settings.py and point them to gdal20X.dll and geos_c.dll
+* add the environment paths for GDAL_DATA and PROJ_LIB
+* add all local ip-adresses into ALLOWED_HOSTS in local_settings.py
 
 # Run the server
 * development: `python manage.py runserver`
