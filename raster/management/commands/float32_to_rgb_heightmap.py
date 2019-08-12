@@ -22,7 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filename = options['imagepath']
 
-        if not os.path.isfile(filename):
+        if not filename or not os.path.isfile(filename):
             raise ValueError("Invalid path!")
 
         with rasterio.open(filename) as src:
