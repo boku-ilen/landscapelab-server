@@ -4,7 +4,8 @@
     "fields": {
       "id": 1,
       "name": "building",
-      "allow_placement": "False"
+      "allow_placement": "False",
+      "display_radius": 8000
     }
   },
   {
@@ -12,7 +13,8 @@
     "fields": {
       "id": 2,
       "name": "wind turbine",
-      "allow_placement": "True"
+      "allow_placement": "True",
+      "display_radius": 0
     }
   },
   {
@@ -20,7 +22,8 @@
     "fields": {
       "id": 3,
       "name": "photovoltaic plant",
-      "allow_placement": "True"
+      "allow_placement": "True",
+      "display_radius": 0
     }
   }
 ]
