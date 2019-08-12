@@ -11,7 +11,15 @@
     "model": "assetpos.Asset",
     "fields": {
       "id": 2,
-      "name": "generic pv plant",
+      "name": "pv plant (small)",
+      "asset_type": 3
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
+      "id": 3,
+      "name": "pv plant (large)",
       "asset_type": 3
     }
   }
