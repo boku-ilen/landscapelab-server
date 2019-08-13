@@ -23,3 +23,10 @@ DATABASES = {
         'PORT': '5432'
     },
 }
+
+import os
+if os.name == "nt":
+    GDAL_LIBRARY_PATH = "C:/landscapelab/Anaconda3/Library/bin/gdal203.dll"
+    GEOS_LIBRARY_PATH = 'C:/landscapelab/Anaconda3/Library/bin/geos_c.dll'
+else:
+    GEOS_LIBRARY_PATH = '/landscapelab/anaconda3/lib/libgeos_c.so'
