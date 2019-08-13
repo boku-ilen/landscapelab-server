@@ -1,6 +1,7 @@
 # Setup the development version
 
 * install python 3 (we recommend anaconda)
+* install gdal (`libgdal-dev`)
 * install project dependencies
   * `pip install -r requirements.txt`
 * patch ows library (wmts.py is buggy in current version)

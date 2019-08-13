@@ -1,6 +1,7 @@
 Pillow
-fiona
 numpy
+gdal>=2.2,<3.0 # Version required with libgdal-dev on Linux - not sure about Windows?
+fiona
 requests
 owslib   # TODO: it's buggy and we need to additionally apply a patch
 webmercator
