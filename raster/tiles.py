@@ -13,7 +13,7 @@ ZOOM_PATH = "{}"
 METER_X_PATH = utils.join_path(ZOOM_PATH, "{}")
 FULL_PATH = utils.join_path(METER_X_PATH, "{}.{}")
 
-MAX_STEP_NUMBER = 10
+MAX_STEP_NUMBER = 8
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,10 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
     """
 
     if steps >= MAX_STEP_NUMBER:
+        # No tile that could be cropped has been found for the set MAX_STEP_NUMBER
+        logger.error("{}: No tile could be found or created (tried from zoom {} down to {}) at location {}, {}!"
+                     " Possible causes: Missing data, wrong path, no write permissions"
+                     .format(path, zoom + steps, zoom, meter_x, meter_y))
         return None
 
     full_path = utils.join_path(path, FULL_PATH)
@@ -89,7 +93,7 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     wanted_filename = full_path_template.format(zoom + 1, p_wanted.tile_x, p_wanted.tile_y, file_ending)
 
     if not os.path.isfile(available_filename):
-        logger.warning("get_cropped_for_next_tile requires a tile to exist at {}!".format(available_filename))
+        # Nothing here yet - we might recurse further in get_cropped_recursively
         return
 
     x_path = x_path_template.format(zoom + 1, p_wanted.tile_x)
