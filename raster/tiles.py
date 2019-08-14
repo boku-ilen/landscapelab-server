@@ -2,14 +2,16 @@ import os
 import webmercator
 import logging
 from PIL import Image
+
+from landscapelab import utils
 from raster import epx
 from django.contrib.gis.geos import Point
 from location.models import Scenario
 from assetpos.models import Tile
 
 ZOOM_PATH = "{}"
-METER_X_PATH = os.path.join(ZOOM_PATH, "{}")
-FULL_PATH = os.path.join(METER_X_PATH, "{}.{}")
+METER_X_PATH = utils.join_path(ZOOM_PATH, "{}")
+FULL_PATH = utils.join_path(METER_X_PATH, "{}.{}")
 
 MAX_STEP_NUMBER = 10
 
@@ -40,7 +42,7 @@ def get_cropped_recursively(meter_x: float, meter_y: float, zoom: int, path: str
     if steps >= MAX_STEP_NUMBER:
         return None
 
-    full_path = os.path.join(path, FULL_PATH)
+    full_path = utils.join_path(path, FULL_PATH)
 
     this_point = webmercator.Point(meter_x=meter_x, meter_y=meter_y, zoom_level=zoom)
     this_point_filename = full_path.format(zoom, this_point.tile_x, this_point.tile_y, file_ending)
@@ -79,9 +81,9 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
     else:
         upper_lower = [0.5, 1]
 
-    zoom_path_template = os.path.join(path, ZOOM_PATH)
-    x_path_template = os.path.join(path, METER_X_PATH)
-    full_path_template = os.path.join(path, FULL_PATH)
+    zoom_path_template = utils.join_path(path, ZOOM_PATH)
+    x_path_template = utils.join_path(path, METER_X_PATH)
+    full_path_template = utils.join_path(path, FULL_PATH)
 
     available_filename = full_path_template.format(zoom, p_available.tile_x, p_available.tile_y, file_ending)
     wanted_filename = full_path_template.format(zoom + 1, p_wanted.tile_x, p_wanted.tile_y, file_ending)
