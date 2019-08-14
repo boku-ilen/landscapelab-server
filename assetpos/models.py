@@ -25,6 +25,10 @@ class AssetType(models.Model):
     # the default setting of 0 means unlimited
     display_radius = models.IntegerField(default=0)
 
+    # the minimum distance that this asset needs to have to other assets of its type - not allowed
+    # to be placed if it's too close
+    minimum_distance = models.IntegerField(default=0)
+
 
 class Property(models.Model):
 

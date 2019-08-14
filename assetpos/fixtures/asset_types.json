@@ -14,7 +14,8 @@
       "id": 2,
       "name": "wind turbine",
       "allow_placement": "True",
-      "display_radius": 0
+      "display_radius": 0,
+      "minimum_distance": 70
     }
   },
   {
