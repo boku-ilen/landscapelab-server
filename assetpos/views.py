@@ -46,7 +46,7 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return assettype.allow_placement
 
 
-def register_assetposition(request, asset_id, meter_x, meter_y, orientation):
+def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
     """Called when an asset should be instantiated at the given location.
     Returns a JsonResponse with 'creation_success' (bool) and, if true, the
     'assetpos_id' of the new assetpos."""
@@ -64,6 +64,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation):
 
     if not can_place_at_position(assettype, meter_x, meter_y):
         return JsonResponse(ret)
+
     location_point = geos.Point(float(meter_x), float(meter_y))
 
     # TODO: handling the default orientation is up to the client

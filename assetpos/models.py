@@ -81,4 +81,4 @@ class AssetPositions(models.Model):
     location = models.PointField(srid=settings.DEFAULT_SRID)
 
     # the direction in degrees (0 = north) of the placement
-    orientation = models.FloatField()
+    orientation = models.FloatField(default=0)

@@ -8,6 +8,10 @@ urlpatterns = [
     url(r'^attributes/(?P<asset_id>(\d+)).json$', views.get_attributes, name='get_attributes'),
 
     # Creates a new instance of an asset (assets defined in fixture)
+    url(r'^create/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)$',
+        views.register_assetposition, name='register_assetposition'),
+
+    # Creates a new instance of an asset with a non-zero orientation (assets defined in fixture)
     url(r'^create/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)/(?P<orientation>(\d+))$',
         views.register_assetposition, name='register_assetposition'),
 
