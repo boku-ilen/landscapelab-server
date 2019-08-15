@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--pyramidpath', type=str)
-        parser.add_argumemt('--do_austria_check', action='store_true')
+        parser.add_argument('--do_austria_check', action='store_true')
 
     def handle(self, *args, **options):
         pyramidpath = options['pyramidpath']
