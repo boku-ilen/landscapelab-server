@@ -99,10 +99,18 @@ def parse_species_representation_data(json_data):
     "billboard": string
     """
 
-    for entry in json_data:
-        entry = entry["fields"]
+    to_be_deleted = []
+
+    for index, raw_entry in enumerate(json_data):
+        entry = raw_entry["fields"]
 
         try:
+            # Check if the billboard field is set - the species representation is useless otherwise
+            if not entry["billboard"]:
+                logger.warn("Field with empty billboard at ID {} will not be included!".format(entry["id"]))
+                to_be_deleted.append(index)  # Can't delete from list while iterating!
+                continue
+
             entry["id"] = int(entry["id"])
             entry["species"] = int(entry["species"]) if entry["species"] else None
             entry["avg_height"] = float(entry["avg_height"] or AVG_HEIGHT_DEFAULT)
@@ -140,9 +148,16 @@ def parse_species_representation_data(json_data):
                     entry["distribution_density"] = float(distribution_density_and_unit[0]) / 100
                 elif distribution_density_and_unit[1] == "ha":
                     entry["distribution_density"] = float(distribution_density_and_unit[0]) / 10000
+
+            logger.debug("Parsed vegetation with ID {}".format(entry["id"]))
         except ValueError:
             logger.error("One of the types in the json row {} did not have the correct type!"
                          " Please check the specification.".format(entry))
+
+    # Delete the items which were flagged as invalid
+    # We reverse to_be_deleted since otherwise, indices in json_data change while deleting!
+    for index in reversed(to_be_deleted):
+        del json_data[index]
 
 
 def parse_phytocoenosis_data(json_data):
@@ -166,6 +181,8 @@ def parse_phytocoenosis_data(json_data):
             entry["speciesRepresentations"] = literal_eval(entry["speciesRepresentations"] or "[]")
             entry["albedo_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], ALBEDO_TEXTURE_NAME)
             entry["normal_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], NORMAL_TEXTURE_NAME)
+
+            logger.debug("Parsed phytocoenosis with ID {}".format(entry["id"]))
         except ValueError:
             logger.error("One of the types in the json row {} did not have the correct type!"
                          " Please check the specification.".format(entry))
