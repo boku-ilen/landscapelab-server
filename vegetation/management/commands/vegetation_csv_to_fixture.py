@@ -2,6 +2,8 @@ import os
 from ast import literal_eval
 
 from django.core.management import BaseCommand
+
+from landscapelab import utils
 from vegetation.models import LAYER_MAXHEIGHTS
 
 import logging
@@ -16,10 +18,16 @@ SIGMA_HEIGHT_DEFAULT = 1.0
 SPECIES_DEFAULT = 0
 DEFAULT_DISTRIBUTION_DENSITY = 1
 
+BILLBOARD_PREFIX = "plant-sprites"
+TEXTURE_PREFIX = "plant-textures"
+ALBEDO_TEXTURE_NAME = "albedo.jpg"
+NORMAL_TEXTURE_NAME = "normal.jpg"
+
 
 class Command(BaseCommand):
     help = """
-    This script takes a .shp file, extracts building footprints and saves them to the database
+    Parses a vegetation CSV like https://docs.google.com/spreadsheets/d/1_IMhtppINbx7g0BfnqGm1nDEcCtxqW5wN6LY1EMx2-4
+    to a JSON fixture that can be imported into the server's database.
     """
 
     def add_arguments(self, parser):
@@ -99,6 +107,7 @@ def parse_species_representation_data(json_data):
             entry["species"] = int(entry["species"]) if entry["species"] else None
             entry["avg_height"] = float(entry["avg_height"] or AVG_HEIGHT_DEFAULT)
             entry["sigma_height"] = float(entry["sigma_height"] or SIGMA_HEIGHT_DEFAULT)
+            entry["billboard"] = utils.join_path(BILLBOARD_PREFIX, entry["billboard"])
 
             # Get the layer based on the avg_height
             layer_set = False
@@ -123,7 +132,7 @@ def parse_species_representation_data(json_data):
             # Set to default value first in case of invalid or empty entry
             entry["distribution_density"] = DEFAULT_DISTRIBUTION_DENSITY
 
-            # TODO: Are these conversions correct and do we need more?
+            # TODO: Should we keep those conversions, or will we not have entries of this format anymore?
             if len(distribution_density_and_unit) > 1:
                 if distribution_density_and_unit[1] == "m²":
                     entry["distribution_density"] = float(distribution_density_and_unit[0])
@@ -145,6 +154,8 @@ def parse_phytocoenosis_data(json_data):
     "name": string,
     "albedo_path": string,
     "normal_path": string
+
+    albedo_path and normal_path are built from the "texture" field.
     """
 
     for entry in json_data:
@@ -153,6 +164,8 @@ def parse_phytocoenosis_data(json_data):
         try:
             entry["id"] = int(entry["id"])
             entry["speciesRepresentations"] = literal_eval(entry["speciesRepresentations"] or "[]")
+            entry["albedo_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], ALBEDO_TEXTURE_NAME)
+            entry["normal_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], NORMAL_TEXTURE_NAME)
         except ValueError:
             logger.error("One of the types in the json row {} did not have the correct type!"
                          " Please check the specification.".format(entry))
