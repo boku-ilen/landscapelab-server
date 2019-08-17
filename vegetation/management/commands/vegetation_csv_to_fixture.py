@@ -182,6 +182,8 @@ def parse_phytocoenosis_data(json_data):
             entry["albedo_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], ALBEDO_TEXTURE_NAME)
             entry["normal_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], NORMAL_TEXTURE_NAME)
 
+            del entry["texture"]
+
             logger.debug("Parsed phytocoenosis with ID {}".format(entry["id"]))
         except ValueError:
             logger.error("One of the types in the json row {} did not have the correct type!"
