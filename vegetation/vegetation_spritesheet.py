@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 
 from landscapelab import utils
 from vegetation.models import Phytocoenosis
+from vegetation.models import LAYER_MAXHEIGHTS
 
 SPRITE_BASEPATH = "phytocoenosis-spritesheet"
 REPRESENTATION_BASEPATH = "plants"
@@ -62,9 +63,12 @@ def generate_spritesheet(phyto_c_id, layer):
     # Open all sprites at the sprite_paths using Pillow
     sprites = list(map(Image.open, sprite_paths))
 
-    # Resize all sprites to be no bigger than 1024x1024
-    for sprite in sprites:
-        sprite.thumbnail((MAX_SPRITE_SIZE, MAX_SPRITE_SIZE))
+    for index, sprite in enumerate(sprites):
+        # Scale the sprite to a maximum of MAX_SPRITE_SIZE and scale it down to match its
+        # size relative to its layer's max size
+        scale_factor = representations[index].avg_height * MAX_SPRITE_SIZE / LAYER_MAXHEIGHTS[int(layer) - 1][1]
+
+        sprite.thumbnail((scale_factor, scale_factor))
 
     # Calculate the rows and columns we need
     cols = min(number_of_sprites, MAX_SPRITE_ROW)
