@@ -1208,7 +1208,7 @@
             "sigma_height": 0.1,
             "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/173-cereals_gen-young.png"
+            "billboard": "plant-sprites/174-panicum.png"
         }
     },
     {
@@ -2484,510 +2484,6 @@
         }
     },
     {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 208,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 209,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 210,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 211,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 212,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 213,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 214,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 215,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 216,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 217,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 218,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 219,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 220,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 221,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 222,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 223,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 224,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 225,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 226,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 227,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 228,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 229,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 230,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 231,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 232,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 233,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 234,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 235,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 236,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 237,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 238,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 239,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 240,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 241,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 242,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 243,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 244,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 245,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 246,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 247,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 248,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
-        "model": "vegetation.SpeciesRepresentation",
-        "fields": {
-            "id": 249,
-            "species": null,
-            "avg_height": 5.0,
-            "sigma_height": 1.0,
-            "vegetation_layer": 3,
-            "distribution_density": 1,
-            "billboard": "plant-sprites/"
-        }
-    },
-    {
         "model": "vegetation.Phytocoenosis",
         "fields": {
             "id": 125,
@@ -3000,7 +2496,9 @@
                 6,
                 7
             ],
-            "name": "Grünland Extensiv"
+            "name": "Grünland Extensiv",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3015,7 +2513,9 @@
                 12,
                 13
             ],
-            "name": "Grünland Intensiv"
+            "name": "Grünland Intensiv",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3027,7 +2527,9 @@
                 15,
                 16
             ],
-            "name": "Grünland"
+            "name": "Grünland",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3040,7 +2542,9 @@
                 19,
                 20
             ],
-            "name": "Mais"
+            "name": "Mais",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3052,7 +2556,9 @@
                 22,
                 23
             ],
-            "name": "Weizen"
+            "name": "Weizen",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3065,7 +2571,9 @@
                 26,
                 27
             ],
-            "name": "Weide"
+            "name": "Weide",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3077,7 +2585,9 @@
                 61,
                 62
             ],
-            "name": "Hafer"
+            "name": "Hafer",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3089,7 +2599,9 @@
                 29,
                 30
             ],
-            "name": "Gerste"
+            "name": "Gerste",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3102,7 +2614,9 @@
                 33,
                 34
             ],
-            "name": "Klee"
+            "name": "Klee",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3114,7 +2628,9 @@
                 36,
                 37
             ],
-            "name": "Soja"
+            "name": "Soja",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3132,7 +2648,9 @@
                 45,
                 46
             ],
-            "name": "Brache"
+            "name": "Brache",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3144,7 +2662,9 @@
                 48,
                 49
             ],
-            "name": "Triticale"
+            "name": "Triticale",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3156,7 +2676,9 @@
                 51,
                 52
             ],
-            "name": "Rüben"
+            "name": "Rüben",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3167,7 +2689,9 @@
                 53,
                 54
             ],
-            "name": "Wein"
+            "name": "Wein",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3179,7 +2703,9 @@
                 56,
                 57
             ],
-            "name": "Raps"
+            "name": "Raps",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3189,7 +2715,9 @@
             "speciesRepresentations": [
                 58
             ],
-            "name": "Roggen"
+            "name": "Roggen",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3199,7 +2727,9 @@
             "speciesRepresentations": [
                 59
             ],
-            "name": "Hafer"
+            "name": "Hafer",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3212,7 +2742,9 @@
                 65,
                 66
             ],
-            "name": "Kartoffel"
+            "name": "Kartoffel",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3226,7 +2758,9 @@
                 70,
                 71
             ],
-            "name": "Kürbis"
+            "name": "Kürbis",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3236,7 +2770,9 @@
             "speciesRepresentations": [
                 72
             ],
-            "name": "Sonnenblumen"
+            "name": "Sonnenblumen",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3249,7 +2785,9 @@
                 75,
                 76
             ],
-            "name": "Gemüse"
+            "name": "Gemüse",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3262,7 +2800,9 @@
                 79,
                 80
             ],
-            "name": "Dinkel"
+            "name": "Dinkel",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3276,7 +2816,9 @@
                 84,
                 85
             ],
-            "name": "Bohne"
+            "name": "Bohne",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3290,7 +2832,9 @@
                 89,
                 90
             ],
-            "name": "Erbse"
+            "name": "Erbse",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3304,7 +2848,9 @@
                 94,
                 95
             ],
-            "name": "Baumobst"
+            "name": "Baumobst",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3318,7 +2864,9 @@
                 99,
                 100
             ],
-            "name": "Getreide"
+            "name": "Getreide",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3332,7 +2880,9 @@
                 104,
                 105
             ],
-            "name": "Hirse"
+            "name": "Hirse",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3350,7 +2900,9 @@
                 113,
                 114
             ],
-            "name": "Randstreifen"
+            "name": "Randstreifen",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3362,7 +2914,9 @@
                 116,
                 117
             ],
-            "name": "Wicken"
+            "name": "Wicken",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3374,7 +2928,9 @@
                 119,
                 120
             ],
-            "name": "Mohn"
+            "name": "Mohn",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3388,7 +2944,9 @@
                 124,
                 125
             ],
-            "name": "Sorghum"
+            "name": "Sorghum",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3402,7 +2960,9 @@
                 129,
                 130
             ],
-            "name": "Emmer"
+            "name": "Emmer",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3413,7 +2973,9 @@
                 131,
                 132
             ],
-            "name": "Kräuter"
+            "name": "Kräuter",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3429,7 +2991,9 @@
                 138,
                 139
             ],
-            "name": "Buchweizen"
+            "name": "Buchweizen",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3439,7 +3003,9 @@
             "speciesRepresentations": [
                 140
             ],
-            "name": "Öllein"
+            "name": "Öllein",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3451,7 +3017,9 @@
                 142,
                 143
             ],
-            "name": "Hanf"
+            "name": "Hanf",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3462,7 +3030,9 @@
                 144,
                 145
             ],
-            "name": "Kräuter"
+            "name": "Kräuter",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3472,7 +3042,9 @@
             "speciesRepresentations": [
                 146
             ],
-            "name": "Energieholz"
+            "name": "Energieholz",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3485,7 +3057,9 @@
                 149,
                 150
             ],
-            "name": "Senf"
+            "name": "Senf",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3495,7 +3069,9 @@
             "speciesRepresentations": [
                 151
             ],
-            "name": "Energiegras"
+            "name": "Energiegras",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3511,7 +3087,9 @@
                 157,
                 158
             ],
-            "name": "Erdbeeren"
+            "name": "Erdbeeren",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3525,7 +3103,9 @@
                 162,
                 163
             ],
-            "name": "Rasen"
+            "name": "Rasen",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3538,7 +3118,9 @@
                 166,
                 167
             ],
-            "name": "Leindotter"
+            "name": "Leindotter",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3548,7 +3130,9 @@
             "speciesRepresentations": [
                 168
             ],
-            "name": "Hopfen"
+            "name": "Hopfen",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3561,7 +3145,9 @@
                 171,
                 172
             ],
-            "name": "Lupinien"
+            "name": "Lupinien",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3573,7 +3159,9 @@
                 174,
                 175
             ],
-            "name": "Ölrettich"
+            "name": "Ölrettich",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3583,7 +3171,9 @@
             "speciesRepresentations": [
                 176
             ],
-            "name": "Gewächshaus"
+            "name": "Gewächshaus",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3593,7 +3183,9 @@
             "speciesRepresentations": [
                 177
             ],
-            "name": "Folientunnel"
+            "name": "Folientunnel",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3603,7 +3195,9 @@
             "speciesRepresentations": [
                 178
             ],
-            "name": "Johanniskraut"
+            "name": "Johanniskraut",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3619,7 +3213,9 @@
                 184,
                 185
             ],
-            "name": "Erdbeeren"
+            "name": "Erdbeeren",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3629,7 +3225,9 @@
             "speciesRepresentations": [
                 186
             ],
-            "name": "Flachs"
+            "name": "Flachs",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
         }
     },
     {
@@ -3645,7 +3243,9 @@
                 192,
                 193
             ],
-            "name": "Laubgehölze"
+            "name": "Laubgehölze",
+            "albedo_path": "plant-textures/Forest/albedo.jpg",
+            "normal_path": "plant-textures/Forest/normal.jpg"
         }
     },
     {
@@ -3658,7 +3258,9 @@
                 196,
                 197
             ],
-            "name": "Nadelgehölze"
+            "name": "Nadelgehölze",
+            "albedo_path": "plant-textures/Forest/albedo.jpg",
+            "normal_path": "plant-textures/Forest/normal.jpg"
         }
     },
     {
@@ -3670,7 +3272,9 @@
                 199,
                 200
             ],
-            "name": "Strauchgesellschaften"
+            "name": "Strauchgesellschaften",
+            "albedo_path": "plant-textures/Grass/albedo.jpg",
+            "normal_path": "plant-textures/Grass/normal.jpg"
         }
     },
     {
@@ -3684,7 +3288,49 @@
                 204,
                 205
             ],
-            "name": "Acker unspezifisch"
+            "name": "Acker unspezifisch",
+            "albedo_path": "plant-textures/Acre/albedo.jpg",
+            "normal_path": "plant-textures/Acre/normal.jpg"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 11,
+            "speciesRepresentations": [],
+            "name": "Gebäude",
+            "albedo_path": "plant-textures/Asphalt/albedo.jpg",
+            "normal_path": "plant-textures/Asphalt/normal.jpg"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 12,
+            "speciesRepresentations": [],
+            "name": "Versiegelte Flächen",
+            "albedo_path": "plant-textures/Asphalt/albedo.jpg",
+            "normal_path": "plant-textures/Asphalt/normal.jpg"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 32,
+            "speciesRepresentations": [],
+            "name": "Fels",
+            "albedo_path": "plant-textures/Rock/albedo.jpg",
+            "normal_path": "plant-textures/Rock/normal.jpg"
+        }
+    },
+    {
+        "model": "vegetation.Phytocoenosis",
+        "fields": {
+            "id": 70,
+            "speciesRepresentations": [],
+            "name": "Schnee- und Eisdecke",
+            "albedo_path": "plant-textures/Snow/albedo.jpg",
+            "normal_path": "plant-textures/Snow/normal.jpg"
         }
     }
 ]
