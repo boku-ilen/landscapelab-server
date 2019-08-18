@@ -3,15 +3,15 @@
     "model": "assetpos.Asset",
     "fields": {
       "id": 1,
-      "name": "Vestas wind turbine",
-      "asset_type": 2
+      "name": "Small PV Plant",
+      "asset_type": 3
     }
   },
   {
     "model": "assetpos.Asset",
     "fields": {
       "id": 2,
-      "name": "pv plant (small)",
+      "name": "Large PV Plant",
       "asset_type": 3
     }
   },
@@ -19,8 +19,8 @@
     "model": "assetpos.Asset",
     "fields": {
       "id": 3,
-      "name": "pv plant (large)",
-      "asset_type": 3
+      "name": "Generic Wind Turbine",
+      "asset_type": 2
     }
   }
 ]

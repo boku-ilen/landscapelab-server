@@ -3,7 +3,7 @@
     "model": "assetpos.AssetType",
     "fields": {
       "id": 1,
-      "name": "building",
+      "name": "Building",
       "allow_placement": "False",
       "display_radius": 8000
     }
@@ -12,9 +12,9 @@
     "model": "assetpos.AssetType",
     "fields": {
       "id": 2,
-      "name": "wind turbine",
+      "name": "Wind Turbine",
       "allow_placement": "True",
-      "display_radius": 0,
+      "display_radius": 20000,
       "minimum_distance": 70
     }
   },
@@ -22,9 +22,9 @@
     "model": "assetpos.AssetType",
     "fields": {
       "id": 3,
-      "name": "photovoltaic plant",
+      "name": "Photovoltaic Plant",
       "allow_placement": "True",
-      "display_radius": 0
+      "display_radius": 10000
     }
   }
 ]
