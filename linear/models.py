@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from models import Tile
+from raster.models import Tile
 
 
 # TODO: Some fields here overlap with assetpos. When we unify dynamic and static assets,
@@ -32,10 +32,10 @@ class LineSegment(models.Model):
 
     # The tile which, ideally, the center of the line segment is in
     # TODO: Nullable since it's not yet sure whether this is really required
-    tile = models.ForeignKey(Tile, null=True)
+    tile = models.ForeignKey(Tile, null=True, on_delete=models.PROTECT)
 
     # The type which this line segment belongs to
-    type = models.ForeignKey(LineType)
+    type = models.ForeignKey(LineType, on_delete=models.PROTECT)
 
     # Optional width if it deviates from the LineType default
     width = models.FloatField(null=True)
