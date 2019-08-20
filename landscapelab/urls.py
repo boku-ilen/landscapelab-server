@@ -11,5 +11,6 @@ urlpatterns = [
     path('location/', include("location.urls")),
     path('raster/', include("raster.urls")),
     path('vegetation/', include("vegetation.urls")),
+    path('linear/', include("linear.urls")),
     url(r'^reload_logging', utils.reload_logging),
 ]
