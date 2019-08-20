@@ -11,6 +11,8 @@ import fiona
 logger = logging.getLogger(__name__)
 
 DEFAULT_WIDTH_FIELD_NAME = "WIDTH"
+DEFAULT_INPUT_SRID = 4326
+WEBMERCATOR_SRID = 3857
 
 # TODO: Only needed until we properly define and/or classify line types
 DEFAULT_LINE_TYPE_FIELDS = {
@@ -30,6 +32,7 @@ class Command(BaseCommand):
         parser.add_argument("--shapefile", type=str)
         parser.add_argument("--out", type=str)
         parser.add_argument("--width_field_name", type=str)
+        parser.add_argument("--srid", type=int)
 
     def handle(self, *args, **options):
         # Validate the arguments
@@ -51,6 +54,12 @@ class Command(BaseCommand):
         else:
             width_field_name = options["width_field_name"]
 
+        if "srid" not in options or not options["srid"]:
+            input_srid = DEFAULT_INPUT_SRID
+            logger.warn("No input srid given! Assuming the default of {}".format(DEFAULT_INPUT_SRID))
+        else:
+            input_srid = options["srid"]
+
         # Initialize the json_data with a generic line type
         # TODO: Expand! Make customizable with options and/or by reading and classifying from the shapefile
         json_data = [{"model": "linear.LineType", "fields": DEFAULT_LINE_TYPE_FIELDS}]
@@ -65,10 +74,14 @@ class Command(BaseCommand):
                 continue
 
             try:
+                # Convert the LineString from the original srid to WebMercator
+                linestring = geos.LineString(*feature["geometry"]["coordinates"], srid=input_srid)
+                linestring.transform(WEBMERCATOR_SRID)
+
                 fields = {
                     "type": 1,  # TODO: Change once we use more types
                     "width": feature["properties"][width_field_name],
-                    "line": str(geos.LineString(*feature["geometry"]["coordinates"]))}
+                    "line": str(linestring)}
 
                 json_data.append({"model": "linear.LineSegment", "fields": fields})
             except Exception:
