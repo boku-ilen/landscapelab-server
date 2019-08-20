@@ -66,6 +66,8 @@ class Command(BaseCommand):
 
         logger.info("Parsing...")
 
+        error_count = 0
+
         # Parse features from the shapefile into a json file in the fixture format
         for feature in fiona.open(options["shapefile"]):
             # The width field is -1 for some entries. Since those are very minor roads such as bike lanes, we ignore
@@ -85,10 +87,16 @@ class Command(BaseCommand):
 
                 json_data.append({"model": "linear.LineSegment", "fields": fields})
             except Exception:
-                # FIXME: I get errors for some entries, almost exclusively "TypeError: Dimension mismatch".
-                #  What does it mean and how should we handle it?
+                # FIXME: I get errors for about 0.03% of the entries, almost exclusively
+                #  "TypeError: Dimension mismatch". What does it mean and how should we handle it?
                 logger.error("Error while converting LineString:")
                 traceback.print_exc()
+
+                error_count += 1
+
+        if error_count > 0:
+            logger.error("Encountered {} errors while parsing, this means that {} entries are now missing!"
+                         .format(error_count, error_count))
 
         logger.info("Writing the result...")
 
