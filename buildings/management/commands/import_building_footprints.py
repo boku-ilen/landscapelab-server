@@ -1,21 +1,19 @@
-from django.http import JsonResponse
-from django.contrib.staticfiles import finders
-from buildings.models import BuildingFootprint
-from assetpos.models import AssetPositions, Asset, AssetType
-from location.models import Scenario
-from assetpos.models import Tile
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.gis.geos import Point, Polygon, LinearRing
-from raster.tiles import get_root_tile, get_highest_lod_tile
-import webmercator.point
-from django.core.management import BaseCommand
-import time
 import datetime
-from buildings.views import generate_buildings_with_asset_id
-
-import os
-import fiona
 import logging
+import os
+import time
+
+import fiona
+from django.contrib.gis.geos import Point, Polygon, LinearRing
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.management import BaseCommand
+
+from assetpos.models import AssetPositions, Asset, AssetType
+from assetpos.models import Tile
+from buildings.models import BuildingFootprint
+from buildings.views import generate_buildings_with_asset_id
+from location.models import Scenario
+from raster.tiles import get_root_tile, get_highest_lod_tile
 
 logger = logging.getLogger(__name__)
 
@@ -28,12 +26,15 @@ FALLBACK_HEIGHT = 3
 
 class Command(BaseCommand):
     help = """
-    This script takes a .shp file, extracts building footprints and saves them to the database
+    Takes a .shp file, extracts building footprints, saves them to the database and generates
+    the corresponding 3D models.
+    Optional parameters can be given to only import or to only generate models.
     """
 
     def add_arguments(self, parser):
         parser.add_argument('--filename', type=str)
         parser.add_argument('--scenario_id', type=int)
+        parser.add_argument('--import_only', action='store_true')
         parser.add_argument('--generate_only', action='store_true')
         parser.add_argument('--regenerate', action='store_true')
 
@@ -119,11 +120,12 @@ class Command(BaseCommand):
         for info, value in data.items():
             logger.info(' - {}: {}'.format(info, value))
 
-        generate_building_models(options['generate_only'])
+        if not options['import_only']:
+            generate_building_models(options['regenerate'])
 
 
 def generate_building_models(regenerate):
-    """Gest all buildings from the database and generates their 3D model files"""
+    """Gets all buildings from the database and generates their 3D model files"""
 
     logger.info("Generating building files...")
 
