@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
 HEIGHT_FIELD_NAME = '_mean'
-ASSET_TYPE_NAME = 'building'
+ASSET_TYPE_NAME = 'Building'
 PERCENTAGE_LOG_FREQUENCY = 200
 FALLBACK_HEIGHT = 3
 
@@ -137,8 +137,9 @@ def generate_building_models(regenerate):
     generate_buildings_with_asset_id(gen_buildings)
 
 
-# saves one building footprint to the database
 def save_building_footprint(absolute_vertices: list, height: float, name: str, root_tile: Tile):
+    """Saves one building footprint to the database"""
+
     if not height:
         logger.warning("Building with name {} does not have a valid height! Setting it to fallback"
                        " of {}m".format(name, FALLBACK_HEIGHT))
