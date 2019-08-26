@@ -152,6 +152,24 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
     return JsonResponse(ret)
 
 
+def get_energy_contribution(request, asset_type_id=None):
+    """Returns a json response with the energy contribution and number of contributing
+     assets, either for a given asset type or for all assets."""
+
+    # TODO: Placeholders
+
+    ret = {
+        "total_energy_contribution": 300,
+        "number_of_assets": 15
+    }
+
+    if asset_type_id:
+        ret["number_of_assets"] = 5
+        ret["total_energy_contribution"] = 100
+
+    return JsonResponse(ret)
+
+
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
