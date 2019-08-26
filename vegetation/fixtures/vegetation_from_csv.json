@@ -18,7 +18,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-brown-01.png"
         }
@@ -30,7 +30,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -90,7 +90,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/126-fertilitymeadow-01.png"
         }
@@ -138,7 +138,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -150,9 +150,9 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -162,7 +162,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/151-meadow.png"
         }
@@ -174,7 +174,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.4,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/brassica-gelb-02.png"
         }
@@ -186,7 +186,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -198,9 +198,9 @@
             "species": null,
             "avg_height": 2.2,
             "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "vegetation_layer": 2,
             "distribution_density": 1,
-            "billboard": "plant-sprites/corn1.png"
+            "billboard": "plant-sprites/152-corn.png"
         }
     },
     {
@@ -208,11 +208,11 @@
         "fields": {
             "id": 18,
             "species": null,
-            "avg_height": 2.2,
+            "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/corn2.png"
+            "billboard": "plant-sprites/brassica-gelb-02.png"
         }
     },
     {
@@ -220,11 +220,11 @@
         "fields": {
             "id": 19,
             "species": null,
-            "avg_height": 2.2,
+            "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/corn3.png"
+            "billboard": "plant-sprites/arrhenatherum-01.png"
         }
     },
     {
@@ -232,11 +232,11 @@
         "fields": {
             "id": 20,
             "species": null,
-            "avg_height": 2.2,
-            "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "avg_height": 0.8,
+            "sigma_height": 0.2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/corn4.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -270,7 +270,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/brassica-gelb-02.png"
         }
@@ -294,7 +294,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -306,9 +306,9 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -354,7 +354,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/brassica-gelb-02.png"
         }
@@ -378,7 +378,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/luzerne-01.png"
         }
@@ -390,7 +390,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/luzerne-violett-01.png"
         }
@@ -402,7 +402,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -450,7 +450,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/154-pasture.png"
         }
@@ -486,7 +486,7 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/papaver-red-04.png"
         }
@@ -498,7 +498,7 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/papaver-red-02.png"
         }
@@ -510,7 +510,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/lobelia-01.png"
         }
@@ -546,7 +546,7 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/leucanthemum-01.png"
         }
@@ -570,7 +570,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/leucanthemum-01.png"
         }
@@ -582,7 +582,7 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/plant-yellowgreen-02.png"
         }
@@ -630,7 +630,7 @@
             "species": null,
             "avg_height": 2.1,
             "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "vegetation_layer": 2,
             "distribution_density": 1,
             "billboard": "plant-sprites/vinum-01.png"
         }
@@ -642,7 +642,7 @@
             "species": null,
             "avg_height": 2.1,
             "sigma_height": 0.3,
-            "vegetation_layer": 3,
+            "vegetation_layer": 2,
             "distribution_density": 1,
             "billboard": "plant-sprites/vinum-02.png"
         }
@@ -654,7 +654,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/162-rapeseed-faded.png"
         }
@@ -666,7 +666,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/162-rapeseed-faded-01.png"
         }
@@ -680,7 +680,7 @@
             "sigma_height": 0.3,
             "vegetation_layer": 2,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -714,7 +714,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -726,9 +726,9 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -750,7 +750,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/165-potato.png"
         }
@@ -762,7 +762,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/fieldflower-yellow-01.png"
         }
@@ -822,7 +822,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/chenopodium-gaensefuss-01.png"
         }
@@ -834,7 +834,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/fieldflower-yellow-01.png"
         }
@@ -846,7 +846,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/leucanthemum-01.png"
         }
@@ -894,7 +894,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.4,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/chenopodium-gaensefuss-01.png"
         }
@@ -906,7 +906,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.5,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
         }
@@ -930,7 +930,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.4,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/miscanthus-young-01.png"
         }
@@ -942,7 +942,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.5,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-brown-02.png"
         }
@@ -954,7 +954,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/plant-yellowgreen-02.png"
         }
@@ -1002,7 +1002,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1050,7 +1050,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1062,7 +1062,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-01.png"
         }
@@ -1074,7 +1074,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-02.png"
         }
@@ -1108,7 +1108,7 @@
         "fields": {
             "id": 93,
             "species": null,
-            "avg_height": 2.5,
+            "avg_height": 2.6,
             "sigma_height": 0.5,
             "vegetation_layer": 3,
             "distribution_density": 0.004,
@@ -1120,7 +1120,7 @@
         "fields": {
             "id": 94,
             "species": null,
-            "avg_height": 2.5,
+            "avg_height": 2.6,
             "sigma_height": 0.5,
             "vegetation_layer": 3,
             "distribution_density": 0.004,
@@ -1136,7 +1136,7 @@
             "sigma_height": 0.2,
             "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1158,7 +1158,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1170,9 +1170,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1194,7 +1194,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1218,7 +1218,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1230,9 +1230,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1254,7 +1254,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1266,7 +1266,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.8,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/154-pasture.png"
         }
@@ -1278,7 +1278,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-brown-02.png"
         }
@@ -1290,7 +1290,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-01.png"
         }
@@ -1374,7 +1374,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/176-leguminose-pink.png"
         }
@@ -1386,7 +1386,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/leguminose-pink-01.png"
         }
@@ -1398,7 +1398,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/leguminose-pink-02.png"
         }
@@ -1410,7 +1410,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/178-papaver.png"
         }
@@ -1434,7 +1434,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/fieldflower-yellow-01.png"
         }
@@ -1458,7 +1458,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1470,9 +1470,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1494,7 +1494,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1506,7 +1506,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/181-emmer.png"
         }
@@ -1518,7 +1518,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1530,9 +1530,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1554,7 +1554,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1638,7 +1638,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1650,9 +1650,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -1674,7 +1674,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/214-linum.png"
         }
@@ -1758,7 +1758,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/190-sinapis.png"
         }
@@ -1770,7 +1770,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1794,7 +1794,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
         }
@@ -1806,7 +1806,7 @@
             "species": null,
             "avg_height": 2.5,
             "sigma_height": 0.4,
-            "vegetation_layer": 3,
+            "vegetation_layer": 2,
             "distribution_density": 1,
             "billboard": "plant-sprites/192-miscanthus.png"
         }
@@ -1866,7 +1866,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -1878,7 +1878,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-01.png"
         }
@@ -1890,7 +1890,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-02.png"
         }
@@ -1962,7 +1962,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/190-sinapis.png"
         }
@@ -1974,7 +1974,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -1998,7 +1998,7 @@
             "species": null,
             "avg_height": 1.0,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/cirsium-ackerkrazdistel-01.png"
         }
@@ -2130,7 +2130,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/205-hypericum.png"
         }
@@ -2190,7 +2190,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -2202,7 +2202,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-01.png"
         }
@@ -2214,7 +2214,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-faded-02.png"
         }
@@ -2226,7 +2226,7 @@
             "species": null,
             "avg_height": 0.6,
             "sigma_height": 0.1,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/214-linum.png"
         }
@@ -2236,7 +2236,7 @@
         "fields": {
             "id": 187,
             "species": null,
-            "avg_height": 17.0,
+            "avg_height": 20.0,
             "sigma_height": 5.0,
             "vegetation_layer": 5,
             "distribution_density": 1,
@@ -2284,7 +2284,7 @@
         "fields": {
             "id": 191,
             "species": null,
-            "avg_height": 17.0,
+            "avg_height": 19.0,
             "sigma_height": 5.0,
             "vegetation_layer": 5,
             "distribution_density": 1,
@@ -2320,7 +2320,7 @@
         "fields": {
             "id": 194,
             "species": null,
-            "avg_height": 25.0,
+            "avg_height": 22.0,
             "sigma_height": 5.0,
             "vegetation_layer": 5,
             "distribution_density": 1,
@@ -2332,7 +2332,7 @@
         "fields": {
             "id": 195,
             "species": null,
-            "avg_height": 25.0,
+            "avg_height": 20.0,
             "sigma_height": 5.0,
             "vegetation_layer": 5,
             "distribution_density": 1,
@@ -2394,9 +2394,9 @@
             "species": null,
             "avg_height": 7.0,
             "sigma_height": 2.0,
-            "vegetation_layer": 4,
+            "vegetation_layer": 3,
             "distribution_density": 1,
-            "billboard": "plant-sprites/Willow01.png"
+            "billboard": "plant-sprites/willow01.png"
         }
     },
     {
@@ -2418,7 +2418,7 @@
             "species": null,
             "avg_height": 0.8,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/arrhenatherum-01.png"
         }
@@ -2430,9 +2430,9 @@
             "species": null,
             "avg_height": 0.9,
             "sigma_height": 0.3,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
-            "billboard": "plant-sprites/arrhenatherum-brown-01.png"
+            "billboard": "plant-sprites/rumex-brown-01.png"
         }
     },
     {
@@ -2454,7 +2454,7 @@
             "species": null,
             "avg_height": 0.7,
             "sigma_height": 0.2,
-            "vegetation_layer": 2,
+            "vegetation_layer": 1,
             "distribution_density": 1,
             "billboard": "plant-sprites/rumex-faded-02.png"
         }
@@ -3251,7 +3251,7 @@
     {
         "model": "vegetation.Phytocoenosis",
         "fields": {
-            "id": 92,
+            "id": 93,
             "speciesRepresentations": [
                 194,
                 195,
