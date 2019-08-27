@@ -40,9 +40,9 @@ def can_place_at_position(assettype, meter_x, meter_y):
 
     # check if the position and the placement areas overlap
     if placement_areas.covers(position):
-        return not assettype.allow_placement
-    else:
         return assettype.allow_placement
+    else:
+        return not assettype.allow_placement
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
