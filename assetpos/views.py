@@ -39,7 +39,6 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return assettype.allow_placement
 
     # check if the position and the placement areas overlap
-    position = geos.Point(meter_x, meter_y)
     if placement_areas.covers(position):
         return not assettype.allow_placement
     else:
@@ -238,7 +237,7 @@ def getall_assettypes(request, editable=False):
         ret[asset_type.id] = {
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
-            'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'placement_areas': asset_type.placement_areas.json,  # FIXME: maybe we need to seperate each polygon
             'display_radius': asset_type.display_radius,
             'assets': assets_json
         }
