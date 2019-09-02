@@ -7,15 +7,15 @@ LAYER_TYPE = (
     (2, "S2"),  # lower shrubs
     (3, "S1"),  # larger shrubs
     (4, "B2"),  # lower tree layer
-    (5, "B1"),  # high/main tree layer
+    (5, "B1")  # high/main tree layer
 )
 
 LAYER_MAXHEIGHTS = (
-    (1, 0.5),
-    (2, 2.0),
-    (3, 6.0),
+    (1, 1.0),
+    (2, 2.5),
+    (3, 7.0),
     (4, 12.0),
-    (5, 40.0)
+    (5, 30.0)
 )
 
 DISTRIBUTION_TYPE = (

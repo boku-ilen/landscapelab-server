@@ -39,11 +39,10 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return assettype.allow_placement
 
     # check if the position and the placement areas overlap
-    position = geos.Point(meter_x, meter_y)
     if placement_areas.covers(position):
-        return not assettype.allow_placement
-    else:
         return assettype.allow_placement
+    else:
+        return not assettype.allow_placement
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
@@ -152,6 +151,29 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
     return JsonResponse(ret)
 
 
+def get_energy_contribution(request, asset_type_id=None):
+    """Returns a json response with the energy contribution and number of contributing
+     assets, either for a given asset type or for all assets."""
+
+    ret = {
+        "total_energy_contribution": 0,
+        "number_of_assets": 0
+    }
+
+    if asset_type_id:
+        asset_count = len(AssetPositions.objects.filter(asset_type=asset_type_id).all())
+    else:
+        # TODO: If we get all, Buildings are included, so the IDs are hardcoded for this placeholder
+        #  We may need an additional field (or model?) for energy contributing assets in the future
+        asset_count = len(AssetPositions.objects.filter(asset_type=2).all())\
+                      + len(AssetPositions.objects.filter(asset_type=3).all())
+
+    ret["number_of_assets"] = asset_count
+    ret["total_energy_contribution"] = asset_count * 10  # TODO: Placeholder energy contribution
+
+    return JsonResponse(ret)
+
+
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
@@ -215,7 +237,7 @@ def getall_assettypes(request, editable=False):
         ret[asset_type.id] = {
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
-            'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'placement_areas': asset_type.placement_areas.json,  # FIXME: maybe we need to seperate each polygon
             'display_radius': asset_type.display_radius,
             'assets': assets_json
         }
