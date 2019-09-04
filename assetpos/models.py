@@ -52,6 +52,7 @@ class Asset(models.Model):
     asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
 
     # if True, only one AssetPosition can be associated with this Asset at a time
+    # TODO: Can we enforce this in the database itself? Currently, only the 'create' request complies with this
     unique = models.BooleanField(default=False)
 
 

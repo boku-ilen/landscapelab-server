@@ -70,6 +70,15 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
     # TODO: handling the default orientation is up to the client
     new_assetpos = AssetPositions(location=location_point, orientation=orientation,
                                   asset=asset, asset_type=assettype)
+
+    # If this is a unique asset, there should only be one instance -> delete existing position first
+    # TODO: Is there a cleaner way for this? (See TODO in assetpos/models.py at the 'unique' field)
+    if asset.unique:
+        existing = AssetPositions.objects.filter(asset_type=assettype)
+
+        if existing.exists():
+            existing.delete()
+
     new_assetpos.save()
 
     ret["creation_success"] = True
