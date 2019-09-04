@@ -32,6 +32,9 @@ class AssetType(models.Model):
     # if True, this asset type is not handled in the usual asset pipeline but has other functionality
     abstract = models.BooleanField(default=False)
 
+    # the target energy for this asset type
+    energy_target = models.IntegerField(default=0)
+
 
 class Property(models.Model):
 
