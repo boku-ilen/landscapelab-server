@@ -66,7 +66,7 @@ def generate_spritesheet(phyto_c_id, layer):
     for index, sprite in enumerate(sprites):
         # Scale the sprite to a maximum of MAX_SPRITE_SIZE and scale it down to match its
         # size relative to its layer's max size
-        scale_factor = representations[index].avg_height * MAX_SPRITE_SIZE / LAYER_MAXHEIGHTS[int(layer) - 1][1]
+        scale_factor = (representations[index].avg_height / LAYER_MAXHEIGHTS[int(layer) - 1][1]) * MAX_SPRITE_SIZE
 
         sprite.thumbnail((scale_factor, scale_factor))
 

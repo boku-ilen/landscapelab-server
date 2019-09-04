@@ -1,4 +1,4 @@
-import os
+﻿import os
 from ast import literal_eval
 
 from django.core.management import BaseCommand
@@ -134,20 +134,8 @@ def parse_species_representation_data(json_data):
                 logger.warning("The plant with id {} is too high ({}) - the maximum layer has been assigned".format(
                     entry["id"], entry["avg_height"]))
 
-            # Parse the distribution density, convert if needed (it's formatted like '10/ar')
-            distribution_density_and_unit = entry["distribution_density"].split("/", 1)
-
-            # Set to default value first in case of invalid or empty entry
-            entry["distribution_density"] = DEFAULT_DISTRIBUTION_DENSITY
-
-            # TODO: Should we keep those conversions, or will we not have entries of this format anymore?
-            if len(distribution_density_and_unit) > 1:
-                if distribution_density_and_unit[1] == "m²":
-                    entry["distribution_density"] = float(distribution_density_and_unit[0])
-                elif distribution_density_and_unit[1] == "ar":
-                    entry["distribution_density"] = float(distribution_density_and_unit[0]) / 100
-                elif distribution_density_and_unit[1] == "ha":
-                    entry["distribution_density"] = float(distribution_density_and_unit[0]) / 10000
+            # Convert distribution density to float
+            entry["distribution_density"] = float(entry["distribution_density"])
 
             logger.debug("Parsed vegetation with ID {}".format(entry["id"]))
         except ValueError:

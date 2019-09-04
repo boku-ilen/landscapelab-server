@@ -38,11 +38,10 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return assettype.allow_placement
 
     # check if the position and the placement areas overlap
-    position = geos.Point(meter_x, meter_y)
     if placement_areas.covers(position):
-        return not assettype.allow_placement
-    else:
         return assettype.allow_placement
+    else:
+        return not assettype.allow_placement
 
 
 def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
@@ -69,6 +68,15 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
     # TODO: handling the default orientation is up to the client
     new_assetpos = AssetPositions(location=location_point, orientation=orientation,
                                   asset=asset, asset_type=assettype)
+
+    # If this is a unique asset, there should only be one instance -> delete existing position first
+    # TODO: Is there a cleaner way for this? (See TODO in assetpos/models.py at the 'unique' field)
+    if asset.unique:
+        existing = AssetPositions.objects.filter(asset_type=assettype)
+
+        if existing.exists():
+            existing.delete()
+
     new_assetpos.save()
 
     ret["creation_success"] = True
@@ -192,7 +200,8 @@ def get_attributes(request, asset_id):
 
 # lists all asset types and nest the associated assets and provide
 # the possibility to filter only editable asset types
-def getall_assettypes(request, editable=False):
+# By default, abstract assets are excluded since those are placed by special mechanisms.
+def getall_assettypes(request, editable=False, include_abstract=False):
 
     ret = {}
 
@@ -200,8 +209,14 @@ def getall_assettypes(request, editable=False):
     if not editable:
         asset_types = AssetType.objects.all()
     else:
+        # Editable asset types have allow_placement=True or allow_placement=False, but with placement_areas as
+        #  exceptions.
         asset_types = AssetType.objects.filter(Q(allow_placement=True) |
                                                Q(placement_areas__isnull=False))
+
+    # Don't include abstract assets unless the include_abstract parameter is True
+    if not include_abstract:
+        asset_types = asset_types.filter(abstract=False)
 
     # get the assets of each asset types and build the json result
     for asset_type in asset_types:
@@ -214,7 +229,7 @@ def getall_assettypes(request, editable=False):
         ret[asset_type.id] = {
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
-            'placement_areas': asset_type.placement_areas,  # FIXME: maybe we need to seperate each polygon
+            'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,  # FIXME: maybe we need to seperate each polygon
             'display_radius': asset_type.display_radius,
             'assets': assets_json
         }
