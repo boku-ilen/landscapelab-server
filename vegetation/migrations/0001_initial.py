@@ -8,10 +8,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('assetpos', '0004_assettype_display_radius'),
-    ]
-
     operations = [
         migrations.CreateModel(
             name='Species',
