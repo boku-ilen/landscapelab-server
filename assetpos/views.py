@@ -8,12 +8,9 @@ from django.http import JsonResponse
 from assetpos.models import AssetType, AssetPositions, Asset
 from django.contrib.gis.geos import Polygon
 
+from assetpos import util
+
 logger = logging.getLogger(__name__)
-
-
-def get_squared_distance(point1, point2):
-    """Returns the distance between two points squared (for efficiency)"""
-    return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2
 
 
 def can_place_at_position(assettype, meter_x, meter_y):
@@ -26,7 +23,7 @@ def can_place_at_position(assettype, meter_x, meter_y):
     # if there is another asset closer to this one than the minimum distance, it may not be placed
     if assettype.minimum_distance != 0:
         for other_asset in AssetPositions.objects.filter(asset_type_id=assettype).all():
-            squared_distance = get_squared_distance(other_asset.location, position)
+            squared_distance = util.get_squared_distance(other_asset.location, position)
             required_squared_distance = assettype.minimum_distance ** 2
 
             if squared_distance < required_squared_distance:

@@ -15,3 +15,8 @@ def cut_vector(v):
 # returns the length of a given vector
 def length(v):
     return np.linalg.norm(v)
+
+
+def get_squared_distance(point1, point2):
+    """Returns the distance between two points squared (for efficiency)"""
+    return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2
