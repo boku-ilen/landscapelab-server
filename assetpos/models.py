@@ -29,6 +29,9 @@ class AssetType(models.Model):
     # to be placed if it's too close
     minimum_distance = models.IntegerField(default=0)
 
+    # if True, this asset type is not handled in the usual asset pipeline but has other functionality
+    abstract = models.BooleanField(default=False)
+
 
 class Property(models.Model):
 
@@ -47,6 +50,9 @@ class Asset(models.Model):
 
     # the category of the asset
     asset_type = models.ForeignKey(AssetType, on_delete=models.PROTECT)
+
+    # if True, only one AssetPosition can be associated with this Asset at a time
+    unique = models.BooleanField(default=False)
 
 
 class Attribute(models.Model):
