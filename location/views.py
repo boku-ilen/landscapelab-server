@@ -84,8 +84,6 @@ def scenario_list(request):
                             'locations': locations,
                             'bounding_polygon': entry.bounding_polygon.json,
                             'energy_requirement_total': entry.energy_requirement_total,
-                            'energy_requirement_summer': entry.energy_requirement_summer,
-                            'energy_requirement_winter': entry.energy_requirement_winter,
                             'default_wind_direction': entry.default_wind_direction}
 
     return JsonResponse(result)
