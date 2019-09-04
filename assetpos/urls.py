@@ -31,15 +31,7 @@ urlpatterns = [
     url(r'^get_all/(?P<asset_id>(\d+)).json$',
         views.get_assetpositions_global, name='get_assetpositions_global'),
 
-    # Request energy contribution of an asset type
-    url(r'^energy_contribution/(?P<asset_type_id>(\d+)).json$',
-        views.get_energy_contribution, name='get_energy_contribution_asset_type'),
-
-    # Request energy contribution of all assets
-    url(r'^energy_contribution/all.json$',
-        views.get_energy_contribution, name='get_energy_contribution_global'),
-
-    # Request all locations of an assettype and a given tile
+   # Request all locations of an assettype and a given tile
     url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+(?:\.\d+)))/(?P<tile_y>(\d+(?:\.\d+)))/(?P<zoom>(\d+)).json$',
         views.get_assetpositions, name='get_assetpositions'),
 

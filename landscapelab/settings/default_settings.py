@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'location',
     'raster',
     'vegetation',
-    'linear'
+    'linear',
+    'energy'
 ]
 
 MIDDLEWARE = [
