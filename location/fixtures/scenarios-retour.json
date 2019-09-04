@@ -8,7 +8,7 @@
       "energy_requirement_total": 100.0,
       "energy_requirement_summer": 100.0,
       "energy_requirement_winter": 100.0,
-      "default_wind_direction": 10.0
+      "default_wind_direction": 315.0
     }
   },
   {
@@ -20,7 +20,7 @@
       "energy_requirement_total": 200.0,
       "energy_requirement_summer": 200.0,
       "energy_requirement_winter": 200.0,
-      "default_wind_direction": 20.0
+      "default_wind_direction": 315.0
     }
   },
   {
@@ -32,7 +32,7 @@
       "energy_requirement_total": 300.0,
       "energy_requirement_summer": 300.0,
       "energy_requirement_winter": 300.0,
-      "default_wind_direction": 30.0
+      "default_wind_direction": 300.0
     }
   },
   {
