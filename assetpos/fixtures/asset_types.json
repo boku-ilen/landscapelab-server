@@ -15,7 +15,8 @@
       "name": "Wind Turbine",
       "allow_placement": "True",
       "display_radius": 20000,
-      "minimum_distance": 70
+      "minimum_distance": 70,
+      "energy_target": 100
     }
   },
   {
@@ -24,6 +25,7 @@
       "id": 3,
       "name": "Photovoltaic Plant",
       "allow_placement": "True",
+      "energy_target": 50,
       "display_radius": 10000
     }
   },
