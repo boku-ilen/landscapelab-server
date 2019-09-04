@@ -26,5 +26,23 @@
       "allow_placement": "True",
       "display_radius": 10000
     }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 4,
+      "name": "Evaluation",
+      "allow_placement": "True",
+      "abstract": "True"
+    }
+  },
+  {
+    "model": "assetpos.AssetType",
+    "fields": {
+      "id": 5,
+      "name": "Player Utility",
+      "allow_placement": "True",
+      "abstract": "True"
+    }
   }
 ]
