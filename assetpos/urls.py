@@ -31,9 +31,19 @@ urlpatterns = [
     url(r'^get_all/(?P<asset_id>(\d+)).json$',
         views.get_assetpositions_global, name='get_assetpositions_global'),
 
-   # Request all locations of an assettype and a given tile
+    # Request all locations of an assettype and a given tile
     url(r'^get_all/(?P<assettype_id>(\d+))/(?P<tile_x>(\d+(?:\.\d+)))/(?P<tile_y>(\d+(?:\.\d+)))/(?P<zoom>(\d+)).json$',
         views.get_assetpositions, name='get_assetpositions'),
+
+    # Request all AssetPositions of an AssetType close to a given point (using the AssetType's display_radius)
+    url(r'^get_near/by_asset/(?P<asset_or_assettype_id>(\d+))/'
+        r'(?P<meter_x>(\d+(?:\.\d+)))/(?P<meter_y>(\d+(?:\.\d+))).json$',
+        views.get_near_assetpositions, name='get_near_assetpositions'),
+
+    # Request all AssetPositions of an AssetType close to a given point (using the AssetType's display_radius)
+    url(r'^get_near/by_assettype/(?P<asset_or_assettype_id>(\d+))/'
+        r'(?P<meter_x>(\d+(?:\.\d+)))/(?P<meter_y>(\d+(?:\.\d+))).json$',
+        views.get_near_assetpositions, {"by_assettype": True}, name='get_near_assetpositions'),
 
     # returns a nested json of all (editable / nonabstract) assettypes
     url(r'^get_all_assettypes.json', views.getall_assettypes, {"include_abstract": True}, name="get_all_assettypes"),

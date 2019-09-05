@@ -2,6 +2,7 @@ import logging
 import webmercator
 
 from django.contrib.gis import geos
+from django.contrib.gis.measure import D
 from django.db.models import Q
 from django.http import JsonResponse
 
@@ -156,6 +157,55 @@ def set_assetposition(request, assetpos_id, meter_x, meter_y):
     return JsonResponse(ret)
 
 
+def get_near_assetpositions(request, asset_or_assettype_id, meter_x, meter_y, by_assettype=False):
+    """Returns all AssetPositions of a given Asset-ID or AssetType-ID (if by_assettype == True) which are
+    closer than the AssetType's display_radius to the given point.
+    If the display_radius is 0, all AssetPositions are returned.
+    """
+
+    meter_x = float(meter_x)
+    meter_y = float(meter_y)
+    asset_or_assettype_id = int(asset_or_assettype_id)
+
+    ret = {}
+
+    if by_assettype:
+        # Request by AssetType -> Get all AssetPositions with that AssetType
+        if not AssetType.objects.filter(id=asset_or_assettype_id).exists():
+            logger.warn("AssetType with given ID {} does not exist!".format(asset_or_assettype_id))
+            return ret
+
+        asset_type = AssetType.objects.get(id=asset_or_assettype_id)
+        objects = AssetPositions.objects.filter(asset_type=asset_type)
+    else:
+        # Request by Asset -> Get all AssetPositions of that Asset
+        if not Asset.objects.filter(id=asset_or_assettype_id).exists():
+            logger.warn("Asset with given ID {} does not exist!".format(asset_or_assettype_id))
+            return ret
+
+        asset = Asset.objects.get(id=asset_or_assettype_id)
+        asset_type = asset.asset_type
+        objects = AssetPositions.objects.filter(asset=asset)
+
+    # Create a circle which the visible objects overlap with
+    center = geos.Point(meter_x, meter_y, srid=3857)
+    radius = asset_type.display_radius
+
+    if radius > 0:
+        # If the radius is > 0, we have to only return the nearby objects; the dwithin query is optimized for this
+        near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))).all()
+    else:
+        # If the radius is 0, this means that there is no limit -> Return all
+        near_assetpositions = objects.all()
+
+    ret["assets"] = {assetposition.id: {"position": [assetposition.location.x, assetposition.location.y],
+                                        "asset_id": assetposition.asset_id,
+                                        "asset_name": assetposition.asset.name}
+                     for assetposition in near_assetpositions}
+
+    return JsonResponse(ret)
+
+
 # returns all assets of a given type within the extent of the given tile
 # TODO: add checks
 # TODO: add additional properties (eg. overlay information)
@@ -186,7 +236,6 @@ def get_assetpositions(request, zoom, tile_x, tile_y, assettype_id):
 
 # gets the attributes and values of the requested asset_id
 def get_attributes(request, asset_id):
-
     ret = {}
     asset = Asset.objects.get(id=asset_id)
     for attribute in asset.attributes:
@@ -199,7 +248,6 @@ def get_attributes(request, asset_id):
 # the possibility to filter only editable asset types
 # By default, abstract assets are excluded since those are placed by special mechanisms.
 def getall_assettypes(request, editable=False, include_abstract=False):
-
     ret = {}
 
     # get the relevant asset types
@@ -226,9 +274,10 @@ def getall_assettypes(request, editable=False, include_abstract=False):
         ret[asset_type.id] = {
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
-            'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,  # FIXME: maybe we need to seperate each polygon
+            # FIXME: maybe we need to seperate each polygon
+            'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,
             'display_radius': asset_type.display_radius,
-            'energy_target' : asset_type.energy_target,
+            'energy_target': asset_type.energy_target,
             'assets': assets_json
         }
 
