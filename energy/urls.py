@@ -14,6 +14,9 @@ urlpatterns = [
 
     # Request energy contribution of all assets
     url(r'^contribution/(?P<scenario_id>(\d+))/all.json$',
-        views.get_energy_contribution, name='get_energy_contribution_global')
+        views.get_energy_contribution, name='get_energy_contribution_global'),
+
+    url(r'target/(?P<scenario_id>(\d+))/(?P<asset_type_id>(\d+)).json$',
+        views.get_json_energy_target, name='get_energy_target')
 
 ]

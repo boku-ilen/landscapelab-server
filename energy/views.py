@@ -4,6 +4,8 @@ from assetpos.models import AssetPositions, AssetType
 from energy.models import EnergyTargets, AssetpositionToEnergylocation, EnergyLocation
 
 
+# retrieves and returns the current placed energy values for the given scenario
+# and returns it as json for the energy detail page in the client
 def get_energy_contribution(request, scenario_id, asset_type_id=None):
     """Returns a json response with the energy contribution and number of contributing
      assets, either for a given asset type or for all editable assets."""
@@ -13,12 +15,13 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
         "number_of_assets": 0
     }
 
+    # calculate the energy and asset count for the given asset_type
     if asset_type_id:
         asset_count = len(AssetPositions.objects.filter(asset_type=asset_type_id).all())
         asset_energy_total = get_energy_by_scenario(scenario_id, asset_type_id)
 
+    # calculate asset_count and asset_energy_total for all editable asset types
     else:
-        # calculate asset_count and asset_energy_total for all editable asset types
         asset_count = 0
         asset_energy_total = 0
         for editable_asset_type in get_all_editable_asset_types():
@@ -31,14 +34,16 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
     return JsonResponse(ret)
 
 
-def get_energy_by_scenario(request, scenario_id, asset_type_id=None):
+# does the acutal calculation to get the energy production for a scenario with
+# an optional given asset type
+def get_energy_by_scenario(scenario_id, asset_type_id=None):
 
     energy_sum = 0
 
     # recursively get all energy values if no asset_type is given
     if not asset_type_id:
         for editable_asset_type in get_all_editable_asset_types():
-            energy_sum += get_energy_by_scenario(request, scenario_id, editable_asset_type)
+            energy_sum += get_energy_by_scenario(scenario_id, editable_asset_type)
 
     else:
         # get all asset positions of this asset_type in our scenario
@@ -51,10 +56,11 @@ def get_energy_by_scenario(request, scenario_id, asset_type_id=None):
 
 # this wraps the numerical answer in a json response for the web request
 def get_json_energy_by_location(request, asset_position_id):
-
     return JsonResponse({"energy_production": get_energy_by_location(asset_position_id)})
 
 
+# calculates the energy production of a specific placed asset (asset position) and returns -1
+# if the calculation fails
 def get_energy_by_location(asset_position_id):
 
     asset_position = AssetPositions.objects.get(pk=asset_position_id)
@@ -94,6 +100,7 @@ def get_all_editable_asset_types():
     return  editable_asset_types
 
 
+# returns the energy target for a scenario and optionally filtered for a specific asset_type
 def get_energy_targets(scenario_id, asset_type_id=None):
 
     energy_requirement_total = 0
@@ -109,3 +116,8 @@ def get_energy_targets(scenario_id, asset_type_id=None):
         energy_requirement_total += energy_entry.target_value
 
     return energy_requirement_total
+
+
+# wraps the get_energy_targets method in a json answer
+def get_json_energy_target(request, scenario_id, asset_type_id):
+    return JsonResponse({"energy_target": get_energy_targets(scenario_id, asset_type_id)})
