@@ -4,7 +4,8 @@
     "fields": {
       "id": 1,
       "name": "Small PV Plant",
-      "asset_type": 3
+      "asset_type": 3,
+      "energy_multiplicator": 10
     }
   },
   {
@@ -12,7 +13,8 @@
     "fields": {
       "id": 2,
       "name": "Large PV Plant",
-      "asset_type": 3
+      "asset_type": 3,
+      "energy_multiplicator": 30
     }
   },
   {
@@ -20,7 +22,8 @@
     "fields": {
       "id": 3,
       "name": "Generic Wind Turbine",
-      "asset_type": 2
+      "asset_type": 2,
+      "energy_multiplicator": 1
     }
   },
   {
