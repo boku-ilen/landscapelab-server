@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from assetpos.models import AssetPositions, AssetType
-from energy.models import EnergyTargets
+from energy.models import EnergyTargets, AssetpositionToEnergylocation, EnergyLocation
 
 
 def get_energy_contribution(request, scenario_id, asset_type_id=None):
@@ -44,14 +44,40 @@ def get_energy_by_scenario(request, scenario_id, asset_type_id=None):
         # get all asset positions of this asset_type in our scenario
         asset_positions = AssetPositions.objects.filter()
         for asset_position in asset_positions:
-            energy_sum += get_energy_by_location(request, asset_position.id)
+            energy_sum += get_energy_by_location(asset_position.id)
 
     return energy_sum
 
 
-def get_energy_by_location(request, asset_position_id):
+# this wraps the numerical answer in a json response for the web request
+def get_json_energy_by_location(request, asset_position_id):
 
-    return 0
+    return JsonResponse({"energy_production": get_energy_by_location(asset_position_id)})
+
+
+def get_energy_by_location(asset_position_id):
+
+    asset_position = AssetPositions.objects.get(pk=asset_position_id)
+    if not asset_position:
+        return -1
+
+    position2energy = AssetpositionToEnergylocation.objects.filter(asset_position=asset_position)
+
+    # if the association table does not exist do the actual lookup
+    if not position2energy:
+        energy_location = EnergyLocation.objects.filter(polygon__contains=asset_position.location,
+                                                        asset_type=asset_position.asset_type)
+        if energy_location:
+            position2energy = AssetpositionToEnergylocation()
+            position2energy.asset_position = asset_position
+            position2energy.energy_location = energy_location
+            position2energy.save()
+
+        else:
+            return -1
+
+    energy_production = position2energy.energy_location.energy_production
+    return energy_production
 
 
 def get_all_editable_asset_types():
