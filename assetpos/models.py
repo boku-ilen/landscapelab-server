@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib.gis.db import models
 from raster.models import Tile
@@ -56,7 +58,7 @@ class Asset(models.Model):
     unique = models.BooleanField(default=False)
 
     # the energy values are based on an asset type - different assets could mean different sizes
-    energy_multiplicator = models.FloatField()
+    energy_multiplicator = models.FloatField(default=1)
 
 
 class Attribute(models.Model):
