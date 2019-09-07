@@ -32,9 +32,6 @@ class AssetType(models.Model):
     # if True, this asset type is not handled in the usual asset pipeline but has other functionality
     abstract = models.BooleanField(default=False)
 
-    # the target energy for this asset type
-    energy_target = models.IntegerField(default=0)
-
 
 class Property(models.Model):
 
@@ -57,6 +54,9 @@ class Asset(models.Model):
     # if True, only one AssetPosition can be associated with this Asset at a time
     # TODO: Can we enforce this in the database itself? Currently, only the 'create' request complies with this
     unique = models.BooleanField(default=False)
+
+    # the energy values are based on an asset type - different assets could mean different sizes
+    energy_multiplicator = models.FloatField()
 
 
 class Attribute(models.Model):
@@ -92,3 +92,10 @@ class AssetPositions(models.Model):
 
     # the direction in degrees (0 = north) of the placement
     orientation = models.FloatField(default=0)
+
+    # the timestamp, when this position was created
+    create_stamp = models.DateTimeField(null=False, auto_now_add=True)
+
+    # FIXME: decide if we want to implement a delete stamp rather then acutally deleting the data
+    # FIXME: this would also mean a lot of changes when querying for asset positions
+    # delete_stamp = models.DateTimeField(null=True)
