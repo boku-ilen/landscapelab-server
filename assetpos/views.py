@@ -247,6 +247,7 @@ def get_attributes(request, asset_id):
 # lists all asset types and nest the associated assets and provide
 # the possibility to filter only editable asset types
 # By default, abstract assets are excluded since those are placed by special mechanisms.
+# FIXME: we would need to filter per scenario
 def getall_assettypes(request, editable=False, include_abstract=False):
     ret = {}
 
