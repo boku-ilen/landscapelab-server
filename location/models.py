@@ -13,9 +13,6 @@ class Scenario(models.Model):
     # the bounding polygon (which limits the movement of the 1st person view)
     bounding_polygon = models.MultiPolygonField(srid=settings.DEFAULT_SRID)
 
-    # the average energy which should be covered in this scenario
-    energy_requirement_total = models.FloatField(default=0)
-
     # default wind direction for this scenario (0-359°)
     default_wind_direction = models.FloatField(default=0)
 

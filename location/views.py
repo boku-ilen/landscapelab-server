@@ -5,6 +5,8 @@ from django.contrib.gis.geos import Point
 from pysolar import solar
 from django.http import JsonResponse, HttpResponse
 
+from energy.models import EnergyTargets
+from energy.views import get_energy_targets
 from location.models import Impression, Scenario, Session, Map
 
 
@@ -83,7 +85,7 @@ def scenario_list(request):
         result[entry.pk] = {'name': entry.name,
                             'locations': locations,
                             'bounding_polygon': entry.bounding_polygon.json,
-                            'energy_requirement_total': entry.energy_requirement_total,
+                            'energy_requirement_total': get_energy_targets(entry.pk),  # use the energy module
                             'default_wind_direction': entry.default_wind_direction}
 
     return JsonResponse(result)
