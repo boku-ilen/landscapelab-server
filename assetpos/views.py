@@ -278,7 +278,6 @@ def getall_assettypes(request, editable=False, include_abstract=False):
             # FIXME: maybe we need to seperate each polygon
             'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,
             'display_radius': asset_type.display_radius,
-            'energy_target': asset_type.energy_target,
             'assets': assets_json
         }
 
