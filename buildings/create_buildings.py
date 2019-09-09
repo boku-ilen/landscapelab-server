@@ -27,6 +27,7 @@ print("Importing other libraries")
 import numpy as np
 import psycopg2
 import bpy, bmesh
+from enum import Enum
 from math import *
 from mathutils import Vector, Matrix
 
@@ -77,6 +78,13 @@ if not os.path.exists(str(OUTPUT_DIRECTORY)):
     os.makedirs(OUTPUT_DIRECTORY)
 
 print("Setup done")
+
+
+class RoofType(Enum):
+    FLAT = 0
+    SIMPLE = 1
+    HIP_ROOF = 2
+    GABLE_ROOF = 3
 
 
 # takes name footprint-vertices, building-height and texture name (optional)
@@ -150,34 +158,26 @@ def create_roof(name, vertices, height, textures):
     # create base face
     [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
 
+    # select roof type and height
+    roof_type, roof_height = select_roof(footprint, bm, height)
+
     # if footprint has 4 vertices use neat_roof()
     # otherwise use inset operator and push resulting face up
-    if len(bm.verts) is 4:
-        neat_roof(footprint, bm)
+    if roof_type == RoofType.SIMPLE:
+        neat_roof(footprint, bm, roof_height)
+        bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
+        finish_edit(bm, mesh)
 
     else:
         # prepare face
-        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-        bm.verts.ensure_lookup_table()
+        footprint.select = True
+        bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
+        finish_edit(bm, mesh)
 
-        # calculate inset thickness and execute inset-operation
-        # TODO while shortest_vertex_distance is a decent approximation it will
-        #  heavily underestimate the polygons thickness in some cases,
-        #  a better approximation would look at each edge and it's distance to
-        #  all the points, that are on the polygon side of the edge
-        thickness = shortest_vertex_distance(bm.verts) / 2
-        bmesh.ops.inset_individual(bm, faces=[footprint], thickness=thickness)
-
-        # adjust lookup-table and find new top face
-        bm.faces.ensure_lookup_table()
-        top = bm.faces[0]
-
-        # move top face up
-        bmesh.ops.translate(bm, vec=Vector([0, 0, 2]), verts=[v for v in top.verts])
-
-    # translate the roof to the top of the base building and finish edit
-    bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
-    finish_edit(bm, mesh)
+        bpy.ops.object.mode_set(mode='EDIT')
+        roof_inset_amount = 5                   # TODO calculate instead of hardcode
+        bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
+        bpy.ops.object.mode_set(mode='OBJECT')
 
     # add textures if possible
     if ROOF_TEXTURE_FOLDER in textures:
@@ -232,16 +232,16 @@ def finish_edit(bm, mesh):
     bm.free()
 
 
-# code from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
+# from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
 # only works on buildings with 4 vertex footprint
 # sets a neat looking roof on top of the building
-def neat_roof(face, bm):
+def neat_roof(face, bm, roof_height):
 
     if len(face.verts) == 4:
         ret = bmesh.ops.extrude_face_region(bm, geom=[face])
         vertices = [element for element in ret['geom'] if isinstance(element, bmesh.types.BMVert)]
         faces = [element for element in ret['geom'] if isinstance(element, bmesh.types.BMFace)]
-        bmesh.ops.translate(bm, vec=face.normal * 0.7, verts=vertices)
+        bmesh.ops.translate(bm, vec=face.normal * roof_height, verts=vertices)
 
         e1, e2, e3, e4 = faces[0].edges
         if (e1.calc_length() + e3.calc_length()) < (e2.calc_length() + e4.calc_length()):
@@ -249,6 +249,17 @@ def neat_roof(face, bm):
         else:
             edges = [e2, e4]
         bmesh.ops.collapse(bm, edges=edges)
+
+
+# selects a roof type and height based on a buildings footprint and height
+def select_roof(footprint, bm, height):
+    roof_type = RoofType.FLAT
+    roof_height = 5
+
+    if len(bm.verts) is 4:
+        roof_type = RoofType.SIMPLE
+
+    return roof_type, roof_height
 
 
 # sets the uv coordinates for the wall faces of any general cylinder
