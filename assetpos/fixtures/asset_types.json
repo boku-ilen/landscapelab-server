@@ -58,5 +58,17 @@
       "minimum_distance": 0,
       "abstract": true
     }
+  },
+  {
+    "model": "assetpos.assettype",
+    "pk": 6,
+    "fields": {
+      "name": "LEGO Board Utility",
+      "placement_areas": null,
+      "allow_placement": true,
+      "display_radius": 0,
+      "minimum_distance": 0,
+      "abstract": true
+    }
   }
 ]
