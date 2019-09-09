@@ -275,17 +275,18 @@ def set_wall_uvs(object):
 
             # decide how often the texture should repeat itself horizontally
             columns = max(float(1), vertex_distance(upper[0].vert, upper[1].vert) // 3)
+            rows = max(float(1), vertex_distance(lower[0].vert, upper[0].vert) // 3)
 
             # find vertex below upper[0] and assign UVs accordingly
             if vertex_distance(upper[0].vert, lower[0].vert) < vertex_distance(upper[0].vert, lower[1].vert):
-                upper[0][uv_layer].uv = Vector((0, 1))
+                upper[0][uv_layer].uv = Vector((0, rows))
                 lower[0][uv_layer].uv = Vector((0, 0))
-                upper[1][uv_layer].uv = Vector((columns, 1))
+                upper[1][uv_layer].uv = Vector((columns, rows))
                 lower[1][uv_layer].uv = Vector((columns, 0))
             else:
-                upper[0][uv_layer].uv = Vector((0, 1))
+                upper[0][uv_layer].uv = Vector((0, rows))
                 lower[1][uv_layer].uv = Vector((0, 0))
-                upper[1][uv_layer].uv = Vector((columns, 1))
+                upper[1][uv_layer].uv = Vector((columns, rows))
                 lower[0][uv_layer].uv = Vector((columns, 0))
 
     # update mesh and return to object mode
@@ -332,7 +333,7 @@ def face_mean(f):
     if len(f.loops) > 0:
         for l in f.loops:
             c = l.vert.co
-            mean = np.add(mean, np.array([c.x,c.y,c.z]))
+            mean = np.add(mean, np.array([c.x, c.y, c.z]))
         mean = np.divide(mean, len(f.loops))
 
     return mean.tolist()
@@ -420,18 +421,19 @@ def main(arguments):
 
         # get building name and height
         # TODO: Replace with Django code if we can import the landscapelab environment!
-        cur.execute('SELECT n.name, h.height '
-                    'FROM {ASSET} as n, (SELECT height FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}) as h '
-                    'WHERE n.id IN '
-                    '(SELECT asset_id FROM {ASSET_POSITIONS} WHERE id IN '
-                    '(SELECT asset_id FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}));'
-                    .format(
-                        ASSET=ASSET_TABLE_NAME,
-                        ASSET_POSITIONS=ASSET_POSITIONS_TABLE_NAME,
-                        BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
-                        argument_id=a
-                        )
-                    )
+        sql_request = 'SELECT n.name, h.height ' \
+                      'FROM {ASSET} as n, (SELECT height FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}) as h ' \
+                      'WHERE n.id IN ' \
+                      '(SELECT asset_id FROM {ASSET_POSITIONS} WHERE id IN ' \
+                      '(SELECT asset_id FROM {BUILDING_FOOTPRINT} WHERE id = {argument_id}));' \
+            .format(
+            ASSET=ASSET_TABLE_NAME,
+            ASSET_POSITIONS=ASSET_POSITIONS_TABLE_NAME,
+            BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
+            argument_id=a
+        )
+
+        cur.execute(sql_request)
 
         ret = cur.fetchone()
         name = ret[0]
@@ -441,11 +443,11 @@ def main(arguments):
         # TODO: Replace with Django code if we can import the landscapelab environment!
         cur.execute('SELECT ST_x(geom), ST_y(geom) FROM'
                     '(SELECT (St_DumpPoints(vertices)).geom, height FROM {BUILDING_FOOTPRINT} where id = {argument_id}) as foo;'
-                    .format(
-                        BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
-                        argument_id=a
-                        )
-                    )
+            .format(
+                BUILDING_FOOTPRINT=BUILDING_FOOTPRINT_TABLE_NAME,
+                argument_id=a
+            )
+        )
 
         vertices = cur.fetchall()
 
@@ -459,7 +461,7 @@ def main(arguments):
                 textures[key] = os.path.join(key, value[int(a) % len(value)])
 
         print("Creating the model")
-        
+
         # create and export the building
         create_building(name, vertices, height, textures)
 
