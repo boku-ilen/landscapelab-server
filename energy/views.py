@@ -26,7 +26,7 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
         asset_energy_total = 0
         for editable_asset_type in get_all_editable_asset_types():
             asset_count += len(AssetPositions.objects.filter(asset_type=editable_asset_type.id).all())
-            asset_energy_total += get_energy_by_scenario(request, scenario_id, asset_type_id)
+            asset_energy_total += get_energy_by_scenario(scenario_id, asset_type_id)
 
     # return the calculated values in json
     ret["number_of_assets"] = asset_count
