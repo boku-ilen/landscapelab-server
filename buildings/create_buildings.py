@@ -39,9 +39,9 @@ from mathutils import Vector, Matrix
 C = bpy.context
 D = bpy.data
 
-ASSET_TABLE_NAME = "public.assetpos_asset"
-ASSET_POSITIONS_TABLE_NAME = "public.assetpos_assetpositions"
-BUILDING_FOOTPRINT_TABLE_NAME = "public.buildings_buildingfootprint"
+ASSET_TABLE_NAME = "assetpos_asset"
+ASSET_POSITIONS_TABLE_NAME = "assetpos_assetpositions"
+BUILDING_FOOTPRINT_TABLE_NAME = "buildings_buildingfootprint"
 
 BUILDING_TEXTURE_FOLDER = 'facade'
 ROOF_TEXTURE_FOLDER = 'roof'
@@ -53,22 +53,23 @@ if dir not in sys.path:
 # TODO: If we manage to import our landscapelab environment, we don't need this
 #  manual db connection
 db = {
-    'NAME': 'retour',
+    'NAME': 'retour-dev',
     'USER': 'retour',
     'PASSWORD': 'retour',
-    'HOST': 'localhost',
+    'HOST': '141.244.151.130',
     'PORT': '5432'
 }
 
 print("Setting up directories")
 
 # TODO: These will change - allow this to be set via script argument?
-TEXTURE_DIRECTORY = os.path.join(os.getcwd(), 'buildings', 'textures', 'no_rights')
+SERVER_WD= os.path.join('C:\\', 'landscapelab-dev')
+TEXTURE_DIRECTORY = os.path.join(SERVER_WD, 'resources', 'buildings', 'textures')
 if not os.path.exists(TEXTURE_DIRECTORY):
     os.makedirs(TEXTURE_DIRECTORY)
 
 # TODO: Get the path from the server; move it to the resources
-OUTPUT_DIRECTORY = os.path.join(os.getcwd(), 'buildings', 'out')
+OUTPUT_DIRECTORY = os.path.join(SERVER_WD, 'buildings')
 if not os.path.exists(str(OUTPUT_DIRECTORY)):
     os.makedirs(OUTPUT_DIRECTORY)
 
@@ -88,6 +89,7 @@ def create_building(name, vertices, height, textures):
     roof = create_roof(name, vertices, height, textures)
 
     # export the scene to a gltf 2.0 file
+    print('Output dir: {}'.format(OUTPUT_DIRECTORY))
     bpy.ops.export_scene.gltf(filepath=os.path.join(OUTPUT_DIRECTORY, name))
 
 
@@ -398,6 +400,8 @@ def get_images():
                 if file.endswith(img_ext):
                     images[dir].append(file)
 
+    print("images: {}".format(images))
+    print("imagePath: {}".format(TEXTURE_DIRECTORY))
     return images
 
 
