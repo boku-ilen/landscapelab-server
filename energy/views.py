@@ -10,6 +10,9 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
     """Returns a json response with the energy contribution and number of contributing
      assets, either for a given asset type or for all editable assets."""
 
+    scenario_id = int(scenario_id)
+    asset_type_id = int(asset_type_id)
+
     ret = {
         "total_energy_contribution": 0,
         "number_of_assets": 0
@@ -56,6 +59,7 @@ def get_energy_by_scenario(scenario_id, asset_type_id=None):
 
 # this wraps the numerical answer in a json response for the web request
 def get_json_energy_by_location(request, asset_position_id):
+    asset_position_id = int(asset_position_id)
     return JsonResponse({"energy_production": get_energy_by_location(asset_position_id)})
 
 
@@ -120,4 +124,6 @@ def get_energy_targets(scenario_id, asset_type_id=None):
 
 # wraps the get_energy_targets method in a json answer
 def get_json_energy_target(request, scenario_id, asset_type_id):
+    scenario_id = int(scenario_id)
+    asset_type_id = int(asset_type_id)
     return JsonResponse({"energy_target": get_energy_targets(scenario_id, asset_type_id)})
