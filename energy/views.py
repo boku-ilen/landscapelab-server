@@ -11,7 +11,8 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
      assets, either for a given asset type or for all editable assets."""
 
     scenario_id = int(scenario_id)
-    asset_type_id = int(asset_type_id)
+    if asset_type_id:
+        asset_type_id = int(asset_type_id)
 
     ret = {
         "total_energy_contribution": 0,
