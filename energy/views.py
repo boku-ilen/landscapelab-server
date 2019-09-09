@@ -51,7 +51,7 @@ def get_energy_by_scenario(scenario_id, asset_type_id=None):
 
     else:
         # get all asset positions of this asset_type in our scenario
-        asset_positions = AssetPositions.objects.filter()
+        asset_positions = AssetPositions.objects.filter(asset_type_id=asset_type_id, tile__scenario_id=scenario_id).all()
         for asset_position in asset_positions:
             energy_sum += get_energy_by_location(asset_position.pk)
 
