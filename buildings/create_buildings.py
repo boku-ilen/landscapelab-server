@@ -44,7 +44,10 @@ ASSET_POSITIONS_TABLE_NAME = "assetpos_assetpositions"
 BUILDING_FOOTPRINT_TABLE_NAME = "buildings_buildingfootprint"
 
 BUILDING_TEXTURE_FOLDER = 'facade'
+BASEMENT_TEXTURE_FOLDER = 'basement'
 ROOF_TEXTURE_FOLDER = 'roof'
+
+BASEMENT_SIZE = 3
 
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
@@ -85,6 +88,7 @@ def create_building(name, vertices, height, textures):
     vertices = np.pad(np.asarray(vertices), (0, 1), 'constant')[:-1]
 
     # crate the base of the building and the roof
+    basement = create_base_building_mesh(name, vertices, -BASEMENT_SIZE, textures, BASEMENT_TEXTURE_FOLDER)
     building = create_base_building_mesh(name, vertices, height, textures)
     roof = create_roof(name, vertices, height, textures)
 
@@ -114,7 +118,7 @@ def clear_scene():
 
 
 # creates a footprint and extrudes it upwards to get a cylindrical base of the building
-def create_base_building_mesh(name, vertices, height, textures):
+def create_base_building_mesh(name, vertices, height, textures, key=BUILDING_TEXTURE_FOLDER):
 
     # create the building footprint
     [building, mesh, bm, footprint] = create_footprint(name, vertices)
@@ -124,13 +128,13 @@ def create_base_building_mesh(name, vertices, height, textures):
 
     # move the roof upwards, recalculate the face normals and finish edit
     bmesh.ops.translate(bm, vec=Vector((0, 0, height)), verts=[v for v in roof["geom"] if isinstance(v, bmesh.types.BMVert)]) # move roof up
-    bmesh.ops.recalc_face_normals(bm, faces = bm.faces)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     finish_edit(bm, mesh)
 
     # add textures if possible
-    if BUILDING_TEXTURE_FOLDER in textures:
+    if key in textures:
         # create and add material
-        building_mat = create_material(textures[BUILDING_TEXTURE_FOLDER])
+        building_mat = create_material(textures[key])
         building.data.materials.append(building_mat)
 
         # set wall UVs
