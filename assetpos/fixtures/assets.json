@@ -59,5 +59,23 @@
       "asset_type": 5,
       "unique": "True"
     }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
+      "id": 14,
+      "name": "Top Left Corner",
+      "asset_type": 6,
+      "unique": "True"
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
+      "id": 15,
+      "name": "Bottom Right Corner",
+      "asset_type": 6,
+      "unique": "True"
+    }
   }
 ]

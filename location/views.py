@@ -5,7 +5,6 @@ from django.contrib.gis.geos import Point
 from pysolar import solar
 from django.http import JsonResponse, HttpResponse
 
-from energy.models import EnergyTargets
 from energy.views import get_energy_targets
 from location.models import Impression, Scenario, Session, Map
 
