@@ -27,7 +27,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--shapefile", type=str)
         parser.add_argument("--out", type=str)
-        parser.add_argument("--width_field_name", type=str)
+        parser.add_argument("--asset_type_id", type=int)
         parser.add_argument("--srid", type=int)
 
     def handle(self, *args, **options):
