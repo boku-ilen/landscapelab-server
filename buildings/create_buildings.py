@@ -49,6 +49,7 @@ BASEMENT_TEXTURE_FOLDER = 'basement'
 ROOF_TEXTURE_FOLDER = 'roof'
 
 BASEMENT_SIZE = 3
+FLAT_ROOF_THRESHOLD = 10000
 
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
@@ -169,14 +170,18 @@ def create_roof(name, vertices, height, textures):
         finish_edit(bm, mesh)
 
     else:
-        # prepare face
         footprint.select = True
         bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
         finish_edit(bm, mesh)
 
         bpy.ops.object.mode_set(mode='EDIT')
-        roof_inset_amount = 5                   # TODO calculate instead of hardcode
+
+        # create roof form
+        bm = bmesh.from_edit_mesh(mesh)
+        bm.verts.ensure_lookup_table()
+        roof_inset_amount = longest_edge(bm.verts) / 2
         bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
+
         bpy.ops.object.mode_set(mode='OBJECT')
 
     # add textures if possible
@@ -254,10 +259,22 @@ def neat_roof(face, bm, roof_height):
 # selects a roof type and height based on a buildings footprint and height
 def select_roof(footprint, bm, height):
     roof_type = RoofType.FLAT
-    roof_height = 5
 
+    area = calc_area(footprint)
+    print('area = {}'.format(area))
+
+    # if area is big enough assume flat roof
+    if area > FLAT_ROOF_THRESHOLD:
+        return RoofType.FLAT, 0.5
+
+    # if only 4 vertices use neat roof
     if len(bm.verts) is 4:
         roof_type = RoofType.SIMPLE
+
+    if area > 200:
+        roof_height = height * 0.5 + np.log(area)
+    else:
+        roof_height = 1
 
     return roof_type, roof_height
 
@@ -292,7 +309,7 @@ def set_wall_uvs(object):
 
             # decide how often the texture should repeat itself horizontally
             columns = max(float(1), vertex_distance(upper[0].vert, upper[1].vert) // 3)
-            rows = max(float(1), vertex_distance(lower[0].vert, upper[0].vert) // 3)
+            rows = max(float(1), min(vertex_distance(lower[0].vert, upper[0].vert), vertex_distance(lower[0].vert, upper[1].vert)) // 3)
 
             # find vertex below upper[0] and assign UVs accordingly
             if vertex_distance(upper[0].vert, lower[0].vert) < vertex_distance(upper[0].vert, lower[1].vert):
@@ -390,6 +407,43 @@ def shortest_vertex_distance(vertices):
                 min_dist = d
 
     return min_dist
+
+
+# returns the distance of the longest edge
+def longest_edge(vertices):
+    max_dist = 0
+
+    for i in range(len(vertices) - 1):
+        d = vertex_distance(vertices[i], vertices[(i + 1) % len(vertices)])
+
+        if max_dist < d:
+            max_dist = d
+
+    return max_dist
+
+
+# approximates the building footprint area via bounding box
+def calc_area(footprint):
+    x_min = y_min = x_max = y_max = None
+
+    for v in footprint.verts:
+        v = v.co
+
+        if not x_min:
+            x_min = x_max = v.x
+            y_min = y_max = v.y
+
+        else:
+            x_min = min(x_min, v.x)
+            x_max = max(x_max, v.x)
+            y_min = min(y_min, v.y)
+            y_max = max(y_max, v.y)
+
+    w = x_max - x_min
+    h = y_max - y_min
+
+    return w * h
+
 
 
 # scans the texture folder
