@@ -292,7 +292,7 @@ def set_wall_uvs(object):
 
             # decide how often the texture should repeat itself horizontally
             columns = max(float(1), vertex_distance(upper[0].vert, upper[1].vert) // 3)
-            rows = max(float(1), vertex_distance(lower[0].vert, upper[0].vert) // 3)
+            rows = max(float(1), min(vertex_distance(lower[0].vert, upper[0].vert), vertex_distance(lower[0].vert, upper[1].vert)) // 3)
 
             # find vertex below upper[0] and assign UVs accordingly
             if vertex_distance(upper[0].vert, lower[0].vert) < vertex_distance(upper[0].vert, lower[1].vert):
