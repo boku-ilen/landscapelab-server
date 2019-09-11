@@ -68,13 +68,13 @@ db = {
 print("Setting up directories")
 
 # TODO: These will change - allow this to be set via script argument?
-SERVER_WD= os.path.join('C:\\', 'landscapelab-dev')
-TEXTURE_DIRECTORY = os.path.join(SERVER_WD, 'resources', 'buildings', 'textures')
+SERVER_WD= os.path.join('C:\\', 'landscapelab-dev', 'landscapelab-server', 'buildings')
+TEXTURE_DIRECTORY = os.path.join(SERVER_WD, 'textures')
 if not os.path.exists(TEXTURE_DIRECTORY):
     os.makedirs(TEXTURE_DIRECTORY)
 
 # TODO: Get the path from the server; move it to the resources
-OUTPUT_DIRECTORY = os.path.join(SERVER_WD, 'buildings')
+OUTPUT_DIRECTORY = os.path.join(SERVER_WD, 'out')
 if not os.path.exists(str(OUTPUT_DIRECTORY)):
     os.makedirs(OUTPUT_DIRECTORY)
 
