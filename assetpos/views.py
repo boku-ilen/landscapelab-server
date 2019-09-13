@@ -10,6 +10,8 @@ from assetpos.models import AssetType, AssetPositions, Asset
 from django.contrib.gis.geos import Polygon
 
 from assetpos import util
+from location.models import Scenario
+from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +44,8 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return not assettype.allow_placement
 
 
-def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
+# TODO: Remove default scenario_id=10 once the old request isn't used anymore
+def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0, scenario_id=10):
     """Called when an asset should be instantiated at the given location.
     Returns a JsonResponse with 'creation_success' (bool) and, if true, the
     'assetpos_id' of the new assetpos."""
@@ -52,8 +55,16 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
         "assetpos_id": None
     }
 
-    if not Asset.objects.filter(id=asset_id).exists():
+    if not Scenario.objects.filter(id=scenario_id):
+        logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
+
+    scenario = Scenario.objects.get(id=scenario_id)
+
+    if not Asset.objects.filter(id=asset_id).exists():
+        logger.warn("Attempt to create instance of on-existent asset with ID {}!".format(asset_id))
+        return JsonResponse(ret)
+
     asset = Asset.objects.get(id=asset_id)
 
     assettype = asset.asset_type
@@ -65,7 +76,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
 
     # TODO: handling the default orientation is up to the client
     new_assetpos = AssetPositions(location=location_point, orientation=orientation,
-                                  asset=asset, asset_type=assettype)
+                                  asset=asset, asset_type=assettype, tile=get_root_tile(scenario))
 
     # If this is a unique asset, there should only be one instance -> delete existing position first
     # TODO: Is there a cleaner way for this? (See TODO in assetpos/models.py at the 'unique' field)

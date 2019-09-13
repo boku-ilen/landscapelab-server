@@ -7,12 +7,25 @@ urlpatterns = [
     # get the attributes of an asset
     url(r'^attributes/(?P<asset_id>(\d+)).json$', views.get_attributes, name='get_attributes'),
 
+    # TODO: Remove once unused, doesn't include scenario ID!
+    #  (Or is there a use case for Asset instances with no scenario?)
     # Creates a new instance of an asset (assets defined in fixture)
     url(r'^create/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)$',
         views.register_assetposition, name='register_assetposition'),
 
+    # TODO: Remove once unused, doesn't include scenario ID!
+    #  (Or is there a use case for Asset instances with no scenario?)
     # Creates a new instance of an asset with a non-zero orientation (assets defined in fixture)
     url(r'^create/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)/(?P<orientation>(\d+))$',
+        views.register_assetposition, name='register_assetposition'),
+
+    # Creates a new instance of an asset (assets defined in fixture)
+    url(r'^create/(?P<scenario_id>(\d+))/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)$',
+        views.register_assetposition, name='register_assetposition'),
+
+    # Creates a new instance of an asset with a non-zero orientation (assets defined in fixture)
+    url(r'^create/(?P<scenario_id>(\d+))/(?P<asset_id>(\d+))/(?P<meter_x>[-+]?\d*\.\d+)/(?P<meter_y>[-+]?\d*\.\d+)/('
+        r'?P<orientation>(\d+))$',
         views.register_assetposition, name='register_assetposition'),
 
     # Deletes an asset instance
