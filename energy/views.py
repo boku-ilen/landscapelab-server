@@ -21,7 +21,7 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
 
     # calculate the energy and asset count for the given asset_type
     if asset_type_id:
-        asset_count = AssetPositions.objects.filter(asset_type=asset_type_id).count()
+        asset_count = AssetPositions.objects.filter(asset_type=asset_type_id, tile__scenario_id=scenario_id).count()
         asset_energy_total = get_energy_by_scenario(scenario_id, asset_type_id)
 
     # calculate asset_count and asset_energy_total for all editable asset types
@@ -29,7 +29,8 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
         asset_count = 0
         asset_energy_total = 0
         for editable_asset_type in get_all_editable_asset_types():
-            asset_count += AssetPositions.objects.filter(asset_type=editable_asset_type.id).count()
+            asset_count += AssetPositions.objects.filter(asset_type=editable_asset_type.id,
+                                                         tile__scenario_id=scenario_id).count()
             asset_energy_total += get_energy_by_scenario(scenario_id, asset_type_id)
 
     # return the calculated values in json
