@@ -70,8 +70,9 @@ def get_json_energy_by_location(request, asset_position_id):
 # if the calculation fails
 def get_energy_by_location(asset_position_id):
 
-    asset_position = AssetPositions.objects.get(pk=asset_position_id)
-    if not asset_position:
+    try:
+        asset_position = AssetPositions.objects.get(pk=asset_position_id)
+    except ObjectDoesNotExist:
         return -1
 
     try:
