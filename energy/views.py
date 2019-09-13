@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 from assetpos.models import AssetPositions, AssetType
 from energy.models import EnergyTargets, AssetpositionToEnergylocation, EnergyLocation
@@ -73,11 +74,11 @@ def get_energy_by_location(asset_position_id):
     if not asset_position:
         return -1
 
-    position2energy = AssetpositionToEnergylocation.objects.filter(asset_position=asset_position)
-
-    # if the association table does not exist do the actual lookup
-    if not position2energy:
-        energy_location = EnergyLocation.objects.filter(polygon__contains=asset_position.location,
+    try:
+        position2energy = AssetpositionToEnergylocation.objects.get(asset_position=asset_position)
+    except ObjectDoesNotExist:
+        # if the association table does not exist do the actual lookup
+        energy_location = EnergyLocation.objects.get(polygon__contains=asset_position.location,
                                                         asset_type=asset_position.asset_type)
         if energy_location:
             position2energy = AssetpositionToEnergylocation()
