@@ -25,6 +25,9 @@ def can_place_at_position(assettype, meter_x, meter_y):
 
     # if there is another asset closer to this one than the minimum distance, it may not be placed
     if assettype.minimum_distance != 0:
+        # TODO: We might want to filter by scenario here as well, otherwise assets from other
+        #  scenarios can block this one
+        # TODO: This can be done much more efficiently using a spatial filter and checking if the count is 0
         for other_asset in AssetPositions.objects.filter(asset_type_id=assettype).all():
             squared_distance = util.get_squared_distance(other_asset.location, position)
             required_squared_distance = assettype.minimum_distance ** 2
