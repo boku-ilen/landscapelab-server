@@ -84,7 +84,7 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0, s
     # If this is a unique asset, there should only be one instance -> delete existing position first
     # TODO: Is there a cleaner way for this? (See TODO in assetpos/models.py at the 'unique' field)
     if asset.unique:
-        existing = AssetPositions.objects.filter(asset_type=assettype)
+        existing = AssetPositions.objects.filter(asset_type=assettype, asset=asset)
 
         if existing.exists():
             existing.delete()
