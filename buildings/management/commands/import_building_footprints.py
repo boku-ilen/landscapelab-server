@@ -18,7 +18,7 @@ from raster.tiles import get_root_tile, get_highest_lod_tile
 logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
-HEIGHT_FIELD_NAME = '_mean'
+HEIGHT_FIELD_NAME = 'HGT_MEAN'
 ASSET_TYPE_NAME = 'Building'
 PERCENTAGE_LOG_FREQUENCY = 200
 FALLBACK_HEIGHT = 3
