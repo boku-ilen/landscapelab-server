@@ -21,9 +21,8 @@ class Command(BaseCommand):
         if not pyramidpath or not os.path.isdir(pyramidpath):
             raise ValueError('Invalid path - must be a directory!')
 
-        if options['check_only']:
-            files_to_be_deleted = 0
-            files_total = 0
+        files_to_be_deleted = 0
+        files_total = 0
 
         # Iterate over zoom folder, then x coordinate folder, then y coordinate files within that folder
         for zoom_folder in os.listdir(pyramidpath):
@@ -36,8 +35,7 @@ class Command(BaseCommand):
                     full_y_file = os.path.join(full_x_path, y_file)
 
                     if '.png' in full_y_file:
-                        if options['check_only']:
-                            files_total += 1
+                        files_total += 1
 
                         with rasterio.open(full_y_file) as src:
                             bands = src.read()
@@ -61,15 +59,15 @@ class Command(BaseCommand):
                             # If there was a pixel which was 0 in all bands, this image contains empty pixels
                             # -> Print/delete it
                             if 0 in pixels_checked:
+                                files_to_be_deleted += 1
+
                                 if options['check_only']:
                                     print("File {} would be removed!".format(full_y_file))
-                                    files_to_be_deleted += 1
                                 else:
                                     os.remove(full_y_file)
                             elif options['check_only']:
                                 print("File {} is fine!".format(full_y_file))
 
         # Print statistics
-        if options['check_only']:
-            print("{} tiles of {} - {}% - would be deleted.".format(files_to_be_deleted, files_total,
-                                                                    (files_to_be_deleted / files_total) * 100))
+        print("{} tiles of {} - {}% - would be deleted.".format(files_to_be_deleted, files_total,
+                                                                (files_to_be_deleted / files_total) * 100))
