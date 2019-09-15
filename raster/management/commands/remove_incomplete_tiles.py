@@ -34,7 +34,7 @@ class Command(BaseCommand):
                 for y_file in os.listdir(full_x_path):
                     full_y_file = os.path.join(full_x_path, y_file)
 
-                    if '.png' in full_y_file:
+                    if full_y_file.endswith('.png'):
                         files_total += 1
 
                         with rasterio.open(full_y_file) as src:
