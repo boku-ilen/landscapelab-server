@@ -11,6 +11,8 @@ from location.models import Impression, Scenario, Session, Map
 
 logger = logging.getLogger(__name__)
 
+WEBMERCATOR_SRID = 3857
+
 
 # uses the pysolar library to calculate the sun angles of a given time and location
 def sunposition(request, year, month, day, hour, minute, lat, long, elevation):
@@ -45,10 +47,11 @@ def register_impression(request, x, y, elevation, target_x, target_y, target_ele
     # create a new impression object with the given parameters and stores it in the database
     impression = Impression()
     impression.session = session
-    # FIXME: how to handle srid/projection (?)
+
     try:
-        impression.location = Point(float(x), float(y), float(elevation))
-        impression.viewport = Point(float(target_x), float(target_y), float(target_elevation))
+        # the client always uses webmercator coordinates, so we specify the srid
+        impression.location = Point(float(x), float(y), float(elevation), srid=WEBMERCATOR_SRID)
+        impression.viewport = Point(float(target_x), float(target_y), float(target_elevation), srid=WEBMERCATOR_SRID)
         impression.save()
         logger.debug("stored impression {}".format(impression))
     except ValueError:
