@@ -79,15 +79,15 @@ def get_energy_by_location(asset_position_id):
         position2energy = AssetpositionToEnergylocation.objects.get(asset_position=asset_position)
     except ObjectDoesNotExist:
         # if the association table does not exist do the actual lookup
-        energy_location = EnergyLocation.objects.get(polygon__contains=asset_position.location,
-                                                        asset_type=asset_position.asset_type)
-        if energy_location:
+        try:
+            energy_location = EnergyLocation.objects.get(polygon__contains=asset_position.location,
+                                                         asset_type=asset_position.asset_type)
+
             position2energy = AssetpositionToEnergylocation()
             position2energy.asset_position = asset_position
             position2energy.energy_location = energy_location
             position2energy.save()
-
-        else:
+        except ObjectDoesNotExist:
             return -1
 
     energy_production = position2energy.energy_location.energy_production
