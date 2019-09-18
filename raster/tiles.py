@@ -121,10 +121,14 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
         if original_image_mode != wanted_image.mode:
             wanted_image.convert(original_image_mode)
 
-        # FIXME: It is possible that in the time since we last checked whether the image exists,
+        # It is possible that in the time since we last checked whether the image exists,
         #  the same request was handled in another thread. This means that the image already
-        #  exists at this point, even though we checked earlier. We need a Mutex!
-        wanted_image.save(wanted_filename)
+        #  exists at this point. This error doesn't matter; in any case, the image exists
+        try:
+            wanted_image.save(wanted_filename)
+        except IOError:
+            logger.warn("Image {} could not be saved! This could be due to another thread having saved it earlier, "
+                        "in which case it is not an issue.".format(wanted_filename))
 
     except OSError:
         logger.warning("Could not process file {} - this file does not seem valid". format(available_filename))
