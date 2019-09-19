@@ -3,10 +3,13 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from assetpos.models import AssetPositions, AssetType
 from energy.models import EnergyTargets, AssetpositionToEnergylocation, EnergyLocation
+from assetpos.views import get_assettypes
 
 
 # retrieves and returns the current placed energy values for the given scenario
 # and returns it as json for the energy detail page in the client
+
+
 def get_energy_contribution(request, scenario_id, asset_type_id=None):
     """Returns a json response with the energy contribution and number of contributing
      assets, either for a given asset type or for all editable assets."""
@@ -29,7 +32,7 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
     else:
         asset_count = 0
         asset_energy_total = 0
-        for editable_asset_type in get_all_editable_asset_types():
+        for editable_asset_type in get_assettypes(True):
             asset_count += AssetPositions.objects.filter(asset_type=editable_asset_type.id,
                                                          tile__scenario_id=scenario_id).count()
             asset_energy_total += get_energy_by_scenario(scenario_id, asset_type_id)
@@ -48,7 +51,7 @@ def get_energy_by_scenario(scenario_id, asset_type_id=None):
 
     # recursively get all energy values if no asset_type is given
     if not asset_type_id:
-        for editable_asset_type in get_all_editable_asset_types():
+        for editable_asset_type in get_assettypes(True):
             energy_sum += get_energy_by_scenario(scenario_id, editable_asset_type.pk)
 
     else:
@@ -92,20 +95,6 @@ def get_energy_by_location(asset_position_id):
 
     energy_production = position2energy.energy_location.energy_production
     return energy_production
-
-
-def get_all_editable_asset_types():
-
-    # get all editable assets_types
-    editable_asset_types = []
-    for asset_type in AssetType.objects.all():
-        if not asset_type.placement_areas:
-            if asset_type.allow_placement:
-                editable_asset_types.append(asset_type)
-        else:
-            editable_asset_types.append(asset_type)
-
-    return editable_asset_types
 
 
 # returns the energy target for a scenario and optionally filtered for a specific asset_type

@@ -258,14 +258,7 @@ def get_attributes(request, asset_id):
     return JsonResponse(ret)
 
 
-# lists all asset types and nest the associated assets and provide
-# the possibility to filter only editable asset types
-# By default, abstract assets are excluded since those are placed by special mechanisms.
-# FIXME: we would need to filter per scenario
-def getall_assettypes(request, editable=False, include_abstract=False):
-    ret = {}
-
-    # get the relevant asset types
+def get_assettypes(editable=False, include_abstract=False):
     if not editable:
         asset_types = AssetType.objects.all()
     else:
@@ -277,6 +270,19 @@ def getall_assettypes(request, editable=False, include_abstract=False):
     # Don't include abstract assets unless the include_abstract parameter is True
     if not include_abstract:
         asset_types = asset_types.filter(abstract=False)
+
+    return asset_types
+
+
+# lists all asset types and nest the associated assets and provide
+# the possibility to filter only editable asset types
+# By default, abstract assets are excluded since those are placed by special mechanisms.
+# FIXME: we would need to filter per scenario
+def getall_assettypes(request, editable=False, include_abstract=False):
+    ret = {}
+
+    # get the relevant asset types
+    asset_types = get_assettypes(editable, include_abstract)
 
     # get the assets of each asset types and build the json result
     for asset_type in asset_types:
