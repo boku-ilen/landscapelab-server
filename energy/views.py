@@ -87,6 +87,7 @@ def get_energy_by_location(asset_position_id):
                                                          asset_type=asset_position.asset_type)
 
             position2energy = AssetpositionToEnergylocation()
+            position2energy.id = asset_position_id
             position2energy.asset_position = asset_position
             position2energy.energy_location = energy_location
             position2energy.save()
