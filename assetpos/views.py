@@ -296,7 +296,7 @@ def getall_assettypes(request, editable=False, include_abstract=False):
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
             # FIXME: maybe we need to seperate each polygon
-            'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,
+            'placement_areas': asset_type.placement_areas.coords if asset_type.placement_areas else None,
             'display_radius': asset_type.display_radius,
             'assets': assets_json
         }
