@@ -49,7 +49,7 @@ BASEMENT_TEXTURE_FOLDER = 'basement'
 ROOF_TEXTURE_FOLDER = 'roof'
 
 BASEMENT_SIZE = 3
-FLAT_ROOF_THRESHOLD = 10000
+FLAT_ROOF_THRESHOLD = 1500
 
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
@@ -158,6 +158,7 @@ def create_roof(name, vertices, height, textures):
 
     # create base face
     [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
+    bbox = get_bounding_box([v.co for v in footprint.verts])
 
     # select roof type and height
     roof_type, roof_height = select_roof(footprint, bm, height)
@@ -165,9 +166,10 @@ def create_roof(name, vertices, height, textures):
     # if footprint has 4 vertices use neat_roof()
     # otherwise use inset operator and push resulting face up
     if roof_type == RoofType.SIMPLE:
-        neat_roof(footprint, bm, roof_height)
-        bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
-        finish_edit(bm, mesh)
+        neat_roof(footprint, bm, roof_height, mesh, height)
+
+    elif roof_type == RoofType.FLAT:
+        flat_roof(footprint, bm, roof_height, mesh, height)
 
     else:
         footprint.select = True
@@ -181,6 +183,12 @@ def create_roof(name, vertices, height, textures):
         bm.verts.ensure_lookup_table()
         roof_inset_amount = longest_edge(bm.verts) / 2
         bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
+
+        # if flawed roof was created abort and create flat roof instead
+        if not roof_generated_correctly(roof, bbox):
+            bpy.ops.mesh.delete(type='VERT')
+            [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
+            flat_roof(footprint, bm, roof_height, mesh, height)
 
         bpy.ops.object.mode_set(mode='OBJECT')
 
@@ -237,10 +245,22 @@ def finish_edit(bm, mesh):
     bm.free()
 
 
+def flat_roof(face, bm, roof_height, mesh, height):
+
+    bmesh.ops.inset_individual(bm, faces=[face], thickness=0)
+    bm.faces.ensure_lookup_table()
+    top = bm.faces[0]
+
+    bmesh.ops.translate(bm, vec=Vector([0, 0, 2]), verts=[v for v in top.verts])
+
+    bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
+    finish_edit(bm, mesh)
+
+
 # from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
 # only works on buildings with 4 vertex footprint
 # sets a neat looking roof on top of the building
-def neat_roof(face, bm, roof_height):
+def neat_roof(face, bm, roof_height, mesh, building_hight):
 
     if len(face.verts) == 4:
         ret = bmesh.ops.extrude_face_region(bm, geom=[face])
@@ -254,6 +274,9 @@ def neat_roof(face, bm, roof_height):
         else:
             edges = [e2, e4]
         bmesh.ops.collapse(bm, edges=edges)
+
+    bmesh.ops.translate(bm, vec=Vector([0, 0, building_hight]), verts=bm.verts)
+    finish_edit(bm, mesh)
 
 
 # selects a roof type and height based on a buildings footprint and height
@@ -277,6 +300,22 @@ def select_roof(footprint, bm, height):
         roof_height = 1
 
     return roof_type, roof_height
+
+
+# checks if the roof was generated correctly by checking if all generated vertices lie within the bounding box
+# this is necessary because the inset_straight_skeleton operator produces false results where vertices lie far away
+# in very rare cases
+def roof_generated_correctly(roof, bbox):
+    vertices = vert_from_mesh(roof.data)
+    x_min, y_min, x_max, y_max = bbox
+
+    for v in vertices:
+        if x_min <= v.x <= x_max:
+            if y_min <= v.y <= y_max:
+                continue
+        return False
+
+    return True
 
 
 # sets the uv coordinates for the wall faces of any general cylinder
@@ -424,11 +463,18 @@ def longest_edge(vertices):
 
 # approximates the building footprint area via bounding box
 def calc_area(footprint):
+    x_min, y_min, x_max, y_max = get_bounding_box([v.co for v in footprint.verts])
+
+    w = x_max - x_min
+    h = y_max - y_min
+
+    return w * h
+
+
+def get_bounding_box(vertices):
     x_min = y_min = x_max = y_max = None
 
-    for v in footprint.verts:
-        v = v.co
-
+    for v in vertices:
         if not x_min:
             x_min = x_max = v.x
             y_min = y_max = v.y
@@ -439,11 +485,12 @@ def calc_area(footprint):
             y_min = min(y_min, v.y)
             y_max = max(y_max, v.y)
 
-    w = x_max - x_min
-    h = y_max - y_min
+    print('bounding box data: {} {} {} {}'.format(x_min, y_min, x_max, y_max))
+    return x_min, y_min, x_max, y_max
 
-    return w * h
 
+def vert_from_mesh(mesh_data):
+    return (v.co for v in mesh_data.vertices)
 
 
 # scans the texture folder
