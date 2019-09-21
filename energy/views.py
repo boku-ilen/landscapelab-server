@@ -95,6 +95,12 @@ def get_energy_by_location(asset_position_id):
             return -1
 
     energy_production = position2energy.energy_location.energy_production
+
+    # Multiply by the Asset's energy multiplicator, if available
+    asset = asset_position.asset
+    if asset.energy_multiplicator:
+        energy_production *= asset.energy_multiplicator
+
     return energy_production
 
 
