@@ -5,7 +5,7 @@
       "id": 1,
       "name": "Small PV Plant",
       "asset_type": 3,
-      "energy_multiplicator": 100
+      "energy_multiplicator": 10
     }
   },
   {
@@ -14,7 +14,7 @@
       "id": 2,
       "name": "Large PV Plant",
       "asset_type": 3,
-      "energy_multiplicator": 300
+      "energy_multiplicator": 30
     }
   },
   {
