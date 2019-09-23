@@ -30,8 +30,8 @@
     "model": "location.location",
     "pk": 4,
     "fields": {
-      "name": "Bad Kleinkirchheim",
-      "location": "SRID=3857;POINT (1535903.877569965 5911750.965084686)",
+      "name": "Ebene Reichenau",
+      "location": "SRID=3857;POINT (1546670.0 5918250.0)",
       "direction": 90.0,
       "scenario": 10,
       "order": 10
@@ -52,8 +52,8 @@
     "model": "location.location",
     "pk": 6,
     "fields": {
-      "name": "Ebene Reichenau",
-      "location": "SRID=3857;POINT (1546638.631430074 5918359.557776062)",
+      "name": "Turacher Höhe",
+      "location": "SRID=3857;POINT (1544400.0 5928410.0)",
       "direction": 180.0,
       "scenario": 10,
       "order": 30
@@ -64,7 +64,7 @@
     "pk": 7,
     "fields": {
       "name": "Falkertsee",
-      "location": "SRID=3857;POINT (1539417.012455166 5919983.004188291)",
+      "location": "SRID=3857;POINT (1539660.0 5919810.0)",
       "direction": 180.0,
       "scenario": 10,
       "order": 40
@@ -74,8 +74,8 @@
     "model": "location.location",
     "pk": 8,
     "fields": {
-      "name": "Oswaldeck",
-      "location": "SRID=3857;POINT (1533488.794260885 5919430.039908145)",
+      "name": "Winkl",
+      "location": "SRID=3857;POINT (1543220.0 5922740.0)",
       "direction": 180.0,
       "scenario": 10,
       "order": 60
@@ -85,8 +85,8 @@
     "model": "location.location",
     "pk": 9,
     "fields": {
-      "name": "Sirnitrz Ortseingang",
-      "location": "SRID=3857;POINT (1566383.079643982 5913375.789969102)",
+      "name": "Patergassen",
+      "location": "SRID=3857;POINT (1543500.0 5912300.0)",
       "direction": 270.0,
       "scenario": 10,
       "order": 80
@@ -96,11 +96,88 @@
     "model": "location.location",
     "pk": 10,
     "fields": {
-      "name": "Birkfeld",
-      "location": "SRID=3857;POINT (1746971.516097376 6000036.96810892)",
+      "name": "St. Margarethen",
+      "location": "SRID=3857;POINT (1546370.0 5911250.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 90
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 11,
+    "fields": {
+      "name": "Zedlitzdorf",
+      "location": "SRID=3857;POINT (1549960.0 5909910.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 100
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 12,
+    "fields": {
+      "name": "Feld am See",
+      "location": "SRID=3857;POINT (1530300.0 5905590.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 110
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 13,
+    "fields": {
+      "name": "Sirnitz",
+      "location": "SRID=3857;POINT (1565010.0 5913110.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 120
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 14,
+    "fields": {
+      "name": "Hochrindl",
+      "location": "SRID=3857;POINT (1558310.0 5920050.0)",
       "direction": 0.0,
       "scenario": 20,
-      "order": 10
+      "order": 130
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 15,
+    "fields": {
+      "name": "St. Lorenzen",
+      "location": "SRID=3857;POINT (1550270.0 5918760.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 140
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 16,
+    "fields": {
+      "name": "Saureggen",
+      "location": "SRID=3857;POINT (1546730.0 5922890.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 150
+    }
+  },
+  {
+    "model": "location.location",
+    "pk": 17,
+    "fields": {
+      "name": "Deutsch Griffen",
+      "location": "SRID=3857;POINT (1566810.0 5918480.0)",
+      "direction": 0.0,
+      "scenario": 10,
+      "order": 160
     }
   },
   {
