@@ -49,7 +49,7 @@ BASEMENT_TEXTURE_FOLDER = 'basement'
 ROOF_TEXTURE_FOLDER = 'roof'
 
 BASEMENT_SIZE = 3
-FLAT_ROOF_THRESHOLD = 1500
+FLAT_ROOF_THRESHOLD = 2800
 
 dir = os.path.dirname(D.filepath)
 if dir not in sys.path:
@@ -100,6 +100,10 @@ def create_building(name, vertices, height, textures):
     basement = create_base_building_mesh(name, vertices, -BASEMENT_SIZE, textures, BASEMENT_TEXTURE_FOLDER)
     building = create_base_building_mesh(name, vertices, height, textures)
     roof = create_roof(name, vertices, height, textures)
+
+    delete_bottom(building)
+    delete_bottom(building, top_instead=True)
+    delete_bottom(basement, top_instead=True)
 
     # export the scene to a gltf 2.0 file
     print('Output dir: {}'.format(OUTPUT_DIRECTORY))
@@ -167,6 +171,7 @@ def create_roof(name, vertices, height, textures):
     # otherwise use inset operator and push resulting face up
     if roof_type == RoofType.SIMPLE:
         neat_roof(footprint, bm, roof_height, mesh, height)
+        delete_bottom(roof)
 
     elif roof_type == RoofType.FLAT:
         flat_roof(footprint, bm, roof_height, mesh, height)
@@ -185,12 +190,14 @@ def create_roof(name, vertices, height, textures):
         bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
 
         # if flawed roof was created abort and create flat roof instead
-        if not roof_generated_correctly(roof, bbox):
+        if not roof_generated_correctly(roof, bbox) or True:
+            print('WARNING: failed to create hip roof, resorting to flat roof')
             bpy.ops.mesh.delete(type='VERT')
             [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
             flat_roof(footprint, bm, roof_height, mesh, height)
 
         bpy.ops.object.mode_set(mode='OBJECT')
+        delete_inner_faces(roof)
 
     # add textures if possible
     if ROOF_TEXTURE_FOLDER in textures:
@@ -260,7 +267,7 @@ def flat_roof(face, bm, roof_height, mesh, height):
 # from https://blender.stackexchange.com/questions/14136/trying-to-create-a-script-that-makes-roofs-on-selected-boxes
 # only works on buildings with 4 vertex footprint
 # sets a neat looking roof on top of the building
-def neat_roof(face, bm, roof_height, mesh, building_hight):
+def neat_roof(face, bm, roof_height, mesh, building_height):
 
     if len(face.verts) == 4:
         ret = bmesh.ops.extrude_face_region(bm, geom=[face])
@@ -275,13 +282,13 @@ def neat_roof(face, bm, roof_height, mesh, building_hight):
             edges = [e2, e4]
         bmesh.ops.collapse(bm, edges=edges)
 
-    bmesh.ops.translate(bm, vec=Vector([0, 0, building_hight]), verts=bm.verts)
+    bmesh.ops.translate(bm, vec=Vector([0, 0, building_height]), verts=bm.verts)
     finish_edit(bm, mesh)
 
 
 # selects a roof type and height based on a buildings footprint and height
 def select_roof(footprint, bm, height):
-    roof_type = RoofType.FLAT
+    roof_type = RoofType.HIP_ROOF
 
     area = calc_area(footprint)
     print('area = {}'.format(area))
@@ -316,6 +323,71 @@ def roof_generated_correctly(roof, bbox):
         return False
 
     return True
+
+
+# deletes the bottom (or top if specified) face of any mesh (face where avg vertex z coordinate is lowest / highest)
+def delete_bottom(obj, top_instead=False):
+
+    comp = lambda a, b: a < b
+    if top_instead:
+        comp = lambda a, b: a > b
+
+    # switch to edit mode and get bm
+    C.view_layer.objects.active = obj
+    bpy.ops.object.mode_set(mode='EDIT')
+    bm = bmesh.from_edit_mesh(obj.data)
+
+    # filter out lowest face
+    low_f = [None, None]
+    for f in bm.faces:
+        h = 0
+        for v in f.verts:
+            h += v.co.z
+        h /= len(f.verts)
+        if low_f[1] is None or comp(h, low_f[1]):
+            low_f[0] = f
+            low_f[1] = h
+
+    # delete lowest face and return to object mode
+    bmesh.ops.delete(bm, geom=[low_f[0]], context='FACES')
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+# deletes all horizontal faces that were generated within a volume
+# (including a horizontal bottom face, excluding a horizontal top face)
+# this is necessary since the operator inset straight skeleton sometimes generates such faces
+def delete_inner_faces(obj):
+
+    # swap to edit mode and setup inner face array
+    C.view_layer.objects.active = obj
+    bpy.ops.object.mode_set(mode='EDIT')
+    bm = bmesh.from_edit_mesh(obj.data)
+    inner_f = []
+
+    # get max z value of object
+    max_z = None
+    for v in bm.verts:
+        if max_z is None or max_z < v.co.z:
+            max_z = v.co.z
+
+    # find inner horizontal faces
+    for f in bm.faces:
+        face_height = None
+        for v in f.verts:
+            # only continue if height stays constant across all vertices
+            if face_height is None or face_height == v.co.z:
+                face_height = v.co.z
+            else:
+                face_height = None
+                break
+
+        # add to inner face list if height stayed constant and face is not top face
+        if face_height is not None and face_height < max_z:
+            inner_f.append(f)
+
+    # delete inner faces and return to object mode
+    bmesh.ops.delete(bm, geom=inner_f, context='FACES')
+    bpy.ops.object.mode_set(mode='OBJECT')
 
 
 # sets the uv coordinates for the wall faces of any general cylinder
