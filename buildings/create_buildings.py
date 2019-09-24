@@ -177,27 +177,7 @@ def create_roof(name, vertices, height, textures):
         flat_roof(footprint, bm, roof_height, mesh, height)
 
     else:
-        footprint.select = True
-        bmesh.ops.translate(bm, vec=Vector([0, 0, height]), verts=bm.verts)
-        finish_edit(bm, mesh)
-
-        bpy.ops.object.mode_set(mode='EDIT')
-
-        # create roof form
-        bm = bmesh.from_edit_mesh(mesh)
-        bm.verts.ensure_lookup_table()
-        roof_inset_amount = longest_edge(bm.verts) / 2
-        bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
-
-        # if flawed roof was created abort and create flat roof instead
-        if not roof_generated_correctly(roof, bbox) or True:
-            print('WARNING: failed to create hip roof, resorting to flat roof')
-            bpy.ops.mesh.delete(type='VERT')
-            [roof, mesh, bm, footprint] = create_footprint(name+"_roof", vertices)
-            flat_roof(footprint, bm, roof_height, mesh, height)
-
-        bpy.ops.object.mode_set(mode='OBJECT')
-        delete_inner_faces(roof)
+        hip_roof(roof, footprint, bm, mesh, roof_height, height, bbox, name, vertices)
 
     # add textures if possible
     if ROOF_TEXTURE_FOLDER in textures:
@@ -284,6 +264,30 @@ def neat_roof(face, bm, roof_height, mesh, building_height):
 
     bmesh.ops.translate(bm, vec=Vector([0, 0, building_height]), verts=bm.verts)
     finish_edit(bm, mesh)
+
+
+def hip_roof(roof_object, footprint_face, bm, mesh, roof_height, positional_height, bbox, name, vertices):
+    footprint_face.select = True
+    bmesh.ops.translate(bm, vec=Vector([0, 0, positional_height]), verts=bm.verts)
+    finish_edit(bm, mesh)
+
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    # create roof form
+    bm = bmesh.from_edit_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    roof_inset_amount = longest_edge(bm.verts) / 2
+    bpy.ops.mesh.insetstraightskeleton(inset_amount=roof_inset_amount, inset_height=-roof_height, region=True, quadrangulate=True)
+
+    # if flawed roof was created abort and create flat roof instead
+    if not roof_generated_correctly(roof_object, bbox):
+        print('WARNING: failed to create hip roof, resorting to flat roof')
+        bpy.ops.mesh.delete(type='VERT')
+        [roof_object, mesh, bm, footprint_face] = create_footprint(name + "_roof", vertices)
+        flat_roof(footprint_face, bm, roof_height, mesh, positional_height)
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+    delete_inner_faces(roof_object)
 
 
 # selects a roof type and height based on a buildings footprint and height
