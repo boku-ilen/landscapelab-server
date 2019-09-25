@@ -46,7 +46,6 @@ def get_energy_contribution(request, scenario_id, asset_type_id=None):
 # does the acutal calculation to get the energy production for a scenario with
 # an optional given asset type
 def get_energy_by_scenario(scenario_id, asset_type_id=None):
-
     energy_sum = 0
 
     # recursively get all energy values if no asset_type is given
@@ -56,7 +55,8 @@ def get_energy_by_scenario(scenario_id, asset_type_id=None):
 
     else:
         # get all asset positions of this asset_type in our scenario
-        asset_positions = AssetPositions.objects.filter(asset_type_id=asset_type_id, tile__scenario_id=scenario_id).all()
+        asset_positions = AssetPositions.objects.filter(asset_type_id=asset_type_id,
+                                                        tile__scenario_id=scenario_id).all()
         for asset_position in asset_positions:
             energy_sum += get_energy_by_location(asset_position.pk)
 
@@ -72,7 +72,6 @@ def get_json_energy_by_location(request, asset_position_id):
 # calculates the energy production of a specific placed asset (asset position) and returns -1
 # if the calculation fails
 def get_energy_by_location(asset_position_id):
-
     try:
         asset_position = AssetPositions.objects.get(pk=asset_position_id)
     except ObjectDoesNotExist:
@@ -83,8 +82,21 @@ def get_energy_by_location(asset_position_id):
     except ObjectDoesNotExist:
         # if the association table does not exist do the actual lookup
         try:
-            energy_location = EnergyLocation.objects.get(polygon__contains=asset_position.location,
-                                                         asset_type=asset_position.asset_type)
+            # If this specific asset has an energy location, always use that (even if it doesn't overlap)
+            # Otherwise, fallback to the asset type's energy location
+            energy_location = EnergyLocation.objects.filter(asset=asset_position.asset)
+
+            if not energy_location.exists():
+                energy_location = EnergyLocation.objects.get(polygon__contains=asset_position.location,
+                                                             asset_type=asset_position.asset_type,
+                                                             asset=None)
+            else:
+                energy_location = energy_location.filter(polygon__contains=asset_position.location)
+
+                if not energy_location.exists():
+                    return -1
+
+                energy_location = energy_location[0]
 
             position2energy = AssetpositionToEnergylocation()
             position2energy.id = asset_position_id
@@ -106,7 +118,6 @@ def get_energy_by_location(asset_position_id):
 
 # returns the energy target for a scenario and optionally filtered for a specific asset_type
 def get_energy_targets(scenario_id, asset_type_id=None):
-
     energy_requirement_total = 0
 
     # change the filter for the entries based on a optionally provided asset_type_id

@@ -57,6 +57,9 @@ class Asset(models.Model):
     # TODO: Can we enforce this in the database itself? Currently, only the 'create' request complies with this
     unique = models.BooleanField(default=False)
 
+    # if True, ignore the AssetType's placement_areas and allow_placement, it may always be placed
+    ignore_placement_restrictions = models.BooleanField(default=False)
+
     # the energy values are based on an asset type - different assets could mean different sizes
     energy_multiplicator = models.FloatField(default=1)
 

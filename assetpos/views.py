@@ -72,7 +72,8 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0, s
 
     assettype = asset.asset_type
 
-    if not can_place_at_position(assettype, meter_x, meter_y):
+    # If the ignore_placement_restrictions flag is not set and the asset may not be placed here, return
+    if (not asset.ignore_placement_restrictions) and (not can_place_at_position(assettype, meter_x, meter_y)):
         return JsonResponse(ret)
 
     location_point = geos.Point(float(meter_x), float(meter_y))

@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 
-from assetpos.models import AssetPositions, AssetType
+from assetpos.models import AssetPositions, AssetType, Asset
 from location.models import Scenario
 
 
@@ -12,6 +12,9 @@ class EnergyLocation(models.Model):
 
     # the associated asset type
     asset_type = models.ForeignKey(AssetType, on_delete=models.SET_NULL, null=True)
+
+    # alternatively (more specifically), the associated asset
+    asset = models.ForeignKey(Asset, on_delete=models.SET_NULL, null=True)
 
     # the energy production which is yielded by placing one asset of the associated asset type
     energy_production = models.FloatField()
