@@ -13,7 +13,7 @@ from assetpos.models import Tile
 from buildings.models import BuildingFootprint
 from buildings.views import generate_buildings_with_asset_id
 from location.models import Scenario
-from raster.tiles import get_root_tile, get_highest_lod_tile
+from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
 
@@ -193,7 +193,6 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     asset_position.location = Point(mean[0], mean[1])
     building.vertices = relative_vertices
     building.height = height
-    asset_position.tile = get_highest_lod_tile(asset_position.location, root_tile, MIN_LEVEL_BUILDINGS)
     asset_position.orientation = 0
 
     asset_position.save()
