@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
         # should we only generate the models, not import?
         if options['generate_only']:
-            generate_building_models(options['regenerate'], scenario_id)
+            generate_building_models(options['regenerate'], root_tile)
             return
 
         # check for necessary parameters
@@ -121,17 +121,17 @@ class Command(BaseCommand):
             logger.info(' - {}: {}'.format(info, value))
 
         if not options['import_only']:
-            generate_building_models(options['regenerate'], scenario_id)
+            generate_building_models(options['regenerate'], root_tile)
 
 
-def generate_building_models(regenerate, scenario_id):
+def generate_building_models(regenerate, tile_id):
     """Gets all buildings from the database and generates their 3D model files"""
 
     logger.info("Generating building files...")
 
     gen_buildings = []
     for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
-                                               scenario_id=scenario_id).all():
+                                               tile_id=tile_id).all():
         if regenerate or not os.path.exists("buildings/out/{}.glb".format(asset.asset.name)):
             gen_buildings.append(asset.id)
 
