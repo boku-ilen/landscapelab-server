@@ -152,7 +152,8 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     search_asset = Asset.objects.filter(name=name)
     if search_asset:
         asset_position = AssetPositions.objects.filter(asset=search_asset.first(),
-                                                       asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
+                                                       asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                                       tile_id=root_tile)
         if asset_position:
             asset_position = asset_position.first()
             building = BuildingFootprint.objects.filter(asset=asset_position)
