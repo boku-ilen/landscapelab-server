@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
         # should we only generate the models, not import?
         if options['generate_only']:
-            generate_building_models(options['regenerate'], root_tile)
+            generate_building_models(options['regenerate'], root_tile.id)
             return
 
         # check for necessary parameters
@@ -121,7 +121,7 @@ class Command(BaseCommand):
             logger.info(' - {}: {}'.format(info, value))
 
         if not options['import_only']:
-            generate_building_models(options['regenerate'], root_tile)
+            generate_building_models(options['regenerate'], root_tile.id)
 
 
 def generate_building_models(regenerate, tile_id):
@@ -153,7 +153,7 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     if search_asset:
         asset_position = AssetPositions.objects.filter(asset=search_asset.first(),
                                                        asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
-                                                       tile_id=root_tile)
+                                                       tile_id=root_tile.id)
         if asset_position:
             asset_position = asset_position.first()
             building = BuildingFootprint.objects.filter(asset=asset_position)
@@ -170,7 +170,7 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
         asset = Asset(name=name, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
         asset.save()
         asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
-                                        tile_id=root_tile)
+                                        tile_id=root_tile.id)
 
     # calculate the mean point
     # of the polygons vertices
