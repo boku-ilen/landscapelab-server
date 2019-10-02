@@ -40,9 +40,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        # get scenario and root tile
+        try:
+            scenario_id = options['scenario_id']
+            scenario = Scenario.objects.get(pk=scenario_id)
+            root_tile = get_root_tile(scenario)
+        except ObjectDoesNotExist:
+            logger.error('invalid scenario id: {}'.format(scenario_id))
+            raise ValueError('Scenario with id {} does not exist'.format(scenario_id))
+
         # should we only generate the models, not import?
         if options['generate_only']:
-            generate_building_models(options['regenerate'])
+            generate_building_models(options['regenerate'], scenario_id)
             return
 
         # check for necessary parameters
@@ -58,15 +67,6 @@ class Command(BaseCommand):
             raise ValueError("Invalid filename!")
 
         logger.info('starting to import file {}'.format(filename))
-
-        # get scenario and root tile
-        try:
-            scenario_id = options['scenario_id']
-            scenario = Scenario.objects.get(pk=scenario_id)
-            root_tile = get_root_tile(scenario)
-        except ObjectDoesNotExist:
-            logger.error('invalid scenario id: {}'.format(scenario_id))
-            raise ValueError('Scenario with id {} does not exist'.format(scenario_id))
 
         data = {'new': 0, 'updated': 0, 'ignored': 0, 'error': 0}
 
@@ -121,16 +121,17 @@ class Command(BaseCommand):
             logger.info(' - {}: {}'.format(info, value))
 
         if not options['import_only']:
-            generate_building_models(options['regenerate'])
+            generate_building_models(options['regenerate'], scenario_id)
 
 
-def generate_building_models(regenerate):
+def generate_building_models(regenerate, scenario_id):
     """Gets all buildings from the database and generates their 3D model files"""
 
     logger.info("Generating building files...")
 
     gen_buildings = []
-    for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
+    for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                               scenario_id=scenario_id).all():
         if regenerate or not os.path.exists("buildings/out/{}.glb".format(asset.asset.name)):
             gen_buildings.append(asset.id)
 
