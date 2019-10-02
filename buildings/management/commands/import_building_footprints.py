@@ -169,7 +169,8 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
         building = BuildingFootprint()
         asset = Asset(name=name, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
         asset.save()
-        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
+        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                        tile_id=root_tile)
 
     # calculate the mean point
     # of the polygons vertices
