@@ -16,7 +16,7 @@ from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
 
-MAX_ASSETS_PER_RESPONSE = 30
+MAX_ASSETS_PER_RESPONSE = 50
 
 
 def can_place_at_position(assettype, meter_x, meter_y):
