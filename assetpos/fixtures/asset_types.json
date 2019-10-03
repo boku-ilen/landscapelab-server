@@ -25,6 +25,17 @@
   },
   {
     "model": "assetpos.assettype",
+    "pk": 20,
+    "fields": {
+      "name": "Existing Wind Turbine",
+      "allow_placement": false,
+      "display_radius": 10000,
+      "minimum_distance": 70,
+      "abstract": false
+    }
+  },
+  {
+    "model": "assetpos.assettype",
     "pk": 3,
     "fields": {
       "name": "Photovoltaic Plant",
