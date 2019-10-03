@@ -16,6 +16,8 @@ from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
 
+MAX_ASSETS_PER_RESPONSE = 30
+
 
 def can_place_at_position(assettype, meter_x, meter_y):
     """Returns true if the asset with the given id may be placed at the given position."""
@@ -211,16 +213,23 @@ def get_near_assetpositions(request, asset_or_assettype_id, meter_x, meter_y, by
         # If the radius is > 0, we have to only return the nearby objects; the dwithin query is optimized for this
         near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))) \
             .annotate(distance=Distance("location", center)) \
-            .order_by("distance") \
-            .all()
+            .order_by("distance")
     else:
         # If the radius is 0, this means that there is no limit -> Return all
         near_assetpositions = objects.all()
 
+    number_of_assets = len(near_assetpositions)
+
+    if number_of_assets > MAX_ASSETS_PER_RESPONSE:
+        returned_assetpositions = near_assetpositions[0:MAX_ASSETS_PER_RESPONSE]
+    else:
+        returned_assetpositions = near_assetpositions
+
     ret["assets"] = {assetposition.id: {"position": [assetposition.location.x, assetposition.location.y],
                                         "asset_id": assetposition.asset_id,
-                                        "asset_name": assetposition.asset.name}
-                     for assetposition in near_assetpositions}
+                                        "asset_name": assetposition.asset.name,
+                                        "distance": str(assetposition.distance)}
+                     for assetposition in returned_assetpositions}
 
     return JsonResponse(ret)
 
