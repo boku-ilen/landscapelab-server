@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from datetime import datetime
 
 import fiona
 from django.contrib.gis import geos
@@ -99,6 +100,7 @@ class Command(BaseCommand):
                 "asset": asset.id,
                 "asset_type": asset_type.id,
                 "location": str(pointstring),
+                "create_stamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.0Z"),
                 "tile": tile.id
             }
 
