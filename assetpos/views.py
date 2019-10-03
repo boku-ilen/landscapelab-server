@@ -2,6 +2,7 @@ import logging
 import webmercator
 
 from django.contrib.gis import geos
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from django.db.models import Q
 from django.http import JsonResponse
@@ -208,7 +209,10 @@ def get_near_assetpositions(request, asset_or_assettype_id, meter_x, meter_y, by
 
     if radius > 0:
         # If the radius is > 0, we have to only return the nearby objects; the dwithin query is optimized for this
-        near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))).all()
+        near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))) \
+            .annotate(distance=Distance("location", center)) \
+            .order_by("distance") \
+            .all()
     else:
         # If the radius is 0, this means that there is no limit -> Return all
         near_assetpositions = objects.all()
