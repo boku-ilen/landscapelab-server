@@ -40,6 +40,14 @@
   {
     "model": "assetpos.Asset",
     "fields": {
+      "id": 30,
+      "name": "Existing Generic Wind Turbine",
+      "asset_type": 20
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
       "id": 4,
       "name": "Player Teleport Point",
       "asset_type": 5,
