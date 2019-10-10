@@ -13,12 +13,12 @@ from assetpos.models import Tile
 from buildings.models import BuildingFootprint
 from buildings.views import generate_buildings_with_asset_id
 from location.models import Scenario
-from raster.tiles import get_root_tile, get_highest_lod_tile
+from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
 
 MIN_LEVEL_BUILDINGS = 16
-HEIGHT_FIELD_NAME = '_mean'
+HEIGHT_FIELD_NAME = 'HGT_MEAN'
 ASSET_TYPE_NAME = 'Building'
 PERCENTAGE_LOG_FREQUENCY = 200
 FALLBACK_HEIGHT = 3
@@ -40,9 +40,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        # get scenario and root tile
+        try:
+            scenario_id = options['scenario_id']
+            scenario = Scenario.objects.get(pk=scenario_id)
+            root_tile = get_root_tile(scenario)
+        except ObjectDoesNotExist:
+            logger.error('invalid scenario id: {}'.format(scenario_id))
+            raise ValueError('Scenario with id {} does not exist'.format(scenario_id))
+
         # should we only generate the models, not import?
         if options['generate_only']:
-            generate_building_models(options['regenerate'])
+            generate_building_models(options['regenerate'], root_tile.id)
             return
 
         # check for necessary parameters
@@ -58,15 +67,6 @@ class Command(BaseCommand):
             raise ValueError("Invalid filename!")
 
         logger.info('starting to import file {}'.format(filename))
-
-        # get scenario and root tile
-        try:
-            scenario_id = options['scenario_id']
-            scenario = Scenario.objects.get(pk=scenario_id)
-            root_tile = get_root_tile(scenario)
-        except ObjectDoesNotExist:
-            logger.error('invalid scenario id: {}'.format(scenario_id))
-            raise ValueError('Scenario with id {} does not exist'.format(scenario_id))
 
         data = {'new': 0, 'updated': 0, 'ignored': 0, 'error': 0}
 
@@ -121,16 +121,17 @@ class Command(BaseCommand):
             logger.info(' - {}: {}'.format(info, value))
 
         if not options['import_only']:
-            generate_building_models(options['regenerate'])
+            generate_building_models(options['regenerate'], root_tile.id)
 
 
-def generate_building_models(regenerate):
+def generate_building_models(regenerate, tile_id):
     """Gets all buildings from the database and generates their 3D model files"""
 
     logger.info("Generating building files...")
 
     gen_buildings = []
-    for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME)).all():
+    for asset in AssetPositions.objects.filter(asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                               tile_id=tile_id).all():
         if regenerate or not os.path.exists("buildings/out/{}.glb".format(asset.asset.name)):
             gen_buildings.append(asset.id)
 
@@ -151,7 +152,8 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     search_asset = Asset.objects.filter(name=name)
     if search_asset:
         asset_position = AssetPositions.objects.filter(asset=search_asset.first(),
-                                                       asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
+                                                       asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                                       tile_id=root_tile.id)
         if asset_position:
             asset_position = asset_position.first()
             building = BuildingFootprint.objects.filter(asset=asset_position)
@@ -167,7 +169,8 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
         building = BuildingFootprint()
         asset = Asset(name=name, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
         asset.save()
-        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME))
+        asset_position = AssetPositions(asset=asset, asset_type=AssetType.objects.get(name=ASSET_TYPE_NAME),
+                                        tile_id=root_tile.id)
 
     # calculate the mean point
     # of the polygons vertices
@@ -190,7 +193,6 @@ def save_building_footprint(absolute_vertices: list, height: float, name: str, r
     asset_position.location = Point(mean[0], mean[1])
     building.vertices = relative_vertices
     building.height = height
-    asset_position.tile = get_highest_lod_tile(asset_position.location, root_tile, MIN_LEVEL_BUILDINGS)
     asset_position.orientation = 0
 
     asset_position.save()

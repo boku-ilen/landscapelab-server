@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 BUILDING_PATH = 'buildings'
 BUILDING_IDENTIFIER = 'building'  # this is asset_type id 1
 
+MAX_BUILDINGS_AT_ONCE = 100  # Blender is invoked separately in blocks of this many buildings
+
 
 # FIXME: just for test purposes
 def get_from_bbox(request, x_min, y_min, x_max, y_max):
@@ -60,18 +62,22 @@ def generate_buildings_with_asset_id(asset_ids):
         building_ids.append(BuildingFootprint.objects.get(asset=asset).pk)
 
     if building_ids:
-        logger.info('creating {} new buildings'.format(len(building_ids)))
+        # Iterate over building_ids in chunks
+        for i in range(0, len(building_ids), MAX_BUILDINGS_AT_ONCE):
+            building_ids_chunk = building_ids[i:i + MAX_BUILDINGS_AT_ONCE]
 
-        # start blender in background as a subprocess and add building IDs as parameters
-        params = ['blender', '--background', '--python', 'buildings/create_buildings.py', '--']
-        for b in building_ids:
-            params.append(str(b))
+            logger.info('creating {} new buildings'.format(len(building_ids_chunk)))
 
-        process = subprocess.run(params)
-        return_code = process.returncode
+            # start blender in background as a subprocess and add building IDs as parameters
+            params = ['blender', '--background', '--python', 'buildings/create_buildings.py', '--']
+            for b in building_ids_chunk:
+                params.append(str(b))
 
-        if return_code != 0:
-            print("There was an error! Return code: {}".format(return_code))
+            process = subprocess.run(params)
+            return_code = process.returncode
+
+            if return_code != 0:
+                print("There was an error! Return code: {}".format(return_code))
 
         logger.info('finished creating buildings')
 
