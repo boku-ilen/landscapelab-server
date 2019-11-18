@@ -33,6 +33,6 @@ urlpatterns = [
         views.register_location, name="register_location"),
 
     # removes an existing location from the server
-    url(r'^remove/(?P<location_name>(.*))$',
+    url(r'^remove/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
         views.remove_location, name='remove_location')
 ]
