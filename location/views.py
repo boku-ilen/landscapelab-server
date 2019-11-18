@@ -168,7 +168,7 @@ def register_location(request, name, meter_x, meter_y, scenario_id):
     return JsonResponse(ret)
 
 
-def remove_location(request, location_id):
+def remove_location(request, location_name):
     """Called when a location (a.k.a. point of interest) should be deleted.
     Returns a bool indicating if the removal was successful."""
 
@@ -176,11 +176,11 @@ def remove_location(request, location_id):
         "removal_success": False
     }
 
-    if not Location.objects.filter(id=location_id).exists():
-        logger.warn("Tried to remove a non-existent location (PoI) with ID {}" . format(location_id))
+    if not Location.objects.filter(name=location_name).exists():
+        logger.warn("Tried to remove a non-existent location (PoI) with name {}" . format(location_name))
         return JsonResponse(ret)
 
-    Location.objects.filter(id=location_id).delete()
+    Location.objects.filter(name=location_name).delete()
 
     ret["removal_success"] = True
 
