@@ -189,3 +189,82 @@ def remove_location(request, location_name, scenario_id):
     ret["removal_success"] = True
 
     return JsonResponse(ret)
+
+
+def increase_location_order(request, location_name):
+    """Called when a location's order (a.k.a. point of interest) should be increased.
+        Returns a bool indicating if the increase was successful."""
+
+    ret = {
+        "order_increased": False,
+        "old_order": None,
+        "new_order": None
+    }
+
+    if not Location.objects.filter(name=location_name).exists():
+        logger.warn("Tried to remove a non-existent location (PoI) with name {}".format(location_name))
+        return JsonResponse(ret)
+
+    current_location = Location.objects.get(name=location_name)
+    lst = Scenario.objects.all()
+    swap_location = current_location
+
+    for entry in lst:
+        for other_location in entry.locations.filter(scenario_id=10):
+            if other_location.order != current_location.order:
+                swap_location = other_location
+            else:
+                break
+
+    temp_order = swap_location.order
+    swap_location.order = current_location.order
+    current_location.order = temp_order
+
+    swap_location.save()
+    current_location.save()
+
+    ret["order_increased"] = True
+    ret["old_order"] = swap_location.order
+    ret["new_order"] = current_location.order
+
+    return JsonResponse(ret)
+
+
+def decrease_location_order(request, location_name):
+    """Called when a location's order (a.k.a. point of interest) should be decreased.
+            Returns a bool indicating if the decrease was successful."""
+
+    ret = {
+        "order_decreased": False,
+        "old_order": None,
+        "new_order": None
+    }
+
+    if not Location.objects.filter(name=location_name).exists():
+        logger.warn("Tried to remove a non-existent location (PoI) with name {}".format(location_name))
+        return JsonResponse(ret)
+
+    current_location = Location.objects.get(name=location_name)
+    lst = Scenario.objects.all()
+    swap_location = current_location
+
+    for entry in lst:
+        for other_location in entry.locations.filter(scenario_id=10).reverse():
+            if other_location.order != current_location.order:
+                swap_location = other_location
+            else:
+                break
+
+    temp_order = swap_location.order
+    swap_location.order = current_location.order
+    current_location.order = temp_order
+
+    swap_location.save()
+    current_location.save()
+
+    ret["order_decreased"] = True
+    ret["old_order"] = swap_location.order
+    ret["new_order"] = current_location.order
+
+    return JsonResponse(ret)
+

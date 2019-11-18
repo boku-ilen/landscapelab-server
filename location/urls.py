@@ -34,5 +34,13 @@ urlpatterns = [
 
     # removes an existing location from the server
     url(r'^remove/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
-        views.remove_location, name='remove_location')
+        views.remove_location, name='remove_location'),
+
+    # increases the order-field of a location by one
+    url(r'^increase_order/(?P<location_name>(.*))$',
+        views.increase_location_order, name='increase_location_order'),
+
+    # decreases the order-field of a location by one
+    url(r'^decrease_order/(?P<location_name>(.*))$',
+        views.decrease_location_order, name='decrease_location_order')
 ]
