@@ -201,7 +201,7 @@ def increase_location_order(request, location_name, scenario_id):
         "new_order": None
     }
 
-    if not Scenario.objects.filter(id=scenario_id):
+    if not Scenario.objects.filter(id=scenario_id).exists():
         logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
 
@@ -244,7 +244,7 @@ def decrease_location_order(request, location_name, scenario_id):
         "new_order": None
     }
 
-    if not Scenario.objects.filter(id=scenario_id):
+    if not Scenario.objects.filter(id=scenario_id).exists():
         logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
 
