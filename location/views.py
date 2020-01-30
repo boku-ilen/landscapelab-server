@@ -191,7 +191,7 @@ def remove_location(request, location_name, scenario_id):
     return JsonResponse(ret)
 
 
-def increase_location_order(request, location_name):
+def increase_location_order(request, location_name, scenario_id):
     """Called when a location's order (a.k.a. point of interest) should be increased.
         Returns a bool indicating if the increase was successful."""
 
@@ -201,20 +201,24 @@ def increase_location_order(request, location_name):
         "new_order": None
     }
 
-    if not Location.objects.filter(name=location_name).exists():
-        logger.warn("Tried to remove a non-existent location (PoI) with name {}".format(location_name))
+    if not Scenario.objects.filter(id=scenario_id):
+        logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
 
-    current_location = Location.objects.get(name=location_name)
+    if not Location.objects.filter(name=location_name, scenario_id=scenario_id).exists():
+        logger.warn("Tried to move a non-existent location (PoI) with name {}".format(location_name))
+        return JsonResponse(ret)
+
+    current_location = Location.objects.get(name=location_name, scenario_id=scenario_id)
     lst = Scenario.objects.all()
+    filtered_lst = lst.scenario_id
     swap_location = current_location
 
-    for entry in lst:
-        for other_location in entry.locations.filter(scenario_id=10):
-            if other_location.order != current_location.order:
-                swap_location = other_location
-            else:
-                break
+    for other_location in filtered_lst.locations:
+        if other_location.order != current_location.order:
+            swap_location = other_location
+        else:
+            break
 
     temp_order = swap_location.order
     swap_location.order = current_location.order
@@ -230,7 +234,7 @@ def increase_location_order(request, location_name):
     return JsonResponse(ret)
 
 
-def decrease_location_order(request, location_name):
+def decrease_location_order(request, location_name, scenario_id):
     """Called when a location's order (a.k.a. point of interest) should be decreased.
             Returns a bool indicating if the decrease was successful."""
 
@@ -240,20 +244,24 @@ def decrease_location_order(request, location_name):
         "new_order": None
     }
 
-    if not Location.objects.filter(name=location_name).exists():
-        logger.warn("Tried to remove a non-existent location (PoI) with name {}".format(location_name))
+    if not Scenario.objects.filter(id=scenario_id):
+        logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
 
-    current_location = Location.objects.get(name=location_name)
+    if not Location.objects.filter(name=location_name, scenario_id=scenario_id).exists():
+        logger.warn("Tried to move a non-existent location (PoI) with name {}".format(location_name))
+        return JsonResponse(ret)
+
+    current_location = Location.objects.get(name=location_name, scenario_id=scenario_id)
     lst = Scenario.objects.all()
+    filtered_lst = lst.scenario_id
     swap_location = current_location
 
-    for entry in lst:
-        for other_location in entry.locations.filter(scenario_id=10).reverse():
-            if other_location.order != current_location.order:
-                swap_location = other_location
-            else:
-                break
+    for other_location in filtered_lst.locations:
+        if other_location.order != current_location.order:
+            swap_location = other_location
+        else:
+            break
 
     temp_order = swap_location.order
     swap_location.order = current_location.order
