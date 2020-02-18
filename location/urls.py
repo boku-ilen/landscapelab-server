@@ -37,10 +37,10 @@ urlpatterns = [
         views.remove_location, name='remove_location'),
 
     # increases the order-field of a location by one
-    url(r'^increase_order/(?P<location_name>(.*))$',
+    url(r'^increase_order/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
         views.increase_location_order, name='increase_location_order'),
 
     # decreases the order-field of a location by one
-    url(r'^decrease_order/(?P<location_name>(.*))$',
+    url(r'^decrease_order/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
         views.decrease_location_order, name='decrease_location_order')
 ]
