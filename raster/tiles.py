@@ -109,54 +109,65 @@ def get_cropped_for_next_tile(meter_x: float, meter_y: float, zoom: int, path: s
                 break
             except OSError as e:
                 pass
-
+    
         available_image = Image.open(available_filename)
+    except OSError as error:
+        logger.error("OSError while opening image: {}".format(error))
+        return
+    except Error as error:
+        logger.error("Other Error while opening image: {}".format(error))
+        return
+    
+    # PIL needs the image to be in RGB mode for processing - convert it if necessary
+    original_image_mode = available_image.mode
+    if original_image_mode != "RGB":
+        available_image.convert('RGB')
 
-        # PIL needs the image to be in RGB mode for processing - convert it if necessary
-        original_image_mode = available_image.mode
-        if original_image_mode != "RGB":
-            available_image.convert('RGB')
+    available_size = tuple(available_image.size)
 
-        available_size = tuple(available_image.size)
+    # If the available image is smaller than 2x2, this won't work
+    if available_size[0] < 2:
+        logger.warning("Image {} was too small, not proceeding!".format(available_filename))
+        return
 
-        # If the available image is smaller than 2x2, this won't work
-        if available_size[0] < 2:
-            logger.warning("Image {} was too small, not proceeding!".format(available_filename))
-            return
+    wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
+                                         int(upper_lower[0] * available_size[1]),
+                                         int(left_right[1] * available_size[0]),
+                                         int(upper_lower[1] * available_size[1])))
 
-        wanted_image = available_image.crop((int(left_right[0] * available_size[0]),
-                                             int(upper_lower[0] * available_size[1]),
-                                             int(left_right[1] * available_size[0]),
-                                             int(upper_lower[1] * available_size[1])))
+    if do_epx_scale:
+        wanted_image = epx.scale_epx(wanted_image)
 
-        if do_epx_scale:
-            wanted_image = epx.scale_epx(wanted_image)
+    # If the image has been converted to RGB for processing, convert it back to the original mode
+    if original_image_mode != wanted_image.mode:
+        wanted_image.convert(original_image_mode)
 
-        # If the image has been converted to RGB for processing, convert it back to the original mode
-        if original_image_mode != wanted_image.mode:
-            wanted_image.convert(original_image_mode)
+    # It is possible that in the time since we last checked whether the image exists,
+    #  the same request was handled in another thread. This means that the image already
+    #  exists at this point. This error doesn't matter; in any case, the image exists
+    try:
+        out_file = open(wanted_filename, 'wb')
+    except OSError as error:
+        logger.error("OSError: Could not open new image file {}. Got error: {}".format(available_filename, error))
+    except IOError as error:
+        logger.error("IOError: Could not open new image file {}. Got error: {}".format(available_filename, error))
+       
+    try:
+        wanted_image.save(out_file)
+        wanted_image.close()
 
-        # It is possible that in the time since we last checked whether the image exists,
-        #  the same request was handled in another thread. This means that the image already
-        #  exists at this point. This error doesn't matter; in any case, the image exists
-        try:
-            out_file = open(wanted_filename, 'wb')
-            wanted_image.save(out_file)
-            wanted_image.close()
+        # Make sure that the file is completely written and closed - otherwise the client
+        #  may try to open an image which is still unfinished
+        out_file.flush()
+        os.fsync(out_file.fileno())
+        out_file.close()
 
-            # Make sure that the file is completely written and closed - otherwise the client
-            #  may try to open an image which is still unfinished
-            out_file.flush()
-            os.fsync(out_file.fileno())
-            out_file.close()
-
-            logger.debug("Done saving image {}".format(wanted_filename))
-        except IOError:
-            logger.warning("Image {} could not be saved! This could be due to another thread having saved it earlier, "
-                           "in which case it is not an issue.".format(wanted_filename))
-
-    except OSError:
-        logger.warning("Could not process file {} - this file does not seem valid".format(available_filename))
+        logger.debug("Done saving image {}".format(wanted_filename))
+    except IOError as error:
+        logger.warning("IOError: Image {} could not be saved! This could be due to another thread having saved it earlier, "
+                       "in which case it is not an issue. Error: {}".format(wanted_filename, error))
+    except OSError as error:
+        logger.error("OSError: Could not save file {} - this file does not seem valid. Got error: {}".format(available_filename, error))
 
 
 # returns the highest LOD (or LOD = max_lod) tile that contains the specified location
