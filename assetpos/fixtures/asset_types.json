@@ -6,7 +6,7 @@
       "name": "Building",
       "placement_areas": null,
       "allow_placement": false,
-      "display_radius": 800,
+      "display_radius": 500,
       "minimum_distance": 0,
       "abstract": false
     }

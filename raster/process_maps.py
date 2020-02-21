@@ -7,6 +7,7 @@ from urllib.error import HTTPError
 import webmercator
 from django.conf import settings
 
+from landscapelab import utils
 from location.models import Scenario
 from raster import views
 
@@ -14,6 +15,9 @@ TILE_URL_FORMAT = "https://{}.tile.opentopomap.org/{}/{}/{}.png"
 DEFAULT_LAYER = "opentopomap"
 DEFAULT_ZOOM_FROM = 5
 DEFAULT_ZOOM_TO = 22
+
+# the format and location of the opentopomap raster pictures
+TOPO_FILE = "/raster/{}/{}/{}/{}.png"
 
 
 logger = logging.getLogger(__name__)
@@ -57,7 +61,7 @@ def fetch_tiles(scenario_id, tile_url=TILE_URL_FORMAT, layer=DEFAULT_LAYER,
 # this fetches a single tile and puts it into our source directory
 def fetch_tile(tile_url, layer, x, y, zoom):
 
-    file = views.MAP_BASE.format(layer, zoom, x, y)  # FIXME: views is a bad reference for this
+    file = utils.get_full_texture_path(TOPO_FILE.format(layer, zoom, x, y))
 
     if not Path(file).is_file():
 

@@ -25,6 +25,22 @@ urlpatterns = [
         views.register_impression, name="register_impression"),
 
     # starts a new session and returns the session key
-    url(r'^start_session/(?P<scenario_id>[0-9]+)', views.start_session, name="start_session")
+    url(r'^start_session/(?P<scenario_id>[0-9]+)', views.start_session, name="start_session"),
 
+    # adds a new location (a.k.a.: point of interest) to the server
+    url(r'^create/(?P<name>(.*))/(?P<meter_x>[-+]?\d*\.\d+)/'
+        r'(?P<meter_y>[-+]?\d*\.\d+)/(?P<scenario_id>(\d+))',
+        views.register_location, name="register_location"),
+
+    # removes an existing location from the server
+    url(r'^remove/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
+        views.remove_location, name='remove_location'),
+
+    # increases the order-field of a location by one
+    url(r'^increase_order/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
+        views.increase_location_order, name='increase_location_order'),
+
+    # decreases the order-field of a location by one
+    url(r'^decrease_order/(?P<location_name>(.*))/(?P<scenario_id>(\d+))$',
+        views.decrease_location_order, name='decrease_location_order')
 ]

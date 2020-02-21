@@ -8,7 +8,7 @@ from raster import tiles
 
 DHM_BASE = "raster/dhm"
 ORTHO_BASE = "raster/bmaporthofoto30cm"
-MAP_BASE = "raster/{}".format(process_maps.DEFAULT_LAYER)  # TODO: how to configure different map styles later on?
+MAP_BASE = "raster/opentopomap"
 
 
 # delivers a static raster file by given filename as json
