@@ -7,3 +7,4 @@ assetpos/generatedFiles/*
 __pycache__
 *.pyc
 logs
+*.iml
