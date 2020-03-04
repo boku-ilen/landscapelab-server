@@ -20,10 +20,29 @@
   {
     "model": "assetpos.Asset",
     "fields": {
+      "id": 7,
+      "name": "Roof PV",
+      "asset_type": 3,
+      "energy_multiplicator": 1,
+      "unique": "True",
+      "ignore_placement_restrictions": "True"
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
       "id": 3,
       "name": "Generic Wind Turbine",
       "asset_type": 2,
       "energy_multiplicator": 1
+    }
+  },
+  {
+    "model": "assetpos.Asset",
+    "fields": {
+      "id": 30,
+      "name": "Existing Generic Wind Turbine",
+      "asset_type": 20
     }
   },
   {

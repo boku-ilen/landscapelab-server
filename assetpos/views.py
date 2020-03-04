@@ -2,6 +2,7 @@ import logging
 import webmercator
 
 from django.contrib.gis import geos
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from django.db.models import Q
 from django.http import JsonResponse
@@ -10,8 +11,12 @@ from assetpos.models import AssetType, AssetPositions, Asset
 from django.contrib.gis.geos import Polygon
 
 from assetpos import util
+from location.models import Scenario
+from raster.tiles import get_root_tile
 
 logger = logging.getLogger(__name__)
+
+MAX_ASSETS_PER_RESPONSE = 50
 
 
 def can_place_at_position(assettype, meter_x, meter_y):
@@ -23,6 +28,9 @@ def can_place_at_position(assettype, meter_x, meter_y):
 
     # if there is another asset closer to this one than the minimum distance, it may not be placed
     if assettype.minimum_distance != 0:
+        # TODO: We might want to filter by scenario here as well, otherwise assets from other
+        #  scenarios can block this one
+        # TODO: This can be done much more efficiently using a spatial filter and checking if the count is 0
         for other_asset in AssetPositions.objects.filter(asset_type_id=assettype).all():
             squared_distance = util.get_squared_distance(other_asset.location, position)
             required_squared_distance = assettype.minimum_distance ** 2
@@ -42,7 +50,8 @@ def can_place_at_position(assettype, meter_x, meter_y):
         return not assettype.allow_placement
 
 
-def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
+# TODO: Remove default scenario_id=10 once the old request isn't used anymore
+def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0, scenario_id=10):
     """Called when an asset should be instantiated at the given location.
     Returns a JsonResponse with 'creation_success' (bool) and, if true, the
     'assetpos_id' of the new assetpos."""
@@ -52,25 +61,34 @@ def register_assetposition(request, asset_id, meter_x, meter_y, orientation=0):
         "assetpos_id": None
     }
 
-    if not Asset.objects.filter(id=asset_id).exists():
+    if not Scenario.objects.filter(id=scenario_id):
+        logger.warn("Non-existent scenario with ID {} requested!".format(scenario_id))
         return JsonResponse(ret)
+
+    scenario = Scenario.objects.get(id=scenario_id)
+
+    if not Asset.objects.filter(id=asset_id).exists():
+        logger.warn("Attempt to create instance of on-existent asset with ID {}!".format(asset_id))
+        return JsonResponse(ret)
+
     asset = Asset.objects.get(id=asset_id)
 
     assettype = asset.asset_type
 
-    if not can_place_at_position(assettype, meter_x, meter_y):
+    # If the ignore_placement_restrictions flag is not set and the asset may not be placed here, return
+    if (not asset.ignore_placement_restrictions) and (not can_place_at_position(assettype, meter_x, meter_y)):
         return JsonResponse(ret)
 
     location_point = geos.Point(float(meter_x), float(meter_y))
 
     # TODO: handling the default orientation is up to the client
     new_assetpos = AssetPositions(location=location_point, orientation=orientation,
-                                  asset=asset, asset_type=assettype)
+                                  asset=asset, asset_type=assettype, tile=get_root_tile(scenario))
 
     # If this is a unique asset, there should only be one instance -> delete existing position first
     # TODO: Is there a cleaner way for this? (See TODO in assetpos/models.py at the 'unique' field)
     if asset.unique:
-        existing = AssetPositions.objects.filter(asset_type=assettype)
+        existing = AssetPositions.objects.filter(asset_type=assettype, asset=asset)
 
         if existing.exists():
             existing.delete()
@@ -193,15 +211,25 @@ def get_near_assetpositions(request, asset_or_assettype_id, meter_x, meter_y, by
 
     if radius > 0:
         # If the radius is > 0, we have to only return the nearby objects; the dwithin query is optimized for this
-        near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))).all()
+        near_assetpositions = objects.filter(location__dwithin=(center, D(m=radius))) \
+            .annotate(distance=Distance("location", center)) \
+            .order_by("distance")
     else:
         # If the radius is 0, this means that there is no limit -> Return all
         near_assetpositions = objects.all()
 
+    number_of_assets = len(near_assetpositions)
+
+    if number_of_assets > MAX_ASSETS_PER_RESPONSE:
+        returned_assetpositions = near_assetpositions[0:MAX_ASSETS_PER_RESPONSE]
+    else:
+        returned_assetpositions = near_assetpositions
+
     ret["assets"] = {assetposition.id: {"position": [assetposition.location.x, assetposition.location.y],
                                         "asset_id": assetposition.asset_id,
-                                        "asset_name": assetposition.asset.name}
-                     for assetposition in near_assetpositions}
+                                        "asset_name": assetposition.asset.name,
+                                        "distance": str(assetposition.distance)}
+                     for assetposition in returned_assetpositions}
 
     return JsonResponse(ret)
 
@@ -244,14 +272,7 @@ def get_attributes(request, asset_id):
     return JsonResponse(ret)
 
 
-# lists all asset types and nest the associated assets and provide
-# the possibility to filter only editable asset types
-# By default, abstract assets are excluded since those are placed by special mechanisms.
-# FIXME: we would need to filter per scenario
-def getall_assettypes(request, editable=False, include_abstract=False):
-    ret = {}
-
-    # get the relevant asset types
+def get_assettypes(editable=False, include_abstract=False):
     if not editable:
         asset_types = AssetType.objects.all()
     else:
@@ -263,6 +284,19 @@ def getall_assettypes(request, editable=False, include_abstract=False):
     # Don't include abstract assets unless the include_abstract parameter is True
     if not include_abstract:
         asset_types = asset_types.filter(abstract=False)
+
+    return asset_types
+
+
+# lists all asset types and nest the associated assets and provide
+# the possibility to filter only editable asset types
+# By default, abstract assets are excluded since those are placed by special mechanisms.
+# FIXME: we would need to filter per scenario
+def getall_assettypes(request, editable=False, include_abstract=False):
+    ret = {}
+
+    # get the relevant asset types
+    asset_types = get_assettypes(editable, include_abstract)
 
     # get the assets of each asset types and build the json result
     for asset_type in asset_types:
@@ -276,7 +310,7 @@ def getall_assettypes(request, editable=False, include_abstract=False):
             'name': asset_type.name,
             'allow_placement': asset_type.allow_placement,
             # FIXME: maybe we need to seperate each polygon
-            'placement_areas': asset_type.placement_areas.json if asset_type.placement_areas else None,
+            'placement_areas': asset_type.placement_areas.coords if asset_type.placement_areas else None,
             'display_radius': asset_type.display_radius,
             'assets': assets_json
         }

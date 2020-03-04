@@ -111,6 +111,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/out/'
 
 LOGFILE = os.path.join(BASE_DIR, "logging.conf")
+LOGGING_CONFIG = None
 
 # this is WebMercator by default
 DEFAULT_SRID = 3857
