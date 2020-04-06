@@ -2498,7 +2498,8 @@
             ],
             "name": "Grünland Extensiv",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2515,7 +2516,8 @@
             ],
             "name": "Grünland Intensiv",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2529,7 +2531,8 @@
             ],
             "name": "Grünland",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2544,7 +2547,8 @@
             ],
             "name": "Mais",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2558,7 +2562,8 @@
             ],
             "name": "Weizen",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2573,7 +2578,8 @@
             ],
             "name": "Weide",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2587,7 +2593,8 @@
             ],
             "name": "Hafer",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2601,7 +2608,8 @@
             ],
             "name": "Gerste",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2616,7 +2624,8 @@
             ],
             "name": "Klee",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2630,7 +2639,8 @@
             ],
             "name": "Soja",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2650,7 +2660,8 @@
             ],
             "name": "Brache",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2664,7 +2675,8 @@
             ],
             "name": "Triticale",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2678,7 +2690,8 @@
             ],
             "name": "Rüben",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2691,7 +2704,8 @@
             ],
             "name": "Wein",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2705,7 +2719,8 @@
             ],
             "name": "Raps",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2717,7 +2732,8 @@
             ],
             "name": "Roggen",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2729,7 +2745,8 @@
             ],
             "name": "Hafer",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2744,7 +2761,8 @@
             ],
             "name": "Kartoffel",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2760,7 +2778,8 @@
             ],
             "name": "Kürbis",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2772,7 +2791,8 @@
             ],
             "name": "Sonnenblumen",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2787,7 +2807,8 @@
             ],
             "name": "Gemüse",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2802,7 +2823,8 @@
             ],
             "name": "Dinkel",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2818,7 +2840,8 @@
             ],
             "name": "Bohne",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2834,7 +2857,8 @@
             ],
             "name": "Erbse",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2850,7 +2874,8 @@
             ],
             "name": "Baumobst",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2866,7 +2891,8 @@
             ],
             "name": "Getreide",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2882,7 +2908,8 @@
             ],
             "name": "Hirse",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2902,7 +2929,8 @@
             ],
             "name": "Randstreifen",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2916,7 +2944,8 @@
             ],
             "name": "Wicken",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2930,7 +2959,8 @@
             ],
             "name": "Mohn",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -2946,7 +2976,8 @@
             ],
             "name": "Sorghum",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2962,7 +2993,8 @@
             ],
             "name": "Emmer",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2975,7 +3007,8 @@
             ],
             "name": "Kräuter",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -2993,7 +3026,8 @@
             ],
             "name": "Buchweizen",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3005,7 +3039,8 @@
             ],
             "name": "Öllein",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3019,7 +3054,8 @@
             ],
             "name": "Hanf",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3032,7 +3068,8 @@
             ],
             "name": "Kräuter",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3044,7 +3081,8 @@
             ],
             "name": "Energieholz",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3059,7 +3097,8 @@
             ],
             "name": "Senf",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3071,7 +3110,8 @@
             ],
             "name": "Energiegras",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3089,7 +3129,8 @@
             ],
             "name": "Erdbeeren",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3105,7 +3146,8 @@
             ],
             "name": "Rasen",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3120,7 +3162,8 @@
             ],
             "name": "Leindotter",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3132,7 +3175,8 @@
             ],
             "name": "Hopfen",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3147,7 +3191,8 @@
             ],
             "name": "Lupinien",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3161,7 +3206,8 @@
             ],
             "name": "Ölrettich",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3173,7 +3219,8 @@
             ],
             "name": "Gewächshaus",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3185,7 +3232,8 @@
             ],
             "name": "Folientunnel",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3197,7 +3245,8 @@
             ],
             "name": "Johanniskraut",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3215,7 +3264,8 @@
             ],
             "name": "Erdbeeren",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3227,7 +3277,8 @@
             ],
             "name": "Flachs",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3245,7 +3296,8 @@
             ],
             "name": "Laubgehölze",
             "albedo_path": "plant-textures/Forest/albedo.jpg",
-            "normal_path": "plant-textures/Forest/normal.jpg"
+            "normal_path": "plant-textures/Forest/normal.jpg",
+            "displacement_path": "plant-textures/Forest/displacement.jpg"
         }
     },
     {
@@ -3260,7 +3312,8 @@
             ],
             "name": "Nadelgehölze",
             "albedo_path": "plant-textures/Forest/albedo.jpg",
-            "normal_path": "plant-textures/Forest/normal.jpg"
+            "normal_path": "plant-textures/Forest/normal.jpg",
+            "displacement_path": "plant-textures/Forest/displacement.jpg"
         }
     },
     {
@@ -3274,7 +3327,8 @@
             ],
             "name": "Strauchgesellschaften",
             "albedo_path": "plant-textures/Grass/albedo.jpg",
-            "normal_path": "plant-textures/Grass/normal.jpg"
+            "normal_path": "plant-textures/Grass/normal.jpg",
+            "displacement_path": "plant-textures/Grass/displacement.jpg"
         }
     },
     {
@@ -3290,7 +3344,8 @@
             ],
             "name": "Acker unspezifisch",
             "albedo_path": "plant-textures/Acre/albedo.jpg",
-            "normal_path": "plant-textures/Acre/normal.jpg"
+            "normal_path": "plant-textures/Acre/normal.jpg",
+            "displacement_path": "plant-textures/Acre/displacement.jpg"
         }
     },
     {
@@ -3300,7 +3355,8 @@
             "speciesRepresentations": [],
             "name": "Gebäude",
             "albedo_path": "plant-textures/Asphalt/albedo.jpg",
-            "normal_path": "plant-textures/Asphalt/normal.jpg"
+            "normal_path": "plant-textures/Asphalt/normal.jpg",
+            "displacement_path": "plant-textures/Asphalt/displacement.jpg"
         }
     },
     {
@@ -3310,7 +3366,8 @@
             "speciesRepresentations": [],
             "name": "Versiegelte Flächen",
             "albedo_path": "plant-textures/Asphalt/albedo.jpg",
-            "normal_path": "plant-textures/Asphalt/normal.jpg"
+            "normal_path": "plant-textures/Asphalt/normal.jpg",
+            "displacement_path": "plant-textures/Asphalt/displacement.jpg"
         }
     },
     {
@@ -3320,7 +3377,8 @@
             "speciesRepresentations": [],
             "name": "Fels",
             "albedo_path": "plant-textures/Rock/albedo.jpg",
-            "normal_path": "plant-textures/Rock/normal.jpg"
+            "normal_path": "plant-textures/Rock/normal.jpg",
+            "displacement_path": "plant-textures/Rock/displacement.jpg"
         }
     },
     {
@@ -3330,7 +3388,8 @@
             "speciesRepresentations": [],
             "name": "Schnee- und Eisdecke",
             "albedo_path": "plant-textures/Snow/albedo.jpg",
-            "normal_path": "plant-textures/Snow/normal.jpg"
+            "normal_path": "plant-textures/Snow/normal.jpg",
+            "displacement_path": "plant-textures/Snow/displacement.jpg"
         }
     }
 ]
