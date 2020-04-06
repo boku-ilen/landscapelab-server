@@ -22,6 +22,7 @@ BILLBOARD_PREFIX = "plant-sprites"
 TEXTURE_PREFIX = "plant-textures"
 ALBEDO_TEXTURE_NAME = "albedo.jpg"
 NORMAL_TEXTURE_NAME = "normal.jpg"
+DISPLACEMENT_TEXTURE_NAME = "displacement.jpg"
 
 
 class Command(BaseCommand):
@@ -156,9 +157,10 @@ def parse_phytocoenosis_data(json_data):
     "speciesRepresentations": list,
     "name": string,
     "albedo_path": string,
-    "normal_path": string
+    "normal_path": string,
+    "displacement_path": string
 
-    albedo_path and normal_path are built from the "texture" field.
+    albedo_path, normal_path and displacement_path are built from the "texture" field.
     """
 
     for entry in json_data:
@@ -169,6 +171,7 @@ def parse_phytocoenosis_data(json_data):
             entry["speciesRepresentations"] = literal_eval(entry["speciesRepresentations"] or "[]")
             entry["albedo_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], ALBEDO_TEXTURE_NAME)
             entry["normal_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], NORMAL_TEXTURE_NAME)
+            entry["displacement_path"] = utils.join_path(TEXTURE_PREFIX, entry["texture"], DISPLACEMENT_TEXTURE_NAME)
 
             del entry["texture"]
 
