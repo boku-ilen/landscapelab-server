@@ -90,10 +90,8 @@ class Phytocoenosis(models.Model):
     Includes a distribution graphic which defines how often plants occur and how they are distributed.
     Thus, behavior like 'single tree X is surrounded by many plants Y and few plants Z' can be accurately modeled
 
-    Additional albedo and bumpmap textures can be provided. If possible, those are displayed instead of the orthophoto
-    to increase detail.
-
-    The optional texture at heightmap_detail_path is added to the heightmap in order to allow for smaller-scale detail.
+    Additional albedo, normal and displacement textures can be provided. If possible, those are displayed instead of the
+    orthophoto to increase detail.
     """
 
     name = models.TextField()
@@ -102,5 +100,4 @@ class Phytocoenosis(models.Model):
 
     albedo_path = models.TextField(null=True)
     normal_path = models.TextField(null=True)
-
-    heightmap_detail_path = models.TextField(null=True)
+    displacement_path = models.TextField(null=True)

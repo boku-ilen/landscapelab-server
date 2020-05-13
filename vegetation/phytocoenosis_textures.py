@@ -16,18 +16,18 @@ def get_all_ground_texture_paths(pytho_c_id):
 
     phytocoenosis = get_object_or_404(Phytocoenosis, id=pytho_c_id)
 
-    albedo_path, normal_path, heightmap_detail_path = None, None, None
+    albedo_path, normal_path, displacement_path = None, None, None
     if phytocoenosis.albedo_path:
         albedo_path = utils.get_full_texture_path(phytocoenosis.albedo_path)
     if phytocoenosis.normal_path:
         normal_path = utils.get_full_texture_path(phytocoenosis.normal_path)
-    if phytocoenosis.heightmap_detail_path:
-        heightmap_detail_path = utils.get_full_texture_path(phytocoenosis.heightmap_detail_path)
+    if phytocoenosis.displacement_path:
+        displacement_path = utils.get_full_texture_path(phytocoenosis.displacement_path)
 
     tex_dict = {
         "albedo_path": utils.replace_path_prefix(albedo_path),
         "normal_path": utils.replace_path_prefix(normal_path),
-        "heightmap_detail_path": utils.replace_path_prefix(heightmap_detail_path),
+        "displacement_path": utils.replace_path_prefix(displacement_path),
     }
 
     # Remove None values
